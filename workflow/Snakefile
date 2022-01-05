@@ -1,0 +1,101 @@
+# ###############################################################################
+# This file is part of the virome pipeline.                                     #
+#                                                                               #
+# Authors: Remi Denise and Andrey Shkoporov                                     #
+# Copyright © 2022 University College Cork (Cork, Ireland).                     #
+# See the COPYRIGHT file for details.                                           #
+#                                                                               #
+# The virome pipeline  is a Snakemake workflow ???                              #                                                          #
+#                                                                               #
+# This virome pipeline is free software: you can redistribute it and/or modify  #
+# it under the terms of the Affero GNU General Public License as published by   #
+# the Free Software Foundation, either version 3 of the License,                #
+# or (at your option) any later version.                                        #
+#                                                                               #
+# This virome pipeline is distributed in the hope that it will be useful, but   #
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY    #
+# or FITNESSFOR A PARTICULAR PURPOSE. See the Affero GNU General Public License #
+# for more details.                                                             #
+#                                                                               #
+# You should have received a copy of the Affero GNU General Public License      #
+# along with sORTholog (COPYING file).                                          #
+# If not, see <https://www.gnu.org/licenses/>.                                  #
+# ###############################################################################
+
+##########################################################################
+##########################################################################
+##
+##                            Singularity
+##
+##########################################################################
+##########################################################################
+# this container defines the underlying OS for each job when using the workflow
+# with --use-conda --use-singularity
+
+
+container: "docker://continuumio/miniconda3"
+
+
+from snakemake.utils import min_version
+
+# set minimum snakemake version
+min_version("6.4.1")
+
+##########################################################################
+##########################################################################
+##
+##                                Rules
+##
+##########################################################################
+##########################################################################
+
+
+# load config
+configfile: "config/config.yaml"
+
+
+# Path to report rst file
+report: "report/workflow.rst"
+
+
+# Set local rule that could be launch without submiting to cluster because ultra quick
+localrules:
+    all,
+    clean,
+
+
+##########################################################################
+# Load rules
+##########################################################################
+
+
+include: "rules/common.smk"
+include: "rules/vConTACT2.smk"
+include: "rules/ncbi_blast.smk"
+include: "rules/virsorter.smk"
+include: "rules/VRCA.smk"
+include: "rules/prokka.smk"
+
+
+##########################################################################
+##########################################################################
+
+
+rule all:
+    input:
+        get_final_output(),
+
+
+##########################################################################
+##########################################################################
+
+
+rule clean:
+    input:
+        os.path.join(OUTPUT_FOLDER, "logs"),
+    shell:
+        """rm -rf {input}"""
+
+
+##########################################################################
+##########################################################################

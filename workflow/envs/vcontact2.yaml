@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - clusterone = 1.0
+  - mcl = 14.137
+  - diamond = 2.0.13
+  - blast = 2.12.0
+  - vcontact2 = 0.9.19

@@ -1,0 +1,5 @@
+channels:
+  - conda-forge
+  - rdenise
+dependencies:
+  - silix = 1.3.0

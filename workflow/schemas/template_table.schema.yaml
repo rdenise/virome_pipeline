@@ -1,0 +1,14 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: row of the seeds.tsv, seeds are the genes of known annotation you want to find in genomes
+type: object
+properties:
+  seed:
+    type: string
+    description: gene name/id that will appear on the plot at the end
+  protein_id:
+    type: string
+    description: protein NCBI id
+
+required:
+  - seed
+  - protein_id

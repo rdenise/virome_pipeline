@@ -1,0 +1,48 @@
+$schema: "http://json-schema.org/draft-06/schema#"
+
+description: snakemake configuration file
+
+type: object
+
+properties:
+  project_name:
+    type: string
+  output_folder:
+    type: string
+
+  default_psiblast_option:
+    type: object
+    properties:
+      psiblast_e_val:
+        type: number
+        minimum: 0
+        maximum: 1        
+      iteration:
+        type: number
+        minimum: 1
+        maximum: 5
+      
+  default_blast_option:
+    type: object
+    properties:
+      e_val:
+        type: number
+        minimum: 0
+        maximum: 1
+      pid:
+        type: number
+        minimum: 0
+        maximum: 1        
+      cov:
+        type: number
+        minimum: 0
+        maximum: 1
+    required:
+      - e_val
+      - pid
+      - cov
+
+required:
+  - project_name
+  - output_folder
+  - default_psiblast_option
