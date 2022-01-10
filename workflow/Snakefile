@@ -70,11 +70,13 @@ localrules:
 
 
 include: "rules/common.smk"
-include: "rules/vConTACT2.smk"
 include: "rules/ncbi_blast.smk"
-include: "rules/virsorter.smk"
-include: "rules/VRCA.smk"
-include: "rules/prokka.smk"
+# include: "rules/vConTACT2.smk"
+# include: "rules/virsorter.smk"
+# include: "rules/VRCA.smk"
+# include: "rules/prokka.smk"
+# include: "rules/demovir.smk"
+# include: "rules/hmmer.smk"
 
 
 ##########################################################################
@@ -83,7 +85,11 @@ include: "rules/prokka.smk"
 
 rule all:
     input:
-        get_final_output(),
+        get_final_output(outdir = OUTPUT_FOLDER, 
+                         blast_evalue = blast_evalue,
+                         contigs_list = CONTIGS_DICT.keys(),
+                         datbase_list = DB_DICT['fasta'].keys(),
+                         ),
 
 
 ##########################################################################

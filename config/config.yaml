@@ -1,8 +1,8 @@
-# path to seeds sheet (TSV format, columns: seed, protein_id, ...)
-seed: config/seeds.tsv
+# path to database sheet (TSV format, columns: database_name, path_db)
+databases: config/databases.tsv
 
-# path to taxonomic id to search seeds in (TSV format, columns: TaxId, NCBIGroups)
-taxid: config/taxid.tsv
+# path to taxonomic id to search seeds in (TSV format, columns: contig_name, path_contig)
+contigs: config/contigs.tsv
 
 # name of the project 
 project_name: your_project_name
@@ -10,40 +10,10 @@ project_name: your_project_name
 # path to the result folder
 output_folder: results
 
-# e value threshold to use for psiblast (and blast as default is not in seeds.tsv)
-default_psiblast_option:
-    # E-value threshold
-    psiblast_e_val: 0.01
-    # Iteration 
-    iteration: 3
-
 # Blast option if not given in seeds.tsv
 default_blast_option:
     # E-value threshold
     e_val: 0.0001
-    # Percentage of identity threshold
-    pid: 0.35
-    # Coverage of the query treshold
-    cov: 0.8
-
-# Option for the Taxonomy DB parser
-# If you want to update the Taxonomy dump, :warning: it increase the running time of the workflow
-update_db: False
-
-# Option for ncbi_download_genome
-ndg_option:
-    # Values for section : {'refseq','genbank'}
-    section: refseq
-    # Values for assembly_levels : ['all', 'complete', 'chromosome', 'scaffold', 'contig']
-    assembly_levels: all
-    # Values for refseq_categories : {'reference', 'all'}
-    refseq_categories: all
-    # Values for groups : ['all', 'archaea', 'bacteria', 'fungi', 'invertebrate', 'metagenomes', 'plant', 'protozoa', 'vertebrate_mammalian', 'vertebrate_other', 'viral']
-    # Will be used if none is give in base_set_taxid.tsv
-    groups: all
-
-# Speedup the blast all vs all by adding a psiblast step to reduce dataset
-speedup: False
 
 # Default value for plot
 default_values_plot:
@@ -53,6 +23,3 @@ default_values_plot:
     colored_border: True
     # Turn border to roundish shape
     round_border: False
-
-# If you only want the plot need a table (TSV format, columns: gene1, gene2..., index: genome_ids)
-PAtab_table: results/plots/PAtab_table.tsv

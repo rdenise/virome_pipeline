@@ -20,13 +20,24 @@ from snakemake.utils import validate
 ##########################################################################
 
 
-def get_final_output():
+def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
     """
     Generate final output name
     """
-    final_output = multiext(
-        os.path.join(OUTPUT_FOLDER, "results", "plots", "gene_PA"), ".png", ".pdf"
+    final_output = []
+
+    final_output += expand(
+        os.path.join(
+            outdir,
+            "processing_files",
+            "blast",
+            "contig_{contig}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
+        ),
+        contig = contigs_list,
+        database = datbase_list,
+        evalue = [blast_evalue]
     )
+
     return final_output
 
 
@@ -60,19 +71,50 @@ def create_folder(mypath):
 # Validation of the config.yaml file
 validate(config, schema="../schemas/config.schema.yaml")
 
-# path to seeds sheet (TSV format, columns: seed, protein_id, ...)
-???_file = config["???"]
+# path to database sheet (TSV format, columns: database_name, path_db)
+db_file = config["databases"]
 
-# Validation of the seed file
-???_dtypes = {
-    "???": "string",
-    "???": np.float64,
+# Validation of the database file
+db_dtypes = {
+    "database_name": "string",
+    "path_db": "string",
+    "db_format": "string",
 }
 
-???_table = pd.read_table(???_file, dtype=seed_dtypes)
+db_table = pd.read_table(db_file, dtype=db_dtypes)
 
-validate(???_table, schema="../schemas/???.schema.yaml")
+validate(db_table, schema="../schemas/databases.schema.yaml")
 
+DB_DICT = {'hmm':{}, 'fasta':{}}
+
+for index, row in db_table.iterrows():
+    database_name = row.database_name.split(".")[0]
+    DB_DICT[row.db_format.lower()] = {
+                       "path":row.path_db,
+                       "file":row.database_name,
+                       }
+
+# path to contigs sheet (TSV format, columns: contig_name, path_contig)
+contigs_file = config["contigs"]
+
+# Validation of the contig file
+contigs_dtypes = {
+    "contig_name": "string",
+    "path_contig": "string",
+}
+
+contigs_table = pd.read_table(contigs_file, dtype=contigs_dtypes)
+
+validate(contigs_table, schema="../schemas/contigs.schema.yaml")
+
+CONTIGS_DICT = {}
+
+for index, row in db_table.iterrows():
+    contig_name = row.contig_name.split(".")[0]
+    CONTIGS_DICT[contig_name] = {
+                "path":row.path_contig, 
+                "file":row.contig_name,
+        }
 
 ##########################################################################
 ##########################################################################
@@ -115,4 +157,4 @@ OUTPUT_FOLDER = os.path.join(config["output_folder"], project_name)
 # Adding to config for report
 config["__output_folder__"] = os.path.abspath(OUTPUT_FOLDER)
 
-
+blast_evalue = config['default_blast_option']['e_val']

@@ -2,13 +2,13 @@ $schema: "http://json-schema.org/draft-04/schema#"
 description: row of the seeds.tsv, seeds are the genes of known annotation you want to find in genomes
 type: object
 properties:
-  seed:
+  contig_name:
     type: string
-    description: gene name/id that will appear on the plot at the end
-  protein_id:
+    description: name of the contig file (e.g. contig_1.fasta)
+  path_contig:
     type: string
-    description: protein NCBI id
+    description: path to the fasta file (e.g. /user/name/documents/contigs/)
 
 required:
-  - seed
-  - protein_id
+  - contig_name
+  - path_contig

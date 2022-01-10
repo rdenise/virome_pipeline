@@ -10,17 +10,10 @@ properties:
   output_folder:
     type: string
 
-  default_psiblast_option:
-    type: object
-    properties:
-      psiblast_e_val:
-        type: number
-        minimum: 0
-        maximum: 1        
-      iteration:
-        type: number
-        minimum: 1
-        maximum: 5
+  databases:
+    type: string
+  contigs:
+    type: string
       
   default_blast_option:
     type: object
@@ -29,20 +22,22 @@ properties:
         type: number
         minimum: 0
         maximum: 1
-      pid:
-        type: number
-        minimum: 0
-        maximum: 1        
-      cov:
-        type: number
-        minimum: 0
-        maximum: 1
     required:
       - e_val
-      - pid
-      - cov
+
+  default_values_plot:
+    type: object
+    properties:
+      color:
+        type: string
+      colored_border:
+        type: boolean
+      round_border:
+        type: boolean
 
 required:
+  - databases
+  - contigs
   - project_name
   - output_folder
   - default_psiblast_option
