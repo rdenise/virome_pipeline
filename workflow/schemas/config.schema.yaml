@@ -9,12 +9,13 @@ properties:
     type: string
   output_folder:
     type: string
-
   databases:
     type: string
   contigs:
     type: string
-      
+  contigs_ext:
+    type: string
+
   default_blast_option:
     type: object
     properties:
@@ -38,6 +39,7 @@ properties:
 required:
   - databases
   - contigs
+  - contigs_ext
   - project_name
   - output_folder
-  - default_psiblast_option
+  - default_blast_option

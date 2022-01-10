@@ -31,7 +31,7 @@ def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
             outdir,
             "processing_files",
             "blast",
-            "contig_{contig}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
+            "{contig}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
         ),
         contig = contigs_list,
         database = datbase_list,
@@ -87,33 +87,50 @@ validate(db_table, schema="../schemas/databases.schema.yaml")
 
 DB_DICT = {'hmm':{}, 'fasta':{}}
 
+# Create a dictionary of the database file order by format
 for index, row in db_table.iterrows():
     database_name = row.database_name.split(".")[0]
-    DB_DICT[row.db_format.lower()] = {
+    DB_DICT[row.db_format.lower()][database_name] = {
                        "path":row.path_db,
                        "file":row.database_name,
                        }
 
 # path to contigs sheet (TSV format, columns: contig_name, path_contig)
-contigs_file = config["contigs"]
+CONTIGS_FOLDER = config["contigs"]
 
-# Validation of the contig file
-contigs_dtypes = {
-    "contig_name": "string",
-    "path_contig": "string",
-}
+if not config["contigs_ext"].startswith("."): 
+    CONTIGS_EXT = f'.{config["contigs_ext"]}'
+else: 
+    CONTIGS_EXT = config["contigs_ext"]
 
-contigs_table = pd.read_table(contigs_file, dtype=contigs_dtypes)
-
-validate(contigs_table, schema="../schemas/contigs.schema.yaml")
+# Get all the files int the contigs folder
+CONTIGS_FILES, = glob_wildcards(os.path.join(
+                                CONTIGS_FOLDER,
+                                "{contigs_files}" +\
+                                CONTIGS_EXT))
 
 CONTIGS_DICT = {}
 
-for index, row in db_table.iterrows():
-    contig_name = row.contig_name.split(".")[0]
+EXT_COMPRESS = ""
+
+# Create a dictionary of the contigs files
+for contig_file in CONTIGS_FILES:
+    contig_name = contig_file.split(".")[0]
+    contig_name_file = contig_file + CONTIGS_EXT
+
+    # Test if the contigs are compressed to uncompress in case
+    if "tar.gz" in CONTIGS_EXT:
+        EXT_COMPRESS = "tar.gz"
+        contig_name_file = contig_name_file.replace(
+                    ".tar.gz", "")
+    elif "gz" in CONTIGS_EXT:
+        EXT_COMPRESS = ".gz"
+        contig_name_file = contig_name_file.replace(
+                    ".gz", "")
+
     CONTIGS_DICT[contig_name] = {
-                "path":row.path_contig, 
-                "file":row.contig_name,
+                "file":contig_name_file,
+                "ext_compress":EXT_COMPRESS
         }
 
 ##########################################################################

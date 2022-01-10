@@ -1,8 +1,10 @@
 # path to database sheet (TSV format, columns: database_name, path_db)
 databases: config/databases.tsv
 
-# path to taxonomic id to search seeds in (TSV format, columns: contig_name, path_contig)
-contigs: config/contigs.tsv
+# path to contigs folder
+contigs: /Users/rdenise/Documents/script/virome_pipeline/myfiles/contigs
+
+contigs_ext: fasta.gz
 
 # name of the project 
 project_name: your_project_name

@@ -1,0 +1,18 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: row of the seeds.tsv, seeds are the genes of known annotation you want to find in genomes
+type: object
+properties:
+  database_name:
+    type: string
+    description: name of the database file (e.g. crassphage.fasta or pVOGs.hmm)
+  path_db:
+    type: string
+    description: path to the file (e.g. /user/name/documents/database/)
+  db_format:
+    type: string
+    description: format of the database (e.g. fasta or hmm)    
+
+required:
+  - database_name
+  - path_db
+  - db_format 

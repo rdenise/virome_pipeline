@@ -41,8 +41,9 @@ rule virsorter_setup:
 
 rule virsorter_run:
     input:
-        contig=os.path.join(
-            CONTIG_FOLDER, "??_solo_contig_or_merge_contig??.fasta"
+        contig=lambda wildcards: os.path.join(
+            CONTIGS_FOLDER,
+            CONTIGS_DICT[wildcards.contig]["file"],
         ),
         database=directory(os.path.join(
             OUTPUT_FOLDER,

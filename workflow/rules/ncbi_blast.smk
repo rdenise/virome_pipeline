@@ -12,27 +12,27 @@
 
 rule blastn:
     input:
-        contig=os.path.join(
-            CONTIGS_DICT["{contigs}"]["path"],
-            CONTIGS_DICT["{contigs}"]["file"],
+        contig=lambda wildcards: os.path.join(
+            CONTIGS_FOLDER,
+            CONTIGS_DICT[wildcards.contig]["file"],
         ),
-        database=os.path.join(
-            DB_DICT["fasta"]["{database}"]["path"],
-            DB_DICT["fasta"]["{database}"]["file"],
+        database=lambda wildcards: os.path.join(
+            DB_DICT["fasta"][wildcards.database]["path"],
+            DB_DICT["fasta"][wildcards.database]["file"],
         ),
     output:
         blast_out=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
-            "blast"
-            "contig_{contig}.evalue_{evalue}.{database}.blastn.outfmt6.txt"
+            "blast",
+            "{contig}.evalue_{evalue}.{database}.blastn.outfmt6.txt"
         ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "blast",
-            "contig_{contig}.evalue_{evalue}.{database}.blastn.outfmt6.log"
+            "{contig}.evalue_{evalue}.{database}.blastn.outfmt6.log"
         ),    
     resources:
         cpus=5,
@@ -43,7 +43,9 @@ rule blastn:
     threads: 5
     shell:
         """
-        makeblastdb -dbtype prot -in '{input.database}' &> '{log}'
+        if [ ! -e '{input.database}'.ndb ]; then
+            makeblastdb -dbtype nucl -in '{input.database}' &> '{log}'
+        fi
 
         blastn -query '{input.contig}' -db '{input.database}' -evalue {wildcards.evalue} \
                -outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle' \
