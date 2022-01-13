@@ -13,32 +13,25 @@
 rule hmmpress:
     input:
         hmm=os.path.join(
-            DATABASE_FOLDER,
-            "{hmm_file}.hmm"
+            "{database_folder}",
+            "{hmm_file}.hmm",
         ),
     output:
         h3i=os.path.join(
-            DATABASE_FOLDER,
-            "{hmm_file}.hmm.h3i"
+            "{database_folder}",
+            "{hmm_file}.hmm.h3i",
         ),
         h3f=os.path.join(
-            DATABASE_FOLDER,
-            "{hmm_file}.hmm.h3f"
+            "{database_folder}",
+            "{hmm_file}.hmm.h3f",
         ),
         h3m=os.path.join(
-            DATABASE_FOLDER,
-            "{hmm_file}.hmm.h3m"
+            "{database_folder}",
+            "{hmm_file}.hmm.h3m",
         ),
         h3p=os.path.join(
-            DATABASE_FOLDER,
-            "{hmm_file}.hmm.h3p"
-        ),
-    log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "hmmer",
-            "{hmm_file}.hmmpress.log"
+            "{database_folder}",
+            "{hmm_file}.hmm.h3p",
         ),
     resources:
         cpus=1,

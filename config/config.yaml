@@ -25,3 +25,13 @@ default_values_plot:
     colored_border: True
     # Turn border to roundish shape
     round_border: False
+
+# Default option for prokka
+default_prokka_option:
+    # protein database
+    protein_db: /Users/rdenise/Documents/script/virome_pipeline/myfiles/databases/viral_proteins_plus_crass.fa
+    # hmm database:
+    hmm_db: /Users/rdenise/Documents/script/virome_pipeline/myfiles/databases/pVOGs/all_vogs.hmm
+    # Annotation mode: Archaea|Bacteria|Mitochondria|Viruses (default 'Viruses')
+    kingdom: Viruses
+    

@@ -38,6 +38,39 @@ def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
         evalue = [blast_evalue]
     )
 
+    final_output += expand(
+        os.path.join(
+            outdir,
+            "processing_files",
+            "virsorter",
+            "contig_{contig}",
+            "final-viral-score.tsv"
+        ),
+        contig = contigs_list,
+    )
+
+    final_output += expand(
+        os.path.join(
+            outdir,
+            "processing_files",
+            "prokka",
+            "{contig}",
+            "{contig}.prokka.pvogs.crass.faa",
+        ),
+        contig = contigs_list,
+    )
+
+    final_output += expand(
+        os.path.join(
+            outdir,
+            "processing_files",
+            "vcontact2",
+            "contig_{contig}",
+            "genome_by_genome_overview.csv",
+        ),
+        contig = contigs_list,
+    )
+
     return final_output
 
 
@@ -175,3 +208,7 @@ OUTPUT_FOLDER = os.path.join(config["output_folder"], project_name)
 config["__output_folder__"] = os.path.abspath(OUTPUT_FOLDER)
 
 blast_evalue = config['default_blast_option']['e_val']
+
+prokka_protein_db = config['default_prokka_option']['protein_db']
+prokka_hmm_db = config['default_prokka_option']['hmm_db']
+prokka_kingdom = config['default_prokka_option']['kingdom'].capitalize()

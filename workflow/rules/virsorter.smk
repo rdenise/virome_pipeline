@@ -8,11 +8,10 @@
 
 rule virsorter_setup:
     output:
-        directory(os.path.join(
-            OUTPUT_FOLDER,
-            "database",
+        os.path.join(
+            "config",
             "virsorter_db"
-        )),
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -45,31 +44,30 @@ rule virsorter_run:
             CONTIGS_FOLDER,
             CONTIGS_DICT[wildcards.contig]["file"],
         ),
-        database=directory(os.path.join(
-            OUTPUT_FOLDER,
-            "database",
+        database=os.path.join(
+            "config",
             "virsorter_db"
-        )),
+        ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "contig_{contig}",
+            "{contig}",
             "final-viral-combined.fa",
         ),
         score=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "contig_{contig}",
+            "{contig}",
             "final-viral-score.tsv",
         ),
         boundary=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "contig_{contig}",
+            "{contig}",
             "final-viral-boundary.tsv",
         ),    
     params:
@@ -77,14 +75,14 @@ rule virsorter_run:
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "contig_{contig}",
+            "{contig}",
         )),           
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "virsorter",
-            "contig_{contig}.virsorter_run.log"
+            "{contig}.virsorter_run.log"
         ),
     resources:
         cpus=5,

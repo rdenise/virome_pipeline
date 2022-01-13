@@ -73,11 +73,11 @@ include: "rules/common.smk"
 include: "rules/utils.smk"
 include: "rules/ncbi_blast.smk"
 include: "rules/virsorter.smk"
-# include: "rules/vConTACT2.smk"
+include: "rules/hmmer.smk"
+include: "rules/prokka.smk"
+include: "rules/vConTACT2.smk"
 # include: "rules/VRCA.smk"
-# include: "rules/prokka.smk"
 # include: "rules/demovir.smk"
-# include: "rules/hmmer.smk"
 
 
 ##########################################################################

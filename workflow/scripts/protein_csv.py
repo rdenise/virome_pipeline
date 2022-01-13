@@ -1,13 +1,3 @@
-# To convert in python
-
-echo "contig_id,protein_id,keywords" > proteins.csv
-grep '>' translations_vir_contigs1000.faa | sed 's/>//g' | sed 's/ # .*//g' > headers.tmp
-cat headers.tmp | sed 's/$/,None/' > proteins.tmp
-cat headers.tmp | sed 's/_[^_]*$/,/' > contigs.tmp
-paste contigs.tmp proteins.tmp | sed 's/\t//g' >> proteins.csv
-rm *tmp;
-sed -i 's/ # .*//g' translations_vir_contigs1000.faa;
-
 from Bio import SeqIO
 import sys
 import os
@@ -30,13 +20,12 @@ with open(snakemake.output.csv, 'wt') as w_file:
         for protein in parser:
             # TO DO Because don't know the format and could not infer it form sed commands
             # Will be needed to modify the fasta file too because need to match the table probably
-            protein_id = 
-            contig_id = 
-            keyword =
+            protein_id = protein.id
+            contig_id = snakemake.wildcards.contig
+            keyword = 'None'
 
-            w_file.write("{contig_id},{protein_id},None\n")
+            w_file.write("{contig_id},{protein_id},{keyword}\n")
 
-            protein.id =
             protein.name = ""
             protein.description = ""
 

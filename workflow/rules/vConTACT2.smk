@@ -6,12 +6,14 @@
 # Because right now all the databases have a not similar way of being
 
 
-rule virsorter_preprocess:
+rule vcontact2_preprocess:
     input:
-        fasta=os.path.join(
+        proteins_fasta=os.path.join(
             OUTPUT_FOLDER,
-            "prodigal"
-            "{contig}_translations_vir_contigs1000.faa"
+            "processing_files",
+            "prokka",
+            "{contig}",
+            "{contig}.prokka.pvogs.crass.faa",
         ),
     output:
         fasta=os.path.join(
@@ -29,7 +31,7 @@ rule virsorter_preprocess:
             OUTPUT_FOLDER,
             "logs",
             "vcontact2",
-            "contig_{contig}.virsorter_run.log"
+            "contig_{contig}.vcontact2_preprocess.log"
         ),
     resources:
         cpus=1,
@@ -61,7 +63,7 @@ rule vcontact2:
             "{contig}_proteins.csv"
         ),
     output:
-        fasta=os.path.join(
+        csv=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "vcontact2",
@@ -74,7 +76,7 @@ rule vcontact2:
         pcs_mode="MCL",
         vcs_mode="ClusterONE",
         c1_bin="cluster_one-1.0.jar",
-        output_dir=directory(os.parh.join(
+        output_dir=directory(os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "vcontact2",

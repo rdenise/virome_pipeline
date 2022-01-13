@@ -1,6 +1,5 @@
 # Module containing all the ncbi-blast related rules
 
-
 ##########################################################################
 ##########################################################################
 # NOTES: 
@@ -10,28 +9,21 @@
 # Because right now all the databases have a not similar way of being
 
 
-rule blastn:
+rule prokka:
     input:
-        contig=os.path.join(
-            CONTIG_FOLDER, 
-            "??_solo_contig_or_merge_contig??.fasta"
+        contig=lambda wildcards: os.path.join(
+            CONTIGS_FOLDER,
+            CONTIGS_DICT[wildcards.contig]["file"],
         ),
-        database_blast=os.path.join(
-            DATABASE_FOLDER, 
-            "{database}", 
-            "viral_proteins_plus_crass.fasta"
-        ),
-        h3i=os.path.join(
-            DATABASE_FOLDER,
-            "all_vogs.hmm.h3i"
-        ),        
+        database_blast=prokka_protein_db,
+        h3i=prokka_hmm_db + ".h3i",       
     output:
-        os.path.join(
+        output_dir=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "prokka",
             "{contig}",
-            "{contig}.proteins.fa"
+            "{contig}.prokka.pvogs.crass.faa",
         ),
     params:
         output_dir=os.path.join(
@@ -42,10 +34,8 @@ rule blastn:
         ),
         prefix="{contig}.prokka.pvogs.crass",
         gcode=11,
-        hmm=os.path.join(
-            DATABASE_FOLDER,
-            "all_vogs.hmm"
-        ),         
+        hmm=prokka_hmm_db,
+        kingdom=prokka_kingdom,      
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -63,8 +53,8 @@ rule blastn:
         prokka --outdir '{params.output_dir}' --prefix '{params.prefix}' \
         --gcode '{params.gcode}' --hmms '{params.hmm}'  \
         --proteins '{input.database_blast}' \
-        --locus-tag PALEO --compliant
-        '{input.contig}' &> '{log}'
+        --locustag '{wildcards.contig}' --compliant --partialgenes --cpus '{threads}' \
+        --kingdom '{params.kingdom}' '{input.contig}' &> '{log}'
         """
 
 

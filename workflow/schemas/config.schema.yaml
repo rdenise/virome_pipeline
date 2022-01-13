@@ -35,6 +35,16 @@ properties:
         type: boolean
       round_border:
         type: boolean
+ 
+  default_prokka_option:
+    type: object
+    properties:
+      protein_db:
+        type: string
+      hmm_db:
+        type: string
+      kingdom:
+        type: string
 
 required:
   - databases
@@ -43,3 +53,5 @@ required:
   - project_name
   - output_folder
   - default_blast_option
+  - default_prokka_option
+  
