@@ -4,7 +4,8 @@
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
-
+# Important:: Need to maybe separate the contig inside the BIG contig file because each could be 
+# a bacteria or a virus by itself
 
 rule vcontact2_preprocess:
     input:
@@ -12,26 +13,30 @@ rule vcontact2_preprocess:
             OUTPUT_FOLDER,
             "processing_files",
             "prokka",
-            "{contig}",
-            "{contig}.prokka.pvogs.crass.faa",
+            "{sample}",
+            "{sample}.prokka.pvogs.crass.faa",
         ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
-            "prodigal"
-            "{contig}_translations_vir_contigs1000.rename.faa"
+            "processing_files",
+            "prokka",
+            "{sample}",
+            "{sample}.prokka.pvogs.crass.rename.faa"
         ),
         csv=os.path.join(
             OUTPUT_FOLDER,
-            "prodigal"
-            "{contig}_proteins.csv"
+            "processing_files",
+            "prokka",
+            "{sample}",
+            "{sample}.proteins.csv"
         ),        
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "vcontact2",
-            "contig_{contig}.vcontact2_preprocess.log"
+            "contig_{sample}.vcontact2_preprocess.log"
         ),
     resources:
         cpus=1,
@@ -54,20 +59,24 @@ rule vcontact2:
     input:
         fasta=os.path.join(
             OUTPUT_FOLDER,
-            "prodigal"
-            "{contig}_translations_vir_contigs1000.rename.faa"
+            "processing_files",
+            "prokka",
+            "{sample}",
+            "{sample}.prokka.pvogs.crass.rename.faa",
         ),
         protein_csv=os.path.join(
             OUTPUT_FOLDER,
-            "prodigal"
-            "{contig}_proteins.csv"
+            "processing_files",
+            "prokka",
+            "{sample}",
+            "{sample}.proteins.csv",
         ),
     output:
         csv=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "vcontact2",
-            "contig_{contig}",
+            "{sample}",
             "genome_by_genome_overview.csv",
         ),
     params:
@@ -75,19 +84,19 @@ rule vcontact2:
         rel_mode="Diamond",
         pcs_mode="MCL",
         vcs_mode="ClusterONE",
-        c1_bin="cluster_one-1.0.jar",
-        output_dir=directory(os.path.join(
+        c1_bin="cluster_one-v1.0.jar",
+        output_dir=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "vcontact2",
-            "contig_{contig}"
-        )),
+            "{sample}",
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "vcontact2",
-            "contig_{contig}.vcontact2.log"
+            "{sample}.vcontact2.log"
         ),
     resources:
         cpus=5,
@@ -96,10 +105,13 @@ rule vcontact2:
     threads: 5
     shell:
         """
+        findClusterONE=( $(find . -name '{params.c1_bin}') )
+
         vcontact2 --raw-proteins '{input.fasta}' --rel-mode {params.rel_mode} \
         --proteins-fp '{input.protein_csv}' --db {params.vcontact2_db} \
-        --pcs-mode {params.pcs_mode} --vcs-mode {params.vcs_mode} --c1-bin {params.c1_bin} \
-        --output-dir {params.output_dir} -t {threads}
+        --pcs-mode {params.pcs_mode} --vcs-mode {params.vcs_mode} \
+        --c1-bin "${{findClusterONE[0]}}" \
+        --output-dir {params.output_dir} -t {threads} &> '{log}'
         """
 
 

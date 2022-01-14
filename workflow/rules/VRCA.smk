@@ -20,7 +20,7 @@ rule vrca:
             OUTPUT_FOLDER,
             "processing_files",
             "VRCA",
-            "contig_{contig}",
+            "contig_{sample}",
             "all.fa_circular.fna",
         ),        
     log:
@@ -28,7 +28,7 @@ rule vrca:
             OUTPUT_FOLDER,
             "logs",
             "VRCA",
-            "contig_{contig}.VRCA.log"
+            "contig_{sample}.VRCA.log"
         ),
     resources:
         cpus=1,

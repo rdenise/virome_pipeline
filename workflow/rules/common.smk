@@ -31,7 +31,7 @@ def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
             outdir,
             "processing_files",
             "blast",
-            "{contig}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
+            "{sample}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
         ),
         contig = contigs_list,
         database = datbase_list,
@@ -43,7 +43,7 @@ def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
             outdir,
             "processing_files",
             "virsorter",
-            "contig_{contig}",
+            "{sample}",
             "final-viral-score.tsv"
         ),
         contig = contigs_list,
@@ -54,8 +54,8 @@ def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
             outdir,
             "processing_files",
             "prokka",
-            "{contig}",
-            "{contig}.prokka.pvogs.crass.faa",
+            "{sample}",
+            "{sample}.prokka.pvogs.crass.faa",
         ),
         contig = contigs_list,
     )
@@ -65,7 +65,7 @@ def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
             outdir,
             "processing_files",
             "vcontact2",
-            "contig_{contig}",
+            "{sample}",
             "genome_by_genome_overview.csv",
         ),
         contig = contigs_list,

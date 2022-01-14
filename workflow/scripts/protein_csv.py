@@ -15,16 +15,16 @@ parser = SeqIO.parse(protein_file, 'fasta')
 with open(snakemake.output.csv, 'wt') as w_file:
     with open(snakemake.output.fasta, 'wt') as fasta_file:
         header = "contig_id,protein_id,keywords"
-        w_file.write(f"{headet}\n")
+        w_file.write(f"{header}\n")
 
         for protein in parser:
             # TO DO Because don't know the format and could not infer it form sed commands
             # Will be needed to modify the fasta file too because need to match the table probably
             protein_id = protein.id
-            contig_id = snakemake.wildcards.contig
+            contig_id = snakemake.wildcards.sample
             keyword = 'None'
 
-            w_file.write("{contig_id},{protein_id},{keyword}\n")
+            w_file.write(f"{contig_id},{protein_id},{keyword}\n")
 
             protein.name = ""
             protein.description = ""
@@ -33,5 +33,3 @@ with open(snakemake.output.csv, 'wt') as w_file:
 
 ###########################################################
 ###########################################################
-
-pr

@@ -13,7 +13,7 @@ rule prokka:
     input:
         contig=lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
-            CONTIGS_DICT[wildcards.contig]["file"],
+            CONTIGS_DICT[wildcards.sample]["file"],
         ),
         database_blast=prokka_protein_db,
         h3i=prokka_hmm_db + ".h3i",       
@@ -22,17 +22,17 @@ rule prokka:
             OUTPUT_FOLDER,
             "processing_files",
             "prokka",
-            "{contig}",
-            "{contig}.prokka.pvogs.crass.faa",
+            "{sample}",
+            "{sample}.prokka.pvogs.crass.faa",
         ),
     params:
         output_dir=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "prokka",
-            "{contig}",
+            "{sample}",
         ),
-        prefix="{contig}.prokka.pvogs.crass",
+        prefix="{sample}.prokka.pvogs.crass",
         gcode=11,
         hmm=prokka_hmm_db,
         kingdom=prokka_kingdom,      
@@ -41,7 +41,7 @@ rule prokka:
             OUTPUT_FOLDER,
             "logs",
             "prokka",
-            "contig_{contig}.log"
+            "{sample}.log"
         ),
     resources:
         cpus=5,
@@ -53,7 +53,7 @@ rule prokka:
         prokka --outdir '{params.output_dir}' --prefix '{params.prefix}' \
         --gcode '{params.gcode}' --hmms '{params.hmm}'  \
         --proteins '{input.database_blast}' \
-        --locustag '{wildcards.contig}' --compliant --partialgenes --cpus '{threads}' \
+        --locustag '{wildcards.sample}' --compliant --partialgenes --cpus '{threads}' \
         --kingdom '{params.kingdom}' '{input.contig}' &> '{log}'
         """
 

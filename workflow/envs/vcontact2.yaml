@@ -7,3 +7,5 @@ dependencies:
   - diamond = 2.0.13
   - blast = 2.12.0
   - vcontact2 = 0.9.19
+  - numpy = 1.19.5
+  - pandas = 0.25.3

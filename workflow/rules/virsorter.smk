@@ -42,7 +42,7 @@ rule virsorter_run:
     input:
         contig=lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
-            CONTIGS_DICT[wildcards.contig]["file"],
+            CONTIGS_DICT[wildcards.sample]["file"],
         ),
         database=os.path.join(
             "config",
@@ -53,21 +53,21 @@ rule virsorter_run:
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "{contig}",
+            "{sample}",
             "final-viral-combined.fa",
         ),
         score=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "{contig}",
+            "{sample}",
             "final-viral-score.tsv",
         ),
         boundary=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "{contig}",
+            "{sample}",
             "final-viral-boundary.tsv",
         ),    
     params:
@@ -75,14 +75,14 @@ rule virsorter_run:
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "{contig}",
+            "{sample}",
         )),           
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "virsorter",
-            "{contig}.virsorter_run.log"
+            "{sample}.virsorter_run.log"
         ),
     resources:
         cpus=5,
@@ -109,7 +109,7 @@ rule virsorter_postprocess:
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "contig_{contig}",
+            "{sample}",
             "final-viral-combined.fa",
         ),
     output:
@@ -117,7 +117,7 @@ rule virsorter_postprocess:
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "contig_{contig}",
+            "{sample}",
             "virsorter_positive.ids",
         ),
     log:
@@ -125,14 +125,14 @@ rule virsorter_postprocess:
             OUTPUT_FOLDER,
             "logs",
             "virsorter",
-            "contig_{contig}.virsorter_postprocess.log"
+            "{sample}.virsorter_postprocess.log"
         ),
     resources:
         cpus=1,
     threads: 1
     shell:
         """
-        grep '>' '{input}' | cut -d '|' -f 1 | tr -d '>' > '{output}'
+        grep '>' '{input}' | cut -d '|' -f 1 | tr -d '>' > '{output}' 2> '{log}'
         """
 
 

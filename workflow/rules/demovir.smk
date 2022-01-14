@@ -19,7 +19,7 @@ rule demovir:
             OUTPUT_FOLDER,
             "processing_files",
             "demovir",
-            "contig_{contig}",
+            "{sample}",
             "all.fa_circular.fna",
         ),        
     log:
@@ -27,7 +27,7 @@ rule demovir:
             OUTPUT_FOLDER,
             "logs",
             "demovir",
-            "contig_{contig}.demovir.log"
+            "{sample}.demovir.log"
         ),
     resources:
         cpus=1,

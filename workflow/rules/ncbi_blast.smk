@@ -14,7 +14,7 @@ rule blastn:
     input:
         contig=lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
-            CONTIGS_DICT[wildcards.contig]["file"],
+            CONTIGS_DICT[wildcards.sample]["file"],
         ),
         database=lambda wildcards: os.path.join(
             DB_DICT["fasta"][wildcards.database]["path"],
@@ -25,14 +25,14 @@ rule blastn:
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
-            "{contig}.evalue_{evalue}.{database}.blastn.outfmt6.txt"
+            "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.txt"
         ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "blast",
-            "{contig}.evalue_{evalue}.{database}.blastn.outfmt6.log"
+            "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.log"
         ),    
     resources:
         cpus=5,

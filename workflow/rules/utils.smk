@@ -8,8 +8,8 @@ rule uncompress:
     input:
         contig=lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
-            CONTIGS_DICT[wildcards.contig]["file"] + \
-            CONTIGS_DICT[wildcards.contig]["ext_compress"],
+            CONTIGS_DICT[wildcards.sample]["file"] + \
+            CONTIGS_DICT[wildcards.sample]["ext_compress"],
         ),
     output:
         contig = os.path.join(
@@ -21,7 +21,7 @@ rule uncompress:
             OUTPUT_FOLDER,
             "logs",
             "uncompress",
-            "{contig}.{ext}.log"
+            "{sample}.{ext}.log"
         ),    
     threads: 1
     shell:
@@ -40,15 +40,15 @@ rule uncompress:
 rule clear_uncompress:
     input:
         contig=lambda wildcards: os.path.join(
-            CONTIGS_DICT[wildcards.contig]["path"],
-            CONTIGS_DICT[wildcards.contig]["file"],
+            CONTIGS_DICT[wildcards.sample]["path"],
+            CONTIGS_DICT[wildcards.sample]["file"],
         ),
     output:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "clean",
-            "{contig}.log"
+            "{sample}.log"
         ),    
     threads: 1
     shell:
