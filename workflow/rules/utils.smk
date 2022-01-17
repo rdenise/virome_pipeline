@@ -14,7 +14,7 @@ rule uncompress:
     output:
         contig = os.path.join(
             CONTIGS_FOLDER,
-            "{contig,[^.]+}.{ext}",
+            "{sample,[^.]+}.{ext}",
         ),
     log:
         os.path.join(

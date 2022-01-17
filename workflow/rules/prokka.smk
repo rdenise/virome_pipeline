@@ -11,9 +11,10 @@
 
 rule prokka:
     input:
-        contig=lambda wildcards: os.path.join(
-            CONTIGS_FOLDER,
-            CONTIGS_DICT[wildcards.sample]["file"],
+        contig=os.path.join(
+            "databases",
+            "viral_contigs"
+            "{sample}.selected.fasta",
         ),
         database_blast=prokka_protein_db,
         h3i=prokka_hmm_db + ".h3i",       

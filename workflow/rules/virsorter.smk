@@ -9,8 +9,8 @@
 rule virsorter_setup:
     output:
         os.path.join(
-            "config",
-            "virsorter_db"
+            "databases",
+            "virsorter_db",
         ),
     log:
         os.path.join(
@@ -45,8 +45,8 @@ rule virsorter_run:
             CONTIGS_DICT[wildcards.sample]["file"],
         ),
         database=os.path.join(
-            "config",
-            "virsorter_db"
+            "databases",
+            "virsorter_db",
         ),
     output:
         fasta=os.path.join(
@@ -97,44 +97,4 @@ rule virsorter_run:
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
-# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
-# 2. In the config file or in another tabulated file have the path to all the database fasta file
-# Because right now all the databases have a not similar way of being
 
-
-rule virsorter_postprocess:
-    input:
-        fasta=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "virsorter",
-            "{sample}",
-            "final-viral-combined.fa",
-        ),
-    output:
-        fasta=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "virsorter",
-            "{sample}",
-            "virsorter_positive.ids",
-        ),
-    log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "virsorter",
-            "{sample}.virsorter_postprocess.log"
-        ),
-    resources:
-        cpus=1,
-    threads: 1
-    shell:
-        """
-        grep '>' '{input}' | cut -d '|' -f 1 | tr -d '>' > '{output}' 2> '{log}'
-        """
-
-
-##########################################################################
-##########################################################################

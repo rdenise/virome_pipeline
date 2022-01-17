@@ -34,4 +34,8 @@ default_prokka_option:
     hmm_db: /Users/rdenise/Documents/script/virome_pipeline/myfiles/databases/pVOGs/all_vogs.hmm
     # Annotation mode: Archaea|Bacteria|Mitochondria|Viruses (default 'Viruses')
     kingdom: Viruses
-    
+
+# Default option for prokka
+default_deepvirfinder_option:
+    # predict only for sequence >= L bp
+    cutoff_length: 1000

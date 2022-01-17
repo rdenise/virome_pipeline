@@ -76,6 +76,8 @@ include: "rules/virsorter.smk"
 include: "rules/hmmer.smk"
 include: "rules/prokka.smk"
 include: "rules/vConTACT2.smk"
+include: "rules/deepvirfinder.smk"
+include: "rules/postprocess_detection.smk"
 # include: "rules/VRCA.smk"
 # include: "rules/demovir.smk"
 
@@ -87,9 +89,7 @@ include: "rules/vConTACT2.smk"
 rule all:
     input:
         get_final_output(outdir = OUTPUT_FOLDER, 
-                         blast_evalue = blast_evalue,
                          contigs_list = CONTIGS_DICT.keys(),
-                         datbase_list = DB_DICT['fasta'].keys(),
                          ),
 
 

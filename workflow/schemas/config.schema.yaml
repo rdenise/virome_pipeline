@@ -46,6 +46,13 @@ properties:
       kingdom:
         type: string
 
+  default_deepvirfinder_option:
+    type: object
+    properties:
+      cutoff_length:
+        type: number
+        minimum: 1
+
 required:
   - databases
   - contigs

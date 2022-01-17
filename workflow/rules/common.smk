@@ -20,45 +20,18 @@ from snakemake.utils import validate
 ##########################################################################
 
 
-def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
+def get_final_output(outdir, contigs_list):
     """
     Generate final output name
     """
     final_output = []
 
-    final_output += expand(
-        os.path.join(
+    final_output += os.path.join(
             outdir,
             "processing_files",
             "blast",
-            "{sample}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
+            "merge.annotation.blasn.tsv"
         ),
-        contig = contigs_list,
-        database = datbase_list,
-        evalue = [blast_evalue]
-    )
-
-    final_output += expand(
-        os.path.join(
-            outdir,
-            "processing_files",
-            "virsorter",
-            "{sample}",
-            "final-viral-score.tsv"
-        ),
-        contig = contigs_list,
-    )
-
-    final_output += expand(
-        os.path.join(
-            outdir,
-            "processing_files",
-            "prokka",
-            "{sample}",
-            "{sample}.prokka.pvogs.crass.faa",
-        ),
-        contig = contigs_list,
-    )
 
     final_output += expand(
         os.path.join(
@@ -68,7 +41,7 @@ def get_final_output(outdir, contigs_list, datbase_list, blast_evalue):
             "{sample}",
             "genome_by_genome_overview.csv",
         ),
-        contig = contigs_list,
+        sample = contigs_list,
     )
 
     return final_output
@@ -207,8 +180,13 @@ OUTPUT_FOLDER = os.path.join(config["output_folder"], project_name)
 # Adding to config for report
 config["__output_folder__"] = os.path.abspath(OUTPUT_FOLDER)
 
+# Options for blastn
 blast_evalue = config['default_blast_option']['e_val']
 
+# Options for prokka
 prokka_protein_db = config['default_prokka_option']['protein_db']
 prokka_hmm_db = config['default_prokka_option']['hmm_db']
 prokka_kingdom = config['default_prokka_option']['kingdom'].capitalize()
+
+# Option for DeepVirFinder
+cutoff_deepvirfinder = config['default_deepvirfinder_option']['cutoff_length']
