@@ -1,7 +1,0 @@
-framework module SecurityInterface [system] {
-  umbrella "Headers"
-  explicit module * {
-    export *
-  }
-}
-

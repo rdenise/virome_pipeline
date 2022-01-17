@@ -1,8 +1,0 @@
-framework module VideoDecodeAcceleration [system] {
-  export *
-  module VDADecoder {
-    header "VDADecoder.h"
-    export *
-  }
-}
-

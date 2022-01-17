@@ -1,7 +1,0 @@
-framework module AppleScriptKit [system] {
-  module ASKPluginObject {
-    export *
-    header "ASKPluginObject.h"
-  }
-}
-

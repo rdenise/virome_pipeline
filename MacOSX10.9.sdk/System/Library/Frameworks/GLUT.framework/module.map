@@ -1,9 +1,0 @@
-framework module GLUT [system] {
-  header "glut.h"
-
-  umbrella "Headers"
-
-  export *
-  explicit module * { export * }
-}
-

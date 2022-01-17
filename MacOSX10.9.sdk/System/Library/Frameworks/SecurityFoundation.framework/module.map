@@ -1,7 +1,0 @@
-framework module SecurityFoundation [system] {
-  module SFAuthorization {
-    header "SFAuthorization.h"
-    export *
-  }
-}
-

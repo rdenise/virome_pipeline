@@ -1,7 +1,0 @@
-framework module Scripting [system] {
-  umbrella "Headers"
-
-  export *
-  module * { export * }
-}
-
