@@ -105,7 +105,7 @@ rule combine_virsorter_virfinder:
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
-            "database",
+            "databases",
             "viral_contigs",
             "{sample}.selected.fasta",
         ),

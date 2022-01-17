@@ -13,8 +13,9 @@
 rule blastn:
     input:
         contig=os.path.join(
+            OUTPUT_FOLDER,
             "databases",
-            "viral_contigs"
+            "viral_contigs",
             "{sample}.selected.fasta",
         ),
         database=lambda wildcards: os.path.join(

@@ -12,8 +12,9 @@
 rule prokka:
     input:
         contig=os.path.join(
+            OUTPUT_FOLDER,
             "databases",
-            "viral_contigs"
+            "viral_contigs",
             "{sample}.selected.fasta",
         ),
         database_blast=prokka_protein_db,
