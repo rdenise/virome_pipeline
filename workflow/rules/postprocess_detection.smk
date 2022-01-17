@@ -135,7 +135,7 @@ rule combine_virsorter_virfinder:
 
 rule merge_blastn:
     input:
-        all_out=lambda wildcards: expand(
+        all_out=expand(
             os.path.join(
                 OUTPUT_FOLDER,
                 "processing_files",
