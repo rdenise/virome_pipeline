@@ -62,6 +62,13 @@ rule virsorter_postprocess:
             "{sample}",
             "virsorter_positive.ids",
         ),
+        manual_check=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter2check.ids",
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,

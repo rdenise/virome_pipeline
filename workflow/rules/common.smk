@@ -190,3 +190,9 @@ prokka_kingdom = config['default_prokka_option']['kingdom'].capitalize()
 
 # Option for DeepVirFinder
 cutoff_deepvirfinder = config['default_deepvirfinder_option']['cutoff_length']
+
+# Option for DeepVirFinder
+cutoff_virsorter = config['default_virsorter_option']['cutoff_length']
+
+# Option for DeepVirFinder
+cutoff_dramv = config['default_dramv_option']['cutoff_length']

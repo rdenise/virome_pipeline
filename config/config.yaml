@@ -35,7 +35,17 @@ default_prokka_option:
     # Annotation mode: Archaea|Bacteria|Mitochondria|Viruses (default 'Viruses')
     kingdom: Viruses
 
-# Default option for prokka
+# Default option for deepvirfinder
 default_deepvirfinder_option:
+    # predict only for sequence >= L bp
+    cutoff_length: 1000
+
+# Default option for virsorter
+default_virsorter_option:
+    # predict only for sequence >= L bp
+    cutoff_length: 1000
+
+# Default option for DRAMv
+default_dramv_option:
     # predict only for sequence >= L bp
     cutoff_length: 1000
