@@ -30,7 +30,7 @@ def get_final_output(outdir, contigs_list):
             outdir,
             "processing_files",
             "blast",
-            f"merge.eval_{blast_evalue}.cov_{blast_coverage}.annotation.blasn.tsv"
+            f"merge.eval_{blast_evalue:.0e}.cov_{blast_coverage}.annotation.blasn.tsv"
         ),
 
     final_output += expand(
@@ -43,6 +43,13 @@ def get_final_output(outdir, contigs_list):
         ),
         sample = contigs_list,
     )
+
+    final_output += os.path.join(
+            outdir,
+            "processing_files",
+            "hmmer",
+            f"significant_hit.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.domtblout.txt"
+        ),  
 
     return final_output
 
@@ -197,3 +204,9 @@ cutoff_virsorter = config['default_virsorter_option']['cutoff_length']
 
 # Option for DeepVirFinder
 cutoff_dramv = config['default_dramv_option']['cutoff_length']
+
+# Options for hmmer
+hmm_evalue_full = config['default_hmmer_option']['e_val_full']
+hmm_evalue_dom = config['default_hmmer_option']['e_val_dom']
+
+

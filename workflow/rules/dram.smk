@@ -95,8 +95,8 @@ rule dramv_annotate:
     shell:
         """
         DRAM-v.py annotate -i '{input.fasta}' -v '{input.viral_affi}' \
-        -o '{params.outpur_dir}' --skip_trnascan --threads {threads} \
-        --min_contig_size '{parms.cutoff}' &> '{log}'
+        -o '{params.output_dir}' --skip_trnascan --threads {threads} \
+        --min_contig_size '{params.cutoff}' &> '{log}'
         """
 
 

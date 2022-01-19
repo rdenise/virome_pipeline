@@ -45,6 +45,7 @@ rule checkv_run:
             "processing_files",
             "virsorter",
             "{sample}",
+            "vs2-step1",
             "final-viral-combined.fa",
         ),
         database=os.path.join(
@@ -73,13 +74,13 @@ rule checkv_run:
             "{sample}",
             "contamination.tsv",
         ),
-        params:
-        output_dir=directory(os.path.join(
+    params:
+        output_dir=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
             "{sample}",
-        )),           
+        ),           
     log:
         os.path.join(
             OUTPUT_FOLDER,

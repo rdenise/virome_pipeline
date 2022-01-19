@@ -44,10 +44,6 @@ rule virsorter_run_step1:
             CONTIGS_FOLDER,
             CONTIGS_DICT[wildcards.sample]["file"],
         ),
-        database=os.path.join(
-            "databases",
-            "virsorter_db",
-        ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,

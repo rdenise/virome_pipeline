@@ -254,7 +254,7 @@ rule merge_blastn:
             OUTPUT_FOLDER,
             "logs",
             "blast",
-            "merge_blastn.log"
+            "merge_blastn.eval_{evalue}.cov_{coverage}.log"
         ),
     resources:
         cpus=1,
@@ -263,6 +263,46 @@ rule merge_blastn:
     threads: 1
     script: 
         "../scripts/merge_blastn.py"
+
+
+##########################################################################
+##########################################################################
+
+rule postprocess_hmmsearch :
+    input :
+        tblout=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "hmmer",
+            "merge.tblout.txt"
+            ),
+        domtblout=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "hmmer",
+            "merge.domtblout.txt"
+            ),
+    output :
+        significant_hit = os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "hmmer",
+            f"significant_hit.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.domtblout.txt"
+            ),    
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "blast",
+            "postprocess_hmmsearch.log"
+        ),
+    resources:
+        cpus=1,
+    conda:
+        "../envs/pandas_plots.yaml"
+    threads: 1
+    script: 
+        "../scripts/postprocess_hmmsearch.py"
 
 
 ##########################################################################
