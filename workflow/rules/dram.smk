@@ -70,7 +70,7 @@ rule dramv_annotate:
             "annotate",
             "{sample}",
             "annotations.tsv"
-        ),  
+        ),
     params:
         output_dir=os.path.join(
             OUTPUT_FOLDER,

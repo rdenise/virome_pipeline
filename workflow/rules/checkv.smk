@@ -66,7 +66,14 @@ rule checkv_run:
             "{sample}",
             "proviruses.fna",
         ),    
-    params:
+        contamination=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "{sample}",
+            "contamination.tsv",
+        ),
+        params:
         output_dir=directory(os.path.join(
             OUTPUT_FOLDER,
             "processing_files",

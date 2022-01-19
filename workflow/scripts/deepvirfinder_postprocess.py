@@ -30,6 +30,14 @@ merge_df = virsorter_step1.merge(checkv_df, how='outer', on='contig_id')
 # First filter: viral_gene >0
 keep1_seqname = merge_df[merge_df.viral_genes > 0].contig_id.tolist()
 
+
+# Write in a file
+with open(snakemake.output.ids_keep1, "w") as w_file:
+    w_file.write("contig_id\n")
+
+    for name in keep1_seqname:
+        w_file.write(f"{name}\n")
+
 # Removing Keep1
 merge_tmp = merge_df[~(merge_df.contig_id.isin(keep1_seqname))]
 
@@ -40,13 +48,9 @@ keep2_seqname =  merge_tmp[(merge_tmp.viral_genes == 0) & \
                            (merge_tmp.max_score >= 0.95) | \
                            (merge_tmp.hallmark > 2))].contig_id.tolist()
 
-
 # Write in a file
-with open(snakemake.output.ids, "w") as w_file:
+with open(snakemake.output.ids_keep2, "w") as w_file:
     w_file.write("contig_id\n")
-
-    for name in keep1_seqname:
-        w_file.write(f"{name}\n")
 
     for name in keep2_seqname:
         w_file.write(f"{name}\n")

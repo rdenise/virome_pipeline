@@ -45,22 +45,37 @@ rule deepvirfinder_postprocess:
 # Because right now all the databases have a not similar way of being
 
 
-rule virsorter_postprocess:
+rule virsorter_postprocess_step1:
     input:
-        fasta=os.path.join(
+        final_score=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
             "{sample}",
-            "final-viral-combined.fa",
+            "vs2-step1",
+            "final-viral-score.tsv",
+        ),
+        contamination=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "{sample}",
+            "contamination.tsv",
         ),
     output:
-        ids=os.path.join(
+        ids_keep1=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
             "{sample}",
-            "virsorter_positive.ids",
+            "virsorter_positive.keep1.ids",
+        ),
+        ids_keep2=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter_positive.keep2.ids",
         ),
         manual_check=os.path.join(
             OUTPUT_FOLDER,
@@ -74,7 +89,7 @@ rule virsorter_postprocess:
             OUTPUT_FOLDER,
             "logs",
             "virsorter",
-            "{sample}.virsorter_postprocess.log",
+            "{sample}.virsorter_postprocess_step1.log",
         ),
     resources:
         cpus=1,
@@ -82,7 +97,70 @@ rule virsorter_postprocess:
         "../envs/biopython.yaml"
     threads: 1
     script: 
-        "../scripts/virsorter_posprocess.py"
+        "../scripts/virsorter_postprocess_step1.py"
+
+
+##########################################################################
+##########################################################################
+# NOTES: 
+# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
+# 2. In the config file or in another tabulated file have the path to all the database fasta file
+# Because right now all the databases have a not similar way of being
+
+
+rule virsorter_postprocess_step2:
+    input:
+        ids_keep2=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter_positive.keep2.ids",
+        ),
+        tsv=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "annotations.tsv"
+        ),
+    output:
+        suspicious=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter_positive.keep2.suspicious.ids",
+        ),
+        checked=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter_positive.keep2.checked.ids",
+        ),
+        manual_check=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter2check.ids",
+        ),
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "virsorter",
+            "{sample}.virsorter_postprocess_step2.log",
+        ),
+    resources:
+        cpus=1,
+    conda:
+        "../envs/biopython.yaml"
+    threads: 1
+    script: 
+        "../scripts/virsorter_postprocess_step2.py"
 
 
 ##########################################################################
