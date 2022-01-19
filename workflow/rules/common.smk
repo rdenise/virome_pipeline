@@ -30,7 +30,7 @@ def get_final_output(outdir, contigs_list):
             outdir,
             "processing_files",
             "blast",
-            "merge.annotation.blasn.tsv"
+            f"merge.eval_{blast_evalue}.cov_{blast_coverage}.annotation.blasn.tsv"
         ),
 
     final_output += expand(
@@ -182,6 +182,7 @@ config["__output_folder__"] = os.path.abspath(OUTPUT_FOLDER)
 
 # Options for blastn
 blast_evalue = config['default_blast_option']['e_val']
+blast_coverage = config['default_blast_option']['coverage']
 
 # Options for prokka
 prokka_protein_db = config['default_prokka_option']['protein_db']

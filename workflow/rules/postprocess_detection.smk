@@ -94,7 +94,7 @@ rule virsorter_postprocess_step1:
     resources:
         cpus=1,
     conda:
-        "../envs/biopython.yaml"
+        "../envs/pandas_plots.yaml"
     threads: 1
     script: 
         "../scripts/virsorter_postprocess_step1.py"
@@ -157,7 +157,7 @@ rule virsorter_postprocess_step2:
     resources:
         cpus=1,
     conda:
-        "../envs/biopython.yaml"
+        "../envs/pandas_plots.yaml"
     threads: 1
     script: 
         "../scripts/virsorter_postprocess_step2.py"
@@ -173,12 +173,19 @@ rule virsorter_postprocess_step2:
 
 rule combine_virsorter_virfinder:
     input:
-        ids_virsoter=os.path.join(
+        ids_virsorter_keep2=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
             "{sample}",
-            "virsorter_positive.ids",
+            "virsorter_positive.keep2.checked.ids",
+        ),
+        ids_virsorter_keep1=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter_positive.keep1.ids",
         ),
         ids_virfinder=lambda wildcards: os.path.join(
             OUTPUT_FOLDER,
@@ -186,7 +193,11 @@ rule combine_virsorter_virfinder:
             "deepvirfinder",
             wildcards.sample,
             f"{wildcards.sample}.deepvirfinder_positive.gt{cutoff_deepvirfinder}bp.ids",
-        ),        
+        ),  
+        contigs=lambda wildcards: os.path.join(
+            CONTIGS_FOLDER,
+            CONTIGS_DICT[wildcards.sample]["file"],
+        ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
@@ -229,14 +240,14 @@ rule merge_blastn:
             ),
             sample = CONTIGS_DICT.keys(),
             database = DB_DICT['fasta'].keys(),
-            evalue = [blast_evalue]
+            evalue = [blast_evalue],
         ) 
     output:
-        fasta=os.path.join(
+        tsv=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
-            "merge.annotation.blasn.tsv",
+            "merge.eval_{evalue}.cov_{coverage}.annotation.blasn.tsv",
         ),
     log:
         os.path.join(
@@ -253,3 +264,6 @@ rule merge_blastn:
     script: 
         "../scripts/merge_blastn.py"
 
+
+##########################################################################
+##########################################################################

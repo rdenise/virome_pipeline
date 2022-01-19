@@ -16,6 +16,8 @@ output_folder: results
 default_blast_option:
     # E-value threshold
     e_val: 0.0001
+    # coverage of the contig
+    coverage: 0.7
 
 # Default value for plot
 default_values_plot:
@@ -43,7 +45,7 @@ default_deepvirfinder_option:
 # Default option for virsorter
 default_virsorter_option:
     # predict only for sequence >= L bp
-    cutoff_length: 1000
+    cutoff_length: 5000
 
 # Default option for DRAMv
 default_dramv_option:
