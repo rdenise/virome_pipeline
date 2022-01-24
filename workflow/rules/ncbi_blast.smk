@@ -18,22 +18,25 @@ rule blastn:
             "viral_contigs",
             "{sample}.selected.fasta",
         ),
-        database=lambda wildcards: os.path.join(
-            DB_DICT["fasta"][wildcards.database]["path"],
-            DB_DICT["fasta"][wildcards.database]["file"],
-        ),
     output:
         blast_out=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
+            "virus",
             "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.txt"
+        ),
+    params
+        database=lambda wildcards: os.path.join(
+            DB_DICT["fasta"][wildcards.database]["path"],
+            DB_DICT["fasta"][wildcards.database]["file"],
         ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "blast",
+            "virus",
             "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.log"
         ),    
     resources:
@@ -45,11 +48,11 @@ rule blastn:
     threads: 5
     shell:
         """
-        if [ ! -e '{input.database}'.nsq ] && [ ! -e '{input.database}'.00.nsq ]; then
-            makeblastdb -dbtype nucl -in '{input.database}' &> '{log}'
+        if [ ! -e '{params.database}'.nsq ] && [ ! -e '{params.database}'.00.nsq ]; then
+            makeblastdb -dbtype nucl -in '{params.database}' &> '{log}'
         fi
 
-        blastn -query '{input.contig}' -db '{input.database}' -evalue {wildcards.evalue} \
+        blastn -query '{input.contig}' -db '{params.database}' -evalue {wildcards.evalue} \
                -outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle' \
                -out '{output.blast_out}' -num_threads {threads} -num_alignments 25000 2>> '{log}'
         """
@@ -65,23 +68,26 @@ rule blastn_human:
             CONTIGS_FOLDER,
             CONTIGS_DICT[wildcards.sample]["file"],
         ),
-        database=lambda wildcards: os.path.join(
-            DB_DICT["human"]["nt"]["path"],
-            DB_DICT["human"]["nt"]["file"],
-        ),
     output:
         blast_out=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
-            "{sample}.evalue_{evalue}.nt.blastn.outfmt6.txt"
+            "human",
+            "{sample}.evalue_{evalue}.nt.human.blastn.outfmt6.txt"
+        ),
+    params:
+        database=lambda wildcards: os.path.join(
+            DB_DICT["human"]["nt"]["path"],
+            DB_DICT["human"]["nt"]["file"],
         ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "blast",
-            "{sample}.evalue_{evalue}.nt.blastn.outfmt6.log"
+            "human",
+            "{sample}.evalue_{evalue}.nt.human.blastn.outfmt6.log"
         ),    
     resources:
         cpus=5,
@@ -92,11 +98,11 @@ rule blastn_human:
     threads: 5
     shell:
         """
-        if [ ! -e '{input.database}'.ndb ]; then
-            makeblastdb -dbtype nucl -in '{input.database}' &> '{log}'
+        if [ ! -e '{params.database}'.nsq ] && [ ! -e '{params.database}'.00.nsq ]; then
+            makeblastdb -dbtype nucl -in '{params.database}' &> '{log}'
         fi
 
-        blastn -query '{input.contig}' -db '{input.database}' -evalue {wildcards.evalue} \
+        blastn -query '{input.contig}' -db '{params.database}' -evalue {wildcards.evalue} \
                -outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle' \
                -out '{output.blast_out}' -num_threads {threads} -taxids 9606 -num_alignments 25000 2>> '{log}'
         """

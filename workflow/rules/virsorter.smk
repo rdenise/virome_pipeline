@@ -8,10 +8,11 @@
 
 rule virsorter_setup:
     output:
-        os.path.join(
+        directory(os.path.join(
+            OUTPUT_FOLDER,
             "databases",
             "virsorter_db",
-        ),
+        )),
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -43,6 +44,11 @@ rule virsorter_run_step1:
         contig=lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
             CONTIGS_DICT[wildcards.sample]["file"],
+        ),
+        database=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "virsorter_db",
         ),
     output:
         fasta=os.path.join(
@@ -122,10 +128,6 @@ rule virsorter_run_step2:
             "{sample}",
             "proviruses.fna",
         ),   
-        database=os.path.join(
-            "databases",
-            "virsorter_db",
-        ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,

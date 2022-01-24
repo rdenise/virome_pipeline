@@ -8,10 +8,11 @@
 
 rule checkv_setup:
     output:
-        os.path.join(
+        directory(os.path.join(
+            OUTPUT_FOLDER,            
             "databases",
             "checkv_db",
-        ),
+        )),
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -49,6 +50,7 @@ rule checkv_run:
             "final-viral-combined.fa",
         ),
         database=os.path.join(
+            OUTPUT_FOLDER,
             "databases",
             "checkv_db",
         ),

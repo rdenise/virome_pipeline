@@ -125,7 +125,7 @@ rule virsorter_postprocess_step2:
             "{sample}",
             "annotations.tsv"
         ),
-        suspicous_gene="../../config/suspicious-gene.list",
+        suspicous_gene="config/suspicious-gene.list",
     output:
         suspicious=os.path.join(
             OUTPUT_FOLDER,
@@ -237,6 +237,7 @@ rule merge_blastn:
                 OUTPUT_FOLDER,
                 "processing_files",
                 "blast",
+                "virus",
                 "{sample}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
             ),
             sample = CONTIGS_DICT.keys(),
@@ -248,6 +249,7 @@ rule merge_blastn:
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
+            "virus",
             "merge.eval_{evalue}.cov_{coverage}.annotation.blasn.tsv",
         ),
     log:
@@ -255,6 +257,7 @@ rule merge_blastn:
             OUTPUT_FOLDER,
             "logs",
             "blast",
+            "virus",
             "merge_blastn.eval_{evalue}.cov_{coverage}.log"
         ),
     resources:
@@ -265,6 +268,52 @@ rule merge_blastn:
     script: 
         "../scripts/merge_blastn.py"
 
+
+##########################################################################
+##########################################################################
+# NOTES: 
+# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
+# 2. In the config file or in another tabulated file have the path to all the database fasta file
+# Because right now all the databases have a not similar way of being
+
+
+rule merge_blastn_human:
+    input:
+        all_out=expand(
+            os.path.join(
+                OUTPUT_FOLDER,
+                "processing_files",
+                "blast",
+                "human",
+                "{sample}.evalue_{evalue:.0e}.{database}.human.blastn.outfmt6.txt"
+            ),
+            sample = CONTIGS_DICT.keys(),
+            database = DB_DICT['human'].keys(),
+            evalue = [blast_evalue],
+        ) 
+    output:
+        tsv=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "blast",
+            "human",
+            "merge.eval_{evalue}.cov_{coverage}.human.annotation.blasn.tsv",
+        ),
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "blast",
+            "human",
+            "merge_blastn.eval_{evalue}.cov_{coverage}.log"
+        ),
+    resources:
+        cpus=1,
+    conda:
+        "../envs/biopython.yaml"
+    threads: 1
+    script: 
+        "../scripts/merge_blastn.py"
 
 ##########################################################################
 ##########################################################################
@@ -288,7 +337,7 @@ rule postprocess_hmmsearch :
             OUTPUT_FOLDER,
             "processing_files",
             "hmmer",
-            f"significant_hit.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.domtblout.txt"
+            f"significant_hit.full_{hmm_evalue_full:.0e}.dom_{hmm_evalue_dom}.domtblout.txt"
             ),    
     log:
         os.path.join(

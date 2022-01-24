@@ -8,10 +8,11 @@
 
 rule dram_setup:
     output:
-        os.path.join(
+        directory(os.path.join(
+            OUTPUT_FOLDER,            
             "databases",
             "dram_db",
-        ),
+        )),
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -59,6 +60,7 @@ rule dramv_annotate:
             "viral-affi-contigs-for-dramv.tab",
         ),
         database=os.path.join(
+            OUTPUT_FOLDER,
             "databases",
             "dram_db",
         ),
