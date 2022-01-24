@@ -125,6 +125,7 @@ rule virsorter_postprocess_step2:
             "{sample}",
             "annotations.tsv"
         ),
+        suspicous_gene="../../config/suspicious-gene.list",
     output:
         suspicious=os.path.join(
             OUTPUT_FOLDER,
