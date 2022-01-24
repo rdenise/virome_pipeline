@@ -45,7 +45,7 @@ rule blastn:
     threads: 5
     shell:
         """
-        if [ ! -e '{input.database}'.ndb ]; then
+        if [ ! -e '{input.database}'.nsq ] && [ ! -e '{input.database}'.00.nsq ]; then
             makeblastdb -dbtype nucl -in '{input.database}' &> '{log}'
         fi
 
