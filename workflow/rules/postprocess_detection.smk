@@ -34,7 +34,7 @@ rule deepvirfinder_postprocess:
         cpus=1,
     threads: 1
     script: 
-        "../scripts/deepvirvinder_posprocess.py"
+        "../scripts/deepvirfinder_postprocess.py"
 
 
 ##########################################################################
