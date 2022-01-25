@@ -206,6 +206,12 @@ rule combine_virsorter_virfinder:
             "viral_contigs",
             "{sample}.selected.fasta",
         ),
+        tsv=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.selected.tsv",
+        ),        
     log:
         os.path.join(
             OUTPUT_FOLDER,
