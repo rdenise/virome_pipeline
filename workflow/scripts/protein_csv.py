@@ -18,8 +18,6 @@ with open(snakemake.output.csv, 'wt') as w_file:
         w_file.write(f"{header}\n")
 
         for protein in parser:
-            # TO DO Because don't know the format and could not infer it form sed commands
-            # Will be needed to modify the fasta file too because need to match the table probably
             protein_id = protein.id
             contig_id = snakemake.wildcards.sample
             keyword = 'None'

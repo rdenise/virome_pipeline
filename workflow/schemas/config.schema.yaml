@@ -23,8 +23,28 @@ properties:
         type: number
         minimum: 0
         maximum: 1
+      coverage:
+        type: number
+        minimum: 0
+        maximum: 1    
     required:
       - e_val
+      - coverage
+
+  default_hmmer_option:
+    type: object
+    properties:
+      e_val_full:
+        type: number
+        minimum: 0
+        maximum: 1
+      coverage:
+        type: number
+        minimum: 0
+        maximum: 1    
+    required:
+      - e_val_full
+      - e_val_dom
 
   default_values_plot:
     type: object
@@ -53,6 +73,20 @@ properties:
         type: number
         minimum: 1
 
+  default_virsorter_option:
+    type: object
+    properties:
+      cutoff_length:
+        type: number
+        minimum: 1
+
+  default_dramv_option:
+    type: object
+    properties:
+      cutoff_length:
+        type: number
+        minimum: 1        
+
 required:
   - databases
   - contigs
@@ -61,4 +95,7 @@ required:
   - output_folder
   - default_blast_option
   - default_prokka_option
+  - default_deepvirfinder_option
+  - default_virsorter_option
+  - default_dramv_option
   

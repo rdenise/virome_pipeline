@@ -20,7 +20,7 @@ from snakemake.utils import validate
 ##########################################################################
 
 
-def get_final_output(outdir, contigs_list):
+def get_final_output(outdir, contigs_list, human):
     """
     Generate final output name
     """
@@ -30,7 +30,8 @@ def get_final_output(outdir, contigs_list):
             outdir,
             "processing_files",
             "blast",
-            "merge.annotation.blasn.tsv"
+            "virus",
+            f"merge.eval_{blast_evalue:.0e}.cov_{blast_coverage}.annotation.blasn.tsv"
         ),
 
     final_output += expand(
@@ -43,6 +44,22 @@ def get_final_output(outdir, contigs_list):
         ),
         sample = contigs_list,
     )
+
+    final_output += os.path.join(
+            outdir,
+            "processing_files",
+            "hmmer",
+            f"significant_hit.full_{hmm_evalue_full:.0e}.dom_{hmm_evalue_dom}.domtblout.txt"
+        ),  
+
+    if human:
+        final_output += os.path.join(
+                outdir,
+                "processing_files",
+                "blast",
+                "human",
+                f"merge.eval_{blast_evalue:.0e}.cov_{blast_coverage}.human.annotation.blasn.tsv"
+            ),
 
     return final_output
 
@@ -91,7 +108,7 @@ db_table = pd.read_table(db_file, dtype=db_dtypes)
 
 validate(db_table, schema="../schemas/databases.schema.yaml")
 
-DB_DICT = {'hmm':{}, 'fasta':{}}
+DB_DICT = {'hmm':{}, 'fasta':{}, 'human':{}}
 
 # Create a dictionary of the database file order by format
 for index, row in db_table.iterrows():
@@ -182,6 +199,7 @@ config["__output_folder__"] = os.path.abspath(OUTPUT_FOLDER)
 
 # Options for blastn
 blast_evalue = config['default_blast_option']['e_val']
+blast_coverage = config['default_blast_option']['coverage']
 
 # Options for prokka
 prokka_protein_db = config['default_prokka_option']['protein_db']
@@ -190,3 +208,15 @@ prokka_kingdom = config['default_prokka_option']['kingdom'].capitalize()
 
 # Option for DeepVirFinder
 cutoff_deepvirfinder = config['default_deepvirfinder_option']['cutoff_length']
+
+# Option for virsorter
+cutoff_virsorter = config['default_virsorter_option']['cutoff_length']
+
+# Option for DRAMv
+cutoff_dramv = config['default_dramv_option']['cutoff_length']
+
+# Options for hmmer
+hmm_evalue_full = config['default_hmmer_option']['e_val_full']
+hmm_evalue_dom = config['default_hmmer_option']['e_val_dom']
+
+

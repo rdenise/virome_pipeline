@@ -78,6 +78,8 @@ include: "rules/prokka.smk"
 include: "rules/vConTACT2.smk"
 include: "rules/deepvirfinder.smk"
 include: "rules/postprocess_detection.smk"
+include: "rules/checkv.smk"
+include: "rules/dram.smk"
 # include: "rules/VRCA.smk"
 # include: "rules/demovir.smk"
 
@@ -88,8 +90,9 @@ include: "rules/postprocess_detection.smk"
 
 rule all:
     input:
-        get_final_output(outdir = OUTPUT_FOLDER, 
+        get_final_output(outdir = OUTPUT_FOLDER,
                          contigs_list = CONTIGS_DICT.keys(),
+                         human = DB_DICT['human'].keys(),
                          ),
 
 

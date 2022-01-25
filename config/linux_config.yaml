@@ -7,15 +7,25 @@ contigs: /home/rdenise/Documents/scripts/virome_pipeline/myfiles/contigs
 contigs_ext: fasta.gz
 
 # name of the project 
-project_name: your_project_name
+project_name: your_project_name_dag
 
 # path to the result folder
 output_folder: results
 
 # Blast option if not given in seeds.tsv
 default_blast_option:
-    # E-value threshold
-    e_val: 0.0001
+    # E-value threshold: if you want to use scientific notation put a dot after the first number (e.g. 1.e-10 not 1e-10)
+    e_val: 1.e-10
+    # coverage of the contig (between 0 and 1)
+    coverage: 0.7
+
+# Blast option if not given in seeds.tsv
+default_hmmer_option:
+    # E-value threshold for the full sequence: if you want to use scientific notation put a dot after the first number (e.g. 1.e-10 not 1e-10)
+    e_val_full: 1.e-3
+    # E-value threshold for per domain: if you want to use scientific notation put a dot after the first number (e.g. 1.e-10 not 1e-10)
+    e_val_dom: 0.1
+
 
 # Default value for plot
 default_values_plot:
@@ -35,7 +45,17 @@ default_prokka_option:
     # Annotation mode: Archaea|Bacteria|Mitochondria|Viruses (default 'Viruses')
     kingdom: Viruses
 
-# Default option for prokka
+# Default option for deepvirfinder
 default_deepvirfinder_option:
+    # predict only for sequence >= L bp
+    cutoff_length: 1000
+
+# Default option for virsorter
+default_virsorter_option:
+    # predict only for sequence >= L bp
+    cutoff_length: 5000
+
+# Default option for DRAMv
+default_dramv_option:
     # predict only for sequence >= L bp
     cutoff_length: 1000

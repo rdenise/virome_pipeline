@@ -6,28 +6,28 @@
 # Because right now all the databases have a not similar way of being
 
 
-rule virsorter_setup:
+rule dram_setup:
     output:
         directory(os.path.join(
-            OUTPUT_FOLDER,
+            OUTPUT_FOLDER,            
             "databases",
-            "virsorter_db",
+            "dram_db",
         )),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
-            "virsorter",
-            "virsorter_setup.log"
+            "dram",
+            "dram_setup.log"
         ),
     resources:
-        cpus=4,
+        cpus=1,
     conda:
-        "../envs/virsorter.yaml"
-    threads: 4
+        "../envs/dram.yaml"
+    threads: 1
     shell:
         """
-        virsorter setup -d '{output}' -j '{threads}' &> '{log}'
+        DRAM-setup.py prepare_databases --skip_uniref --output_dir '{output}' &> '{log}'
         """
 
 
@@ -39,96 +39,8 @@ rule virsorter_setup:
 # Because right now all the databases have a not similar way of being
 
 
-rule virsorter_run_step1:
+rule dramv_annotate:
     input:
-        contig=lambda wildcards: os.path.join(
-            CONTIGS_FOLDER,
-            CONTIGS_DICT[wildcards.sample]["file"],
-        ),
-        database=os.path.join(
-            OUTPUT_FOLDER,
-            "databases",
-            "virsorter_db",
-        ),
-    output:
-        fasta=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "virsorter",
-            "{sample}",
-            "vs2-step1",
-            "final-viral-combined.fa",
-        ),
-        score=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "virsorter",
-            "{sample}",
-            "vs2-step1",
-            "final-viral-score.tsv",
-        ),
-        boundary=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "virsorter",
-            "{sample}",
-            "vs2-step1",
-            "final-viral-boundary.tsv",
-        ),    
-    params:
-        output_dir=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "virsorter",
-            "{sample}",
-            "vs2-step1",
-        ),
-        cutoff=cutoff_virsorter,
-    log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "virsorter",
-            "{sample}.virsorter_run_step1.log"
-        ),
-    resources:
-        cpus=5,
-    conda:
-        "../envs/virsorter.yaml"
-    threads: 5
-    shell:
-        """
-        virsorter run --keep-original-seq -i '{input.contig}' -w '{params.output_dir}' \
-        --include-groups dsDNAphage,ssDNA --min-length {params.cutoff} \
-        --min-score 0.5 -j {threads} all &> '{log}'
-        """
-
-
-##########################################################################
-##########################################################################
-# NOTES: 
-# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
-# 2. In the config file or in another tabulated file have the path to all the database fasta file
-# Because right now all the databases have a not similar way of being
-
-
-rule virsorter_run_step2:
-    input:
-        viruses=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "checkv",
-            "{sample}",
-            "viruses.fna",
-        ),
-        proviruses=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "checkv",
-            "{sample}",
-            "proviruses.fna",
-        ),   
-    output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
@@ -146,46 +58,116 @@ rule virsorter_run_step2:
             "vs2-step2",
             "for-dramv",
             "viral-affi-contigs-for-dramv.tab",
-        ),  
+        ),
+        database=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "dram_db",
+        ),
+    output:
+        tsv=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "annotations.tsv"
+        ),
     params:
         output_dir=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
-            "virsorter",
+            "dramv",
+            "annotate",
             "{sample}",
-            "vs2-step2",
         ),
-        cutoff=cutoff_virsorter,
-        input_vs2=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "checkv",
-            "{sample}",
-            "combined.fna",
-        ),
+        cutoff=cutoff_dramv,
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
-            "virsorter",
-            "{sample}.virsorter_run_step2.log"
+            "dramv",
+            "{sample}.dramv_annotate.log"
         ),
     resources:
         cpus=5,
     conda:
-        "../envs/virsorter.yaml"
+        "../envs/dram.yaml"
     threads: 5
     shell:
         """
-        cat '{input.viruses}' '{input.proviruses}' > '{params.input_vs2}'
-
-        virsorter run --seqname-suffix-off --viral-gene-enrich-off \
-        --provirus-off --prep-for-dramv -i '{params.input_vs2}' \
-        -w '{params.output_dir}' --include-groups dsDNAphage,ssDNA \
-        --min-length {params.cutoff} --min-score 0.5 \
-        -j {threads} all &> '{log}'
+        DRAM-v.py annotate -i '{input.fasta}' -v '{input.viral_affi}' \
+        -o '{params.output_dir}' --skip_trnascan --threads {threads} \
+        --min_contig_size '{params.cutoff}' &> '{log}'
         """
 
 
 ##########################################################################
 ##########################################################################
+# NOTES: 
+# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
+# 2. In the config file or in another tabulated file have the path to all the database fasta file
+# Because right now all the databases have a not similar way of being
+
+
+rule dramv_distill:
+    input:
+        tsv=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "annotations.tsv"
+        ), 
+        database=os.path.join(
+            "databases",
+            "dram_db",
+        ),
+    output:
+        amg_summary=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "distill",
+            "{sample}",
+            "amg_summary.tsv",
+        ),
+        viral_genome_summary=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "distill",
+            "{sample}",
+            "viral_genome_summary.tsv",
+        ),
+    params:
+        output_dir=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "distill",
+            "{sample}",
+        ),
+        cutoff=cutoff_dramv,
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "dramv",
+            "{sample}.dramv_distill.log"
+        ),
+    resources:
+        cpus=5,
+    conda:
+        "../envs/dram.yaml"
+    threads: 5
+    shell:
+        """
+        DRAM-v.py distill -i {input.tsv} -o '{params.output_dir}' &> '{log}'
+        """
+
+
+##########################################################################
+##########################################################################
+
