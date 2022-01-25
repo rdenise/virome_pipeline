@@ -2,7 +2,7 @@
 databases: config/databases.tsv
 
 # path to contigs folder
-contigs: /Users/rdenise/Documents/script/virome_pipeline/myfiles/contigs
+contigs: /home/rdenise/Documents/scripts/virome_pipeline/myfiles/contigs
 
 contigs_ext: fasta.gz
 
@@ -29,9 +29,9 @@ default_values_plot:
 # Default option for prokka
 default_prokka_option:
     # protein database
-    protein_db: /Users/rdenise/Documents/script/virome_pipeline/myfiles/databases/viral_proteins_plus_crass.fa
+    protein_db: /home/rdenise/Documents/scripts/virome_pipeline/myfiles/databases/viral_proteins_plus_crass.fa
     # hmm database:
-    hmm_db: /Users/rdenise/Documents/script/virome_pipeline/myfiles/databases/pVOGs/all_vogs.hmm
+    hmm_db: /home/rdenise/Documents/scripts/virome_pipeline/myfiles/databases/pVOGs/all_vogs.hmm
     # Annotation mode: Archaea|Bacteria|Mitochondria|Viruses (default 'Viruses')
     kingdom: Viruses
 
