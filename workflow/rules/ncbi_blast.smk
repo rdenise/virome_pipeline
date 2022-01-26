@@ -26,7 +26,7 @@ rule blastn:
             "virus",
             "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.txt"
         ),
-    params
+    params:
         database=lambda wildcards: os.path.join(
             DB_DICT["fasta"][wildcards.database]["path"],
             DB_DICT["fasta"][wildcards.database]["file"],
