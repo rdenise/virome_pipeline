@@ -3,3 +3,5 @@ channels:
   - bioconda
 dependencies:
   - dram = 1.3
+  - biopython = 1.79
+  - pandas = 1.3.2
