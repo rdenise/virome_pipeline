@@ -40,12 +40,12 @@ rule blastn:
             "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.log"
         ),    
     resources:
-        cpus=5,
+        cpus=2,
     conda:
         "../envs/blast.yaml"
     envmodules:
         "ncbi_blast/2.10.1",
-    threads: 5
+    threads: 2
     shell:
         """
         if [ ! -e '{params.database}'.nsq ] && [ ! -e '{params.database}'.00.nsq ]; then
@@ -90,12 +90,12 @@ rule blastn_human:
             "{sample}.evalue_{evalue}.nt.human.blastn.outfmt6.log"
         ),    
     resources:
-        cpus=5,
+        cpus=2,
     conda:
         "../envs/blast.yaml"
     envmodules:
         "ncbi_blast/2.10.1",
-    threads: 5
+    threads: 2
     shell:
         """
         if [ ! -e '{params.database}'.nsq ] && [ ! -e '{params.database}'.00.nsq ]; then
