@@ -26,7 +26,7 @@ rule checkv_setup:
             OUTPUT_FOLDER,
             "databases",
             "checkv_db",
-        )),
+        ),
     resources:
         cpus=1,
     conda:
