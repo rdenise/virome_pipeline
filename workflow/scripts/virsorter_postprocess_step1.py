@@ -9,11 +9,11 @@ sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 ###########################################################
 # From the method for virsorter 2:
 # Keep1: viral_gene >0
-# Keep2: viral_gene =0 AND (host_gene =0 OR score >=0.95 OR hallmark >2)
-# Manual check: (NOT in Keep1 OR Keep2) AND viral_gene =0 AND host_gene =1 AND length >=10kb
+# Keep2: viral_gene =0 AND (host_genes =0 OR score >=0.95 OR hallmark >2)
+# Manual check: (NOT in Keep1 OR Keep2) AND viral_gene =0 AND host_genes =1 AND length >=10kb
 # Discard: the rest
 
-# To look at the viral_gene, host_gene, score, and hallmark of sequences you can merge "vs2-pass1/final-viral-score.tsv" and "checkv/contamination.tsv", and filter in a spreadsheet.
+# To look at the viral_gene, host_genes, score, and hallmark of sequences you can merge "vs2-pass1/final-viral-score.tsv" and "checkv/contamination.tsv", and filter in a spreadsheet.
 
 # Get the informations from virsorter
 virsorter_step1 = snakemake.input.final_score
@@ -42,7 +42,7 @@ with open(snakemake.output.ids_keep1, "w") as w_file:
 merge_tmp = merge_df[~(merge_df.contig_id.isin(keep1_seqname))]
 
 
-# Second filter: viral_gene =0 AND (host_gene =0 OR score >=0.95 OR hallmark >2)
+# Second filter: viral_gene =0 AND (host_genes =0 OR score >=0.95 OR hallmark >2)
 keep2_seqname =  merge_tmp[(merge_tmp.viral_genes == 0) & \
                           ((merge_tmp.host_genes == 0) | \
                            (merge_tmp.max_score >= 0.95) | \
@@ -58,9 +58,9 @@ with open(snakemake.output.ids_keep2, "w") as w_file:
 # Removing Keep2
 merge_tmp = merge_tmp[~(merge_tmp.contig_id.isin(keep2_seqname))]
 
-# Manualcheck: (NOT in Keep1 OR Keep2) AND viral_gene =0 AND host_gene =1 AND length >=10kb
+# Manualcheck: (NOT in Keep1 OR Keep2) AND viral_gene =0 AND host_genes =1 AND length >=10kb
 manualcheck_seqname = merge_tmp[(merge_tmp.viral_genes == 0) & \
-                                (merge_tmp.host_gene == 1) & \
+                                (merge_tmp.host_genes == 1) & \
                                 (merge_tmp.length >= 10000)].contig_id.tolist()
 
 
