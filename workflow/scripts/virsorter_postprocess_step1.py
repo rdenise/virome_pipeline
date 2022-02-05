@@ -44,7 +44,7 @@ merge_tmp = merge_df[~(merge_df.contig_id.isin(keep1_seqname))]
 
 # Second filter: viral_gene =0 AND (host_gene =0 OR score >=0.95 OR hallmark >2)
 keep2_seqname =  merge_tmp[(merge_tmp.viral_genes == 0) & \
-                          ((merge_tmp.host_gene == 0) | \
+                          ((merge_tmp.host_genes == 0) | \
                            (merge_tmp.max_score >= 0.95) | \
                            (merge_tmp.hallmark > 2))].contig_id.tolist()
 
