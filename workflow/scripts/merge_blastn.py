@@ -10,7 +10,7 @@ sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 blastn_files = snakemake.input.all_out
 
 with open(snakemake.output.tsv, "w") as w_file:
-    header = "qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle"
+    header = "qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle".replace(' ', '\t')
     w_file.write(f"{header}\n")
 
     for blast_file in blastn_files:
