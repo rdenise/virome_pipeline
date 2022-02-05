@@ -25,7 +25,7 @@ checkv = snakemake.input.contamination
 checkv_df = pd.read_table(checkv)
 
 # Need to check what is the output of checkv
-merge_df = virsorter_step1.merge(checkv_df, how='outer', on='contig_id')
+merge_df = virsorter_df.merge(checkv_df, how='outer', on='contig_id')
 
 # First filter: viral_gene >0
 keep1_seqname = merge_df[merge_df.viral_genes > 0].contig_id.tolist()
