@@ -17,8 +17,8 @@ with open(snakemake.output.tsv, "w") as w_file:
         with open(blast_file) as r_file:
 
             # Filter the blast hits using threshold 
-            evalue = snakemake.wildcards.evalue
-            coverage = snakemake.wildcards.coverage
+            evalue = float(snakemake.wildcards.evalue)
+            coverage = float(snakemake.wildcards.coverage)
 
             for line in r_file:
                 line_split = line.split()
