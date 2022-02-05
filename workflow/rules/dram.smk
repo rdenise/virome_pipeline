@@ -94,12 +94,8 @@ rule dramv_annotate:
     conda:
         "../envs/dram.yaml"
     threads: 5
-    shell:
-        """
-        DRAM-v.py annotate -i '{input.fasta}' -v '{input.viral_affi}' \
-        -o '{params.output_dir}' --skip_trnascan --threads {threads} \
-        --min_contig_size '{params.cutoff}' &> '{log}'
-        """
+    script:
+        "../scripts/viral-pipeline-scripts/dram-v-wrapper.py"
 
 
 ##########################################################################
