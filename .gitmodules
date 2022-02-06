@@ -1,0 +1,3 @@
+[submodule "workflow/scripts/viral-pipeline-scripts"]
+	path = workflow/scripts/viral-pipeline-scripts
+	url = git@github.com:rdenise/viral-pipeline-scripts.git
