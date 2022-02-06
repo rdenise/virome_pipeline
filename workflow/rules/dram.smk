@@ -28,6 +28,7 @@ rule dram_setup:
     shell:
         """
         DRAM-setup.py prepare_databases --skip_uniref --output_dir '{output}' &> '{log}'
+        DRAM-setup.py update_description_db  &>> '{log}'
         """
 
 
