@@ -1,7 +1,8 @@
 channels:
+  - rdenise
   - conda-forge
   - bioconda
 dependencies:
-  - dram = 1.3
+  - dram = 1.3_fix
   - biopython = 1.79
   - pandas = 1.3.2
