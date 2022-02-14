@@ -37,7 +37,7 @@ with open(snakemake.params.tsv, "w") as w_file:
 
 parser = SeqIO.parse(snakemake.input.fasta, 'fasta')
 
-with open(snakemake.output.fasta, 'fasta') as w_file:
+with open(snakemake.output.fasta, 'wt') as w_file:
     for contig in parser:
         if contig.id not in contig2remove:
             # To make sure that it is only a contig name as in the input fasta
