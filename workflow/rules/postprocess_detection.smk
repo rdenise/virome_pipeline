@@ -310,7 +310,7 @@ rule merge_blastn_human:
             "processing_files",
             "blast",
             "human",
-            "{wildcards.sample}.eval_{blast_evalue:.0e}.cov_0.6.human.annotation.blasn.tsv",
+            f"{wildcards.sample}.eval_{blast_evalue:.0e}.cov_0.6.human.annotation.blasn.tsv",
         ),
     log:
         os.path.join(
