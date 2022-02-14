@@ -1,6 +1,6 @@
 # Snakemake workflow: Virome pipeline
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥6.4.1-brightgreen.svg)](https://snakemake.github.io)
+[![Snakemake](https://img.shields.io/badge/snakemake-≥6.14.0-brightgreen.svg)](https://snakemake.github.io)
 [![GitHub actions status](https://github.com/vdclab/virome_pipeline/workflows/Tests/badge.svg?branch=main)](https://github.com/vdclab/virome_pipeline/actions?query=branch%3Amain+workflow%3ATests)
 [![License (AGPL version 3)](https://img.shields.io/badge/license-GNU%20AGPL%20version%203-green.svg)](COPYING)
 
