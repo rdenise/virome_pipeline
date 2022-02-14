@@ -19,7 +19,7 @@ with open(snakemake.params.tsv, "w") as w_file:
     with open(blastn_file) as r_file:
 
         # Filter the blast hits using threshold 
-        split_name = snakemake.params.tsv.split('.human')[0].split(snakemake.wildcard.sample)[-1]
+        split_name = snakemake.params.tsv.split('.human')[0].split(snakemake.wildcards.sample)[-1]
 
         evalue = float(split_name.split('.cov')[0].split('.eval_')[-1])
         coverage = float(split_name.split('.cov')[-1])
