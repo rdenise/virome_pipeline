@@ -285,25 +285,18 @@ rule merge_blastn:
 
 rule merge_blastn_human:
     input:
-        tsv = os.path.join(
+        tsv = lambda wildcards: os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
             "human",
-            "{sample}.evalue_{evalue}.nt.human.blastn.outfmt6.txt"
+            f"{wildcards.sample}.evalue_{blast_evalue:.0e}.nt.human.blastn.outfmt6.txt"
         ),
         fasta = lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
             CONTIGS_DICT[wildcards.sample]["file"],
         ),
     output:
-        tsv = os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "blast",
-            "human",
-            "{sample}.eval_{evalue}.cov_{coverage}.human.annotation.blasn.tsv",
-        ),
         fasta = os.path.join(
             OUTPUT_FOLDER,
             "databases",
@@ -311,13 +304,21 @@ rule merge_blastn_human:
             "human_filtered",
             "{sample}.filtered.sorted.fasta",
         ),
+    params:
+        tsv = lambda wildcards: os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "blast",
+            "human",
+            "{wildcards.sample}.eval_{blast_evalue:.0e}.cov_0.6.human.annotation.blasn.tsv",
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "blast",
             "human",
-            "{sample}_blastn.eval_{evalue}.cov_{coverage}.log"
+            "{sample}_blastn.filtered.human.log"
         ),
     resources:
         cpus=1,
