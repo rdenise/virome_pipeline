@@ -285,25 +285,31 @@ rule merge_blastn:
 
 rule merge_blastn_human:
     input:
-        all_out=expand(
-            os.path.join(
-                OUTPUT_FOLDER,
-                "processing_files",
-                "blast",
-                "human",
-                "{sample}.evalue_{evalue:.0e}.{database}.human.blastn.outfmt6.txt"
-            ),
-            sample = CONTIGS_DICT.keys(),
-            database = DB_DICT['human'].keys(),
-            evalue = [blast_evalue],
-        ) 
-    output:
-        tsv=os.path.join(
+        tsv = os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
             "human",
-            "merge.eval_{evalue}.cov_{coverage}.human.annotation.blasn.tsv",
+            "{sample}.evalue_{evalue}.nt.human.blastn.outfmt6.txt"
+        ),
+        fasta = lambda wildcards: os.path.join(
+            CONTIGS_FOLDER,
+            CONTIGS_DICT[wildcards.sample]["file"],
+        ),
+    output:
+        tsv = os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "blast",
+            "human",
+            "{sample}.eval_{evalue}.cov_{coverage}.human.annotation.blasn.tsv",
+        ),
+        fasta = os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "contigs",
+            "human_filtered",
+            "{sample}.filtered.sorted.fasta",
         ),
     log:
         os.path.join(
@@ -311,7 +317,7 @@ rule merge_blastn_human:
             "logs",
             "blast",
             "human",
-            "merge_blastn.eval_{evalue}.cov_{coverage}.log"
+            "{sample}_blastn.eval_{evalue}.cov_{coverage}.log"
         ),
     resources:
         cpus=1,
@@ -319,7 +325,7 @@ rule merge_blastn_human:
         "../envs/biopython.yaml"
     threads: 1
     script: 
-        "../scripts/merge_blastn.py"
+        "../scripts/remove_human.py"
 
 ##########################################################################
 ##########################################################################
