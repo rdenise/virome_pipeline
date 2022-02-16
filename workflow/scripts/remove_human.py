@@ -28,7 +28,7 @@ with open(snakemake.params.tsv, "w") as w_file:
             line_split = line.split()
 
             evalue_blast = float(line_split[6])
-            qcoverage = (float(line_split[8])-float(line_split[7]) +_1) / float(line_split[4])
+            qcoverage = (float(line_split[8])-float(line_split[7]) + 1) / float(line_split[4])
             #scoverage = (float(line_split[10])-float(line_split[9]) + 1) / float(line_split[5])
 
             if evalue_blast <= evalue and coverage >= qcoverage :
