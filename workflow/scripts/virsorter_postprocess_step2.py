@@ -31,7 +31,7 @@ dramv_df = pd.read_table(dramv_annot)
 dramv_df = dramv_df[dramv_df.scaffold.isin(keep2_names)].reset_index(drop=True)
 
 # Suspicious genes
-suspicious_gene = input.snakemake.suspicous_gene
+suspicious_gene = snakemake.input.suspicous_gene
 
 suspicious_names = []
 
