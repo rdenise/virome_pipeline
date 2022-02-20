@@ -14,7 +14,7 @@ sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 # To look at the annotation.tsv from dramv
 
 # Get the informations from virsorter
-virsorter_keep2 = snakemake.input.keep2
+virsorter_keep2 = snakemake.input.ids_keep2
 keep2_names = []
 
 with open(virsorter_keep2) as r_file:
