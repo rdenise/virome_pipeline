@@ -117,7 +117,7 @@ rule virsorter_postprocess_step2:
             "{sample}",
             "virsorter_positive.keep2.ids",
         ),
-        tsv=os.path.join(
+        annotations=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "dramv",
