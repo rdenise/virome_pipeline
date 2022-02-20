@@ -8,9 +8,12 @@
 
 rule deepvirfinder:
     input:
-        contig=lambda wildcards: os.path.join(
-            CONTIGS_FOLDER,
-            CONTIGS_DICT[wildcards.sample]["file"],
+        contig = os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "contigs",
+            "human_filtered",
+            "{sample}.filtered.sorted.fasta",
         ),
     output:
         txt=os.path.join(
