@@ -25,7 +25,7 @@ with open(virsorter_keep2) as r_file:
 
 # Get the annotation form DRAMv
 dramv_annot = snakemake.input.annotations
-dramv_df = pd.read_table(dramv_annot)
+dramv_df = pd.read_table(dramv_annot, dtype='string')
 
 # Only keep the names of interest
 dramv_df = dramv_df[dramv_df.scaffold.isin(keep2_names)].reset_index(drop=True)
