@@ -27,16 +27,18 @@ with open(virsorter_keep2) as r_file:
 dramv_annot = snakemake.input.annotations
 dramv_df = pd.read_table(dramv_annot, dtype='string')
 
-# Only keep the names of interest
-dramv_df = dramv_df[dramv_df.scaffold.isin(keep2_names)].reset_index(drop=True)
-
 # Change name dramv to virsorter
 dramv_df['contig_id'] = dramv_df.scaffold.apply(lambda x: x.split('-cat')[0].replace('__','||'))
+
+# Only keep the names of interest
+dramv_df = dramv_df[dramv_df.contig_id.isin(keep2_names)].reset_index(drop=True)
 
 # Suspicious genes
 suspicious_gene = snakemake.input.suspicous_gene
 
 suspicious_names = []
+
+print(suspicious_gene)
 
 with open(virsorter_keep2) as r_file:
     for name in r_file:
