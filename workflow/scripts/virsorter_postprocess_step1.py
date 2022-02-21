@@ -67,6 +67,8 @@ manualcheck_seqname = merge_tmp[(merge_tmp.viral_genes == 0) & \
 # Write the big dataframe to combine with DRAMv annotation later
 merge_tmp[(merge_tmp.contig_id.isin(manualcheck_seqname))].to_csv(snakemake.output.manual_check, sep="\t", index=False)
 
+# Write discarded contig
+merge_tmp[~(merge_tmp.contig_id.isin(manualcheck_seqname))].to_csv(snakemake.output.discarded, sep="\t", index=False)
 
 ###########################################################
 ###########################################################

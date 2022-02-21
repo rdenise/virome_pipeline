@@ -54,10 +54,10 @@ suspicious_scaffolds = dramv_df.loc[suspicious_index,"scaffold"].tolist()
 dramv_df = dramv_df.drop_duplicates("scaffold").reset_index(drop=True)
 
 # Write the suspicious in a file
-dramv_df.loc[dramv_df.scaffold.isin(suspicious_scaffolds),"scaffold"].to_csv(snakemake.output.suspicious)
+dramv_df.loc[dramv_df.scaffold.isin(suspicious_scaffolds),"scaffold"].contig_id.to_csv(snakemake.output.suspicious, sep="\t", index=False)
 
 # Write the checked in another file
-dramv_df.loc[~(dramv_df.scaffold.isin(suspicious_scaffolds)),"scaffold"].to_csv(snakemake.output.checked)
+dramv_df.loc[~(dramv_df.scaffold.isin(suspicious_scaffolds)),"scaffold"].contig_id.to_csv(snakemake.output.checked, sep="\t", index=False)
 
 ###########################################################
 ###########################################################

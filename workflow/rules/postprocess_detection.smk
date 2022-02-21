@@ -82,7 +82,14 @@ rule virsorter_postprocess_step1:
             "processing_files",
             "virsorter",
             "{sample}",
-            "virsorter2check.ids",
+            "virsorter2check.tsv",
+        ),
+        discarded=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter_discardes.tsv",
         ),
     log:
         os.path.join(
@@ -140,13 +147,6 @@ rule virsorter_postprocess_step2:
             "virsorter",
             "ZSM025_contigs",
             "virsorter_positive.keep2.checked.ids",
-        ),
-        manual_check=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "virsorter",
-            "ZSM025_contigs",
-            "virsorter2check.ids",
         ),
     log:
         os.path.join(
