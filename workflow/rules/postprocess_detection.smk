@@ -114,7 +114,7 @@ rule virsorter_postprocess_step2:
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "{sample}",
+            "ZSM025_contigs",
             "virsorter_positive.keep2.ids",
         ),
         annotations=os.path.join(
@@ -122,7 +122,7 @@ rule virsorter_postprocess_step2:
             "processing_files",
             "dramv",
             "annotate",
-            "{sample}",
+            "ZSM025_contigs",
             "annotations.tsv"
         ),
         suspicous_gene="config/suspicious-gene.list",
@@ -131,21 +131,21 @@ rule virsorter_postprocess_step2:
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "{sample}",
+            "ZSM025_contigs",
             "virsorter_positive.keep2.suspicious.ids",
         ),
         checked=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "{sample}",
+            "ZSM025_contigs",
             "virsorter_positive.keep2.checked.ids",
         ),
         manual_check=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
-            "{sample}",
+            "ZSM025_contigs",
             "virsorter2check.ids",
         ),
     log:
@@ -153,7 +153,7 @@ rule virsorter_postprocess_step2:
             OUTPUT_FOLDER,
             "logs",
             "virsorter",
-            "{sample}.virsorter_postprocess_step2.log",
+            "ZSM025_contigs.virsorter_postprocess_step2.log",
         ),
     resources:
         cpus=1,
