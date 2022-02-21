@@ -30,6 +30,9 @@ dramv_df = pd.read_table(dramv_annot, dtype='string')
 # Only keep the names of interest
 dramv_df = dramv_df[dramv_df.scaffold.isin(keep2_names)].reset_index(drop=True)
 
+# Change name dramv to virsorter
+dramv_df['contig_id'] = dramv_df.scaffold.apply(lambda x: x.split('-cat')[0].replace('__','||'))
+
 # Suspicious genes
 suspicious_gene = snakemake.input.suspicous_gene
 
@@ -48,16 +51,16 @@ for name in suspicious_names:
         suspicious_index += dramv_df[column].str.contains(name)
 
 # Get the name of all suspicious scaffolds
-suspicious_scaffolds = dramv_df.loc[suspicious_index,"scaffold"].tolist()
+suspicious_scaffolds = dramv_df.loc[suspicious_index,"contig_id"].tolist()
 
 # Reduction of the dataframe to be able to have only one scaffold name per line
-dramv_df = dramv_df.drop_duplicates("scaffold").reset_index(drop=True)
+dramv_df = dramv_df.drop_duplicates("contig_id").reset_index(drop=True)
 
 # Write the suspicious in a file
-dramv_df.loc[dramv_df.scaffold.isin(suspicious_scaffolds),"scaffold"].to_csv(snakemake.output.suspicious, sep="\t", index=False)
+dramv_df.loc[dramv_df.contig_id.isin(suspicious_scaffolds),"contig_id"].to_csv(snakemake.output.suspicious, sep="\t")
 
 # Write the checked in another file
-dramv_df.loc[~(dramv_df.scaffold.isin(suspicious_scaffolds)),"scaffold"].to_csv(snakemake.output.checked, sep="\t", index=False)
+dramv_df.loc[~(dramv_df.contig_id.isin(suspicious_scaffolds)),"contig_id"].to_csv(snakemake.output.checked, sep="\t")
 
 ###########################################################
 ###########################################################
