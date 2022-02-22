@@ -38,7 +38,7 @@ suspicious_gene = snakemake.input.suspicous_gene
 
 suspicious_names = []
 
-with open(virsorter_keep2) as r_file:
+with open(suspicious_gene) as r_file:
     for name in r_file:
         suspicious_names.append(name.rstrip())
         
