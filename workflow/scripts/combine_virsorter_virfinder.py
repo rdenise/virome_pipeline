@@ -23,6 +23,7 @@ with open(ids_virsorter_keep2) as r_file:
 
     for line in r_file:
         rstrip_line = line.rstrip()
+        rstrip_line = rstrip_line.split('||')[0]
 
         all_contig_ids.append(rstrip_line)
 
@@ -37,6 +38,7 @@ with open(ids_virsorter_keep1) as r_file:
 
     for line in r_file:
         rstrip_line = line.rstrip()
+        rstrip_line = rstrip_line.split('||')[0]
         
         if rstrip_line not in all_contig_ids:
             all_contig_ids.append(rstrip_line)
