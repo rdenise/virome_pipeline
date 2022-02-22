@@ -26,6 +26,7 @@ with open(virsorter_keep2) as r_file:
 # Get the annotation form DRAMv
 dramv_annot = snakemake.input.annotations
 dramv_df = pd.read_table(dramv_annot, dtype='string')
+dramv_df.fillna('', inplace = True)
 
 # Change name dramv to virsorter
 dramv_df['contig_id'] = dramv_df.scaffold.apply(lambda x: x.split('-cat')[0].replace('__','||'))
@@ -41,8 +42,6 @@ suspicious_names = []
 with open(suspicious_gene) as r_file:
     for name in r_file:
         suspicious_names.append(name.rstrip())
-        
-print(suspicious_names)
 
 # Check for each columns if suspicious genes name exists
 suspicious_index = dramv_df.fasta.str.contains(suspicious_names[0])
@@ -54,9 +53,6 @@ for name in suspicious_names:
 
 # Get the name of all suspicious scaffolds
 suspicious_scaffolds = dramv_df.loc[suspicious_index,"contig_id"].tolist()
-
-print(suspicious_index)
-print(suspicious_scaffolds)
 
 # Reduction of the dataframe to be able to have only one scaffold name per line
 dramv_df = dramv_df.drop_duplicates("contig_id").reset_index(drop=True)
