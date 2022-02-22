@@ -38,11 +38,11 @@ suspicious_gene = snakemake.input.suspicous_gene
 
 suspicious_names = []
 
-print(suspicious_gene)
-
 with open(virsorter_keep2) as r_file:
     for name in r_file:
         suspicious_names.append(name.rstrip())
+        
+print(suspicious_names)
 
 # Check for each columns if suspicious genes name exists
 suspicious_index = dramv_df.fasta.str.contains(suspicious_names[0])
@@ -55,9 +55,8 @@ for name in suspicious_names:
 # Get the name of all suspicious scaffolds
 suspicious_scaffolds = dramv_df.loc[suspicious_index,"contig_id"].tolist()
 
-print(suspicious_scaffolds)
 print(suspicious_index)
-print(dramv_df.contig_id.head())
+print(suspicious_scaffolds)
 
 # Reduction of the dataframe to be able to have only one scaffold name per line
 dramv_df = dramv_df.drop_duplicates("contig_id").reset_index(drop=True)
