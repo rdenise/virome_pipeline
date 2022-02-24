@@ -72,7 +72,7 @@ with open(snakemake.output.fasta, "w") as w_file:
         if contig.id in all_contig_ids:
             contig.id = f"{snakemake.wildcards.sample}-{contig.id}".replace("_", "-")
             contig.name = ""
-            config.description = ""
+            contig.description = ""
 
             SeqIO.write(contig, w_file, "fasta")
             
