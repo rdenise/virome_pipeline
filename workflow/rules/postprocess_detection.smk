@@ -350,8 +350,8 @@ rule postprocess_hmmsearch :
             OUTPUT_FOLDER,
             "processing_files",
             "hmmer",
-            f"significant_hit.full_{hmm_evalue_full:.0e}.dom_{hmm_evalue_dom}.domtblout.txt"
-            ),    
+            "significant_hit.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.domtblout.txt"
+            ),  
     log:
         os.path.join(
             OUTPUT_FOLDER,
