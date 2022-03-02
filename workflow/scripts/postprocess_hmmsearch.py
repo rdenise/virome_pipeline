@@ -1,5 +1,6 @@
 import sys
 import os
+import pandas as pd
 
 # Put error and out into the log file
 sys.stderr = sys.stdout = open(snakemake.log[0], "w")
@@ -28,8 +29,6 @@ with open(snakemake.output.significant_hit, 'w') as w_file:
             # sequence_coverage = split_line[dict_columns['env_stop']] - split_line[dict_columns['env_start']] / split_line[dict_columns['tlen']]
         
             # coverage = min(profile_coverage, sequence_coverage)
-
-            domtblout = domtblout.loc[domtblout.Coverage >= 0.5,:].reset_index(drop=True)
 
             if split_line[dict_columns['i_Evalue']] < snakemake.wildcards.hmm_evalue_dom and split_line[dict_columns['E_value_full']] < snakemake.wildcards.hmm_evalue_full:
                 w_file.write(line)

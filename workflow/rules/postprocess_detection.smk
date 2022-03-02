@@ -82,14 +82,14 @@ rule virsorter_postprocess_step1:
             "processing_files",
             "virsorter",
             "{sample}",
-            "virsorter2check.tsv",
+            "virsorter.need_manual_check.tsv",
         ),
         discarded=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
             "{sample}",
-            "virsorter_discardes.tsv",
+            "virsorter.discarded.tsv",
         ),
     log:
         os.path.join(
