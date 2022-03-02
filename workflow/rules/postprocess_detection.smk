@@ -357,7 +357,7 @@ rule postprocess_hmmsearch :
             OUTPUT_FOLDER,
             "logs",
             "blast",
-            "postprocess_hmmsearch.log"
+            "postprocess_hmmsearch.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.log"
         ),
     resources:
         cpus=1,
