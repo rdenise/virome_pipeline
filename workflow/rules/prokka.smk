@@ -55,7 +55,7 @@ rule prokka:
         prokka --outdir '{params.output_dir}' --prefix '{params.prefix}' \
         --gcode '{params.gcode}' --hmms '{params.hmm}'  \
         --proteins '{input.database_blast}' \
-        --locustag '{wildcards.sample}' --compliant --partialgenes --cpus '{threads}' \
+        --compliant --partialgenes --cpus '{threads}' \
         --kingdom '{params.kingdom}' '{input.contig}' --force &> '{log}'
         """
 
