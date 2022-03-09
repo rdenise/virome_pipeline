@@ -34,6 +34,7 @@ rule prokka:
             "processing_files",
             "prokka",
             "{sample}",
+            "prokka_name",
         ),
         prefix="{sample}.prokka.pvogs.crass",
         gcode=11,
