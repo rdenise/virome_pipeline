@@ -87,7 +87,7 @@ rule prokka_rename :
             "processing_files",
             "prokka",
             "{sample}",
-            "contig_renamed"
+            "contig_renamed",
             "{sample}.prokka.pvogs.crass.faa",
         ),
         transTbl=os.path.join(

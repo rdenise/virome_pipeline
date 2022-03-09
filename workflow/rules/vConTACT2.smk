@@ -14,7 +14,7 @@ rule vcontact2_preprocess:
             "processing_files",
             "prokka",
             "{sample}",
-            "contig_renamed"
+            "contig_renamed",
             "{sample}.prokka.pvogs.crass.faa",
         ),
     output:
@@ -23,7 +23,7 @@ rule vcontact2_preprocess:
             "processing_files",
             "prokka",
             "{sample}",
-            "contig_renamed"
+            "contig_renamed",
             "{sample}.prokka.pvogs.crass.rename.faa"
         ),
         csv=os.path.join(
@@ -31,7 +31,7 @@ rule vcontact2_preprocess:
             "processing_files",
             "prokka",
             "{sample}",
-            "contig_renamed"
+            "contig_renamed",
             "{sample}.proteins.csv"
         ),        
     log:
@@ -65,7 +65,7 @@ rule vcontact2:
             "processing_files",
             "prokka",
             "{sample}",
-            "contig_renamed"
+            "contig_renamed",
             "{sample}.prokka.pvogs.crass.rename.faa",
         ),
         protein_csv=os.path.join(
@@ -73,7 +73,7 @@ rule vcontact2:
             "processing_files",
             "prokka",
             "{sample}",
-            "contig_renamed"
+            "contig_renamed",
             "{sample}.proteins.csv",
         ),
     output:
