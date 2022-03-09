@@ -35,7 +35,6 @@ def getTranslation(tbl, all_names, tsv_output):
 
             for line in r_file:
                 if line.startswith('>Feature'):
-                    print(len(all_names), index, line)
                     locusTag = patternContigTag.search(line).group(1)
 
                     dictTrans[locusTag] = all_names[index]
@@ -51,7 +50,7 @@ def getTranslation(tbl, all_names, tsv_output):
                     newname = f'{str(occurence).zfill(5)}'
 
                     dictTrans[oldname] = newname
-                    w_file.write(f'{locusTag}\t{all_names[index]}\n')
+                    w_file.write(f'{oldname}\t{newname}\n')
 
                     # Find it so no need anymore
                     gene = False
