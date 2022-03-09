@@ -1,5 +1,4 @@
 import sys
-import os
 
 # Put error and out into the log file
 sys.stderr = sys.stdout = open(snakemake.log[0], "w")

@@ -4,7 +4,7 @@
 ##########################################################################
 # NOTES: 
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
-# Advantage of the ocncatenation, no nee to do it after by yourself
+# Advantage of the concatenation, no nee to do it after by yourself
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
 
@@ -25,7 +25,7 @@ rule prokka:
             "processing_files",
             "prokka",
             "{sample}",
-            "{sample}.prokka.pvogs.crass.faa",
+            "{sample}.prokka.pvogs.crass.tbl",
         ),
     params:
         output_dir=os.path.join(
@@ -58,6 +58,49 @@ rule prokka:
         --compliant --partialgenes --cpus '{threads}' \
         --kingdom '{params.kingdom}' '{input.contig}' --force &> '{log}'
         """
+
+
+##########################################################################
+##########################################################################
+
+rule postprocess_hmmsearch :
+    input :
+        tbl=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "prokka",
+            "{sample}",
+            "{sample}.prokka.pvogs.crass.tbl",
+        ),
+    output :
+        faa=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "prokka",
+            "{sample}",
+            "{sample}.prokka.pvogs.crass.faa",
+        ),
+        transTbl=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "prokka",
+            "{sample}",
+            "{sample}.prokka.pvogs.crass.prokka_locustag.tsv",
+        ),        
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "prokka",
+            "{sample}.rename.log"
+        ),
+    resources:
+        cpus=1,
+    conda:
+        "../envs/pandas_plots.yaml"
+    threads: 1
+    script: 
+        "../scripts/rename_prokka.py"
 
 
 ##########################################################################

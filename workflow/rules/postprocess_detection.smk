@@ -244,6 +244,7 @@ rule merge_blastn:
                 "processing_files",
                 "blast",
                 "virus",
+                "{sample}",
                 "{sample}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
             ),
             sample = CONTIGS_DICT.keys(),

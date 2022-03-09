@@ -16,7 +16,7 @@ rule blastn:
             OUTPUT_FOLDER,
             "databases",
             "viral_contigs",
-            "{sample}.selected.fasta",
+            "{sample}.selected.fasta"
         ),
     output:
         blast_out=os.path.join(
@@ -24,6 +24,7 @@ rule blastn:
             "processing_files",
             "blast",
             "virus",
+            "{sample}",
             "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.txt"
         ),
     params:
