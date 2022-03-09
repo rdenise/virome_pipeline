@@ -34,7 +34,7 @@ def getTranslation(tbl, all_names, tsv_output):
             w_file.write('prokka_name\tname_in_contig\n')
 
             for line in r_file:
-                if line.startswith('>'):
+                if line.startswith('>Feature'):
                     locusTag = patternContigTag.search(line).group(1)
 
                     dictTrans[locusTag] = all_names[index]
