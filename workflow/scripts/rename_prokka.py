@@ -22,7 +22,7 @@ def getTranslation(tbl, all_names, tsv_output):
     dictTrans = {}
     index = 0
 
-    patternContigTag = re.compile(r'Prokka\|([A-Z]+)_')
+    patternContigTag = re.compile(r'Prokka\|([A-Z]+_[0*9]+)')
     patternGeneTag = re.compile(r'locus_tag\t([A-Z]+_[0-9]+)\n')
 
     # Have a value to know if we expected locus_tag
@@ -35,7 +35,6 @@ def getTranslation(tbl, all_names, tsv_output):
 
             for line in r_file:
                 if line.startswith('>Feature'):
-                    print(line)
                     locusTag = patternContigTag.search(line).group(1)
 
                     dictTrans[locusTag] = all_names[index]
@@ -89,7 +88,7 @@ for file2change in all_files:
     newstring = pattern.sub(lambda m: rep[re.escape(m.group(0))], oldstring)
 
     # Write in the same file
-    with open(file2change, 'wt') as w_file:
+    with open(file2change.replace('prokka_name', 'contig_renamed'), 'wt') as w_file:
         w_file.write(newstring)
 
 ######################################################
