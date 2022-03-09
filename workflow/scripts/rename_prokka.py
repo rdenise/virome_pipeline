@@ -22,7 +22,7 @@ def getTranslation(tbl, all_names, tsv_output):
     dictTrans = {}
     index = 0
 
-    patternContigTag = re.compile(r'Prokka\|([A-Z]+_[0*9]+)')
+    patternContigTag = re.compile(r'Prokka\|([A-Z]+_[0-9]+)')
     patternGeneTag = re.compile(r'locus_tag\t([A-Z]+_[0-9]+)\n')
 
     # Have a value to know if we expected locus_tag
