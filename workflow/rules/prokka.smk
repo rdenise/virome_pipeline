@@ -72,6 +72,12 @@ rule prokka_rename :
             "{sample}",
             "{sample}.prokka.pvogs.crass.tbl",
         ),
+        fasta_contig=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.selected.fasta",
+        ),
     output :
         faa=os.path.join(
             OUTPUT_FOLDER,
