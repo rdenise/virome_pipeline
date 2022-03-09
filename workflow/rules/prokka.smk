@@ -63,7 +63,7 @@ rule prokka:
 ##########################################################################
 ##########################################################################
 
-rule postprocess_hmmsearch :
+rule prokka_rename :
     input :
         tbl=os.path.join(
             OUTPUT_FOLDER,
@@ -97,7 +97,7 @@ rule postprocess_hmmsearch :
     resources:
         cpus=1,
     conda:
-        "../envs/pandas_plots.yaml"
+        "../envs/biopython.yaml"
     threads: 1
     script: 
         "../scripts/rename_prokka.py"
