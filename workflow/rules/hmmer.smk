@@ -54,6 +54,7 @@ rule hmmsearch:
             "processing_files",
             "prokka",
             "{sample}",
+            "contig_renamed"
             "{sample}.prokka.pvogs.crass.faa",
         ),
         database=lambda wildcards: os.path.join(

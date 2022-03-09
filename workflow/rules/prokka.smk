@@ -25,6 +25,7 @@ rule prokka:
             "processing_files",
             "prokka",
             "{sample}",
+            "prokka_name",
             "{sample}.prokka.pvogs.crass.tbl",
         ),
     params:
@@ -70,6 +71,7 @@ rule prokka_rename :
             "processing_files",
             "prokka",
             "{sample}",
+            "prokka_name",
             "{sample}.prokka.pvogs.crass.tbl",
         ),
         fasta_contig=os.path.join(
@@ -84,6 +86,7 @@ rule prokka_rename :
             "processing_files",
             "prokka",
             "{sample}",
+            "contig_renamed"
             "{sample}.prokka.pvogs.crass.faa",
         ),
         transTbl=os.path.join(

@@ -9,7 +9,16 @@ sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 ######################################################
 
 def getTranslation(tbl, all_names, tsv_output):
+    """get nae translation for contig files from prokka
 
+    Args:
+        tbl (string): Path to the tbl file
+        all_names (list of string): All the name in the fasta in order
+        tsv_output (string): Path of the output tsv table with the prokka and contig name
+
+    Returns:
+        dict: Dictionnary that contains the prokka name in keys and the contig name in values
+    """
     dictTrans = {}
     index = 0
 
@@ -27,7 +36,7 @@ def getTranslation(tbl, all_names, tsv_output):
             for line in r_file:
                 if line.startswith('>'):
                     locusTag = patternContigTag.search(line).group(1)
-                    
+
                     dictTrans[locusTag] = all_names[index]
                     w_file.write(f'{locusTag}\t{all_names[index]}\n')
                     
@@ -62,7 +71,7 @@ allNames = [seq.id for seq in parser]
 
 # Create a dictionary with the name to change
 rep = getTranslation(tbl=tbl_file, all_names=allNames, 
-                     oldstring=snakemake.output.transTbl)
+                     tsv_output=snakemake.output.transTbl)
 
 # Add the escape to the regex sensitive character
 rep = dict((re.escape(k), v) for k, v in rep.items()) 
