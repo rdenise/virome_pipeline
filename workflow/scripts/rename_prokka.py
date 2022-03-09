@@ -35,7 +35,7 @@ def getTranslation(tbl, all_names, tsv_output):
 
             for line in r_file:
                 if line.startswith('>Feature'):
-                    print(line)
+                    print(len(all_names), index, line)
                     locusTag = patternContigTag.search(line).group(1)
 
                     dictTrans[locusTag] = all_names[index]
