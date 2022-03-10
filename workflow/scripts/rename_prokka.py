@@ -47,7 +47,9 @@ def getTranslation(tbl, all_names, tsv_output):
                     gene = True
                 elif gene and patternGeneTag.search(line):
                     oldname = patternGeneTag.search(line).group(1)
-                    newname = f'{str(occurence).zfill(5)}'
+                    newname = f'{locusTag}_{str(occurence).zfill(5)}'
+
+                    occurence += 1
 
                     dictTrans[oldname] = newname
                     w_file.write(f'{oldname}\t{newname}\n')
