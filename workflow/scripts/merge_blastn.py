@@ -110,7 +110,7 @@ def calculateIdentities(percIdentity, length):
 ##########################################################################
 
 @jit(nopython=True)
-def calculate_fraction(delta, lgHSP, bitscore, pid, pos):
+def calculate_fraction(delta, lgHSP, pid, pos):
     """Calculate the new score, identities and positives of the hsp2.
 
     Args:
@@ -128,7 +128,6 @@ def calculate_fraction(delta, lgHSP, bitscore, pid, pos):
     # Calculation: initial_value * (franction of length that has been preserved)
     fraction = 1 - (delta / lgHSP)
     
-    new_score = np.floor(bitscore * fraction)
     new_id = np.floor(pid * fraction)
     new_pos = np.floor(pos * fraction)
     
@@ -139,7 +138,7 @@ def calculate_fraction(delta, lgHSP, bitscore, pid, pos):
     # having changed HSPs boundaries
     # new_evalue = -1
     
-    return new_score, new_id, new_pos, new_length
+    return new_id, new_pos, new_length
 
 ##########################################################################
 
@@ -169,14 +168,13 @@ def remove_overlap_query(hsp1, hsp2):
         new_send = hsp2[10]
         
     # lgHSP: 17, bitscore: 11, id: 12, pos:13
-    new_score, new_id, new_pos, new_length = calculate_fraction(delta=delta, 
-                                                                lgHSP=hsp2[17],
-                                                                bitscore=hsp2[11], 
-                                                                pid=hsp2[12],
-                                                                pos=hsp2[13])
+    new_id, new_pos, new_length = calculate_fraction(delta=delta, 
+                                                    lgHSP=hsp2[17],
+                                                    pid=hsp2[12],
+                                                    pos=hsp2[13])
         
-    return {11:new_score, 17:new_length,
-            8:new_qend, 7:new_qstart, 10:new_send,
+    return {17:new_length, 10:new_send,
+            8:new_qend, 7:new_qstart,
             9:new_sstart, 13:new_pos, 12:new_id}
 
 
@@ -208,14 +206,13 @@ def remove_overlap_subject(hsp1, hsp2):
         new_qend = hsp2[8]
         
     # lgHSP: 17, bitscore: 11, id: 12, pos:13
-    new_score, new_id, new_pos, new_length = calculate_fraction(delta=delta, 
-                                                                lgHSP=hsp2[17],
-                                                                bitscore=hsp2[11], 
-                                                                pid=hsp2[12],
-                                                                pos=hsp2[13])
+    new_id, new_pos, new_length = calculate_fraction(delta=delta, 
+                                                    lgHSP=hsp2[17],
+                                                    pid=hsp2[12],
+                                                    pos=hsp2[13])
         
-    return {11:new_score, 17:new_length,
-            8:new_qend, 7:new_qstart, 10:new_send,
+    return {17:new_length, 10:new_send,
+            8:new_qend, 7:new_qstart, 
             9:new_sstart, 13:new_pos, 12:new_id}
 
 ##########################################################################
