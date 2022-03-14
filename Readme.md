@@ -1,7 +1,7 @@
 # Snakemake workflow: Virome pipeline
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.14.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/vdclab/virome_pipeline/workflows/Tests/badge.svg?branch=main)](https://github.com/vdclab/virome_pipeline/actions?query=branch%3Amain+workflow%3ATests)
+[![GitHub actions status](https://github.com/rdenise/virome_pipeline/workflows/Tests/badge.svg?branch=main)](https://github.com/rdenise/virome_pipeline/actions?query=branch%3Amain+workflow%3ATests)
 [![License (AGPL version 3)](https://img.shields.io/badge/license-GNU%20AGPL%20version%203-green.svg)](LICENSE)
 
 ## Aim
@@ -59,7 +59,7 @@ In all following steps, we will assume that you are inside of that directory.
 Second, run 
 
 ```shell
-snakedeploy deploy-workflow https://github.com/vdclab/virome_pipeline . --tag 1.0.0
+snakedeploy deploy-workflow https://github.com/rdenise/virome_pipeline . --tag 1.0.0
 ```
 
 Snakedeploy will create two folders `workflow` and `config`. The former contains the deployment of the chosen workflow as a [Snakemake module](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#using-and-combining-pre-exising-workflows), the latter contains configuration files which will be modified in the next step in order to configure the workflow to your needs. Later, when executing the workflow, Snakemake will automatically find the main `Snakefile` in the `workflow` subfolder.

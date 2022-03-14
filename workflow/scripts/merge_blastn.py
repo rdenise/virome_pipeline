@@ -582,7 +582,8 @@ blast_dtypes = [('qseqid','S100'),
 
 
 with open(snakemake.output.tsv, "w") as w_file:
-    w_file.write(f"{blast_names}\n")
+    header = "\t".join(['protein1', 'protein2', 'pident', 'evalue', 'coverage', 'database', 'stitle'])
+    w_file.write(f"{header}\n")
 
     num_files = len(blastn_files)
 

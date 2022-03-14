@@ -20,7 +20,8 @@ dict_columns = {column:columns.index(column) for column in columns}
 
 with open(snakemake.output.significant_hit, 'w') as w_file:
     with open(domtblout) as r_file:
-        w_file.write(r_file.readline())
+        rstrip_line = r_file.readline().rstrip()
+        w_file.write(f"{rstrip_line}\tdatabase\n")
 
         for line in r_file:
             split_line = line.split()
@@ -31,7 +32,9 @@ with open(snakemake.output.significant_hit, 'w') as w_file:
             # coverage = min(profile_coverage, sequence_coverage)
 
             if split_line[dict_columns['i_Evalue']] < snakemake.wildcards.hmm_evalue_dom and split_line[dict_columns['E_value_full']] < snakemake.wildcards.hmm_evalue_full:
-                w_file.write(line)
+                rstrip_line = line.rstrip()
+                database = "pVOGs" if split_line[dict_columns['gene']].startswith('VOG') else PHROGs
+                w_file.write(f"{rstrip_line}\t{database}\n")
 
 ###########################################################
 ###########################################################

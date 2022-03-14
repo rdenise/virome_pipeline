@@ -2,7 +2,7 @@
 databases: config/databases.tsv
 
 # path to contigs folder
-contigs: /Users/rdenise/Documents/script/virome_pipeline/myfiles/contigs
+contigs: /home/rdenise/Documents/scripts/virome_pipeline/myfiles/contigs
 
 contigs_ext: fasta.gz
 
@@ -18,12 +18,6 @@ default_blast_option:
     e_val: 1.e-10
     # coverage of the contig (between 0 and 1)
     coverage: 0.7
-    # Minimum coverage option: ['mean':mean of the 2 lengths (default), 'subject':subject length, 'query':query length, 'shortest':shortest length, 'longest'=longest length]
-    cov_min: shortest
-    # Minimum percentage of identity: ['mean':mean of the 2 lengths (default), 'subject':subject length, 'query':query length, 'shortest':shortest length, 'longest'=longest length, 'HSP'=HSP length]
-    pid_min: HSP
-    # Min length to accept partial sequences in families
-    length_min: 100
 
 # Blast option if not given in seeds.tsv
 default_hmmer_option:
@@ -45,9 +39,9 @@ default_values_plot:
 # Default option for prokka
 default_prokka_option:
     # protein database
-    protein_db: /Users/rdenise/Documents/script/virome_pipeline/myfiles/databases/viral_proteins_plus_crass.fa
+    protein_db: /home/rdenise/Documents/scripts/virome_pipeline/myfiles/databases/viral_proteins_plus_crass.fa
     # hmm database:
-    hmm_db: /Users/rdenise/Documents/script/virome_pipeline/myfiles/databases/pVOGs/all_vogs.hmm
+    hmm_db: /home/rdenise/Documents/scripts/virome_pipeline/myfiles/databases/pVOGs/all_vogs.hmm
     # Annotation mode: Archaea|Bacteria|Mitochondria|Viruses (default 'Viruses')
     kingdom: Viruses
 
@@ -58,8 +52,8 @@ default_deepvirfinder_option:
 
 # Default option for virsorter
 default_virsorter_option:
-    # predict only for sequence >= L bp (virsorter recommend 5000)
-    cutoff_length: 1000
+    # predict only for sequence >= L bp
+    cutoff_length: 5000
 
 # Default option for DRAMv
 default_dramv_option:
