@@ -451,7 +451,7 @@ def calculate_percid(pos_total, length_query, length_subject, length_total, opti
 
 ##########################################################################
 
-def summarize_hits(df_hsps, length_query, length_subject, option_cov='mean', option_pid='mean'):
+def summarize_hits(df_hsps, option_cov='mean', option_pid='mean'):
     """Calculate summary statistics for a HSP
 
     Args:
