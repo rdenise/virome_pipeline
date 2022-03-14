@@ -250,7 +250,7 @@ rule merge_blastn:
             sample = CONTIGS_DICT.keys(),
             database = DB_DICT['fasta'].keys(),
             evalue = [blast_evalue],
-        ) 
+        )
     output:
         tsv=os.path.join(
             OUTPUT_FOLDER,
@@ -259,6 +259,17 @@ rule merge_blastn:
             "virus",
             "merge.eval_{evalue}.cov_{coverage}.annotation.blasn.tsv",
         ),
+    params:
+          contigs=expand(
+            os.path.join(
+                OUTPUT_FOLDER,
+                "databases",
+                "viral_contigs",
+                "{sample}.selected.fasta",
+            ),
+            sample = CONTIGS_DICT.keys(),
+        ),
+        dict_databases=DB_DICT['fasta'],
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -270,7 +281,7 @@ rule merge_blastn:
     resources:
         cpus=1,
     conda:
-        "../envs/biopython.yaml"
+        "../envs/pandas_plots.yaml"
     threads: 1
     script: 
         "../scripts/merge_blastn.py"

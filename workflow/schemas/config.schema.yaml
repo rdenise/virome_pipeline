@@ -27,7 +27,18 @@ properties:
         type: number
         minimum: 0
         maximum: 1    
+      cov_min:
+        type: string
+        enum: ["mean","subject", "query", "shortest", "longest"]
+      pid_min:
+        type: string
+        enum: ["mean","subject", "query", "shortest", "longest", "HSP"]
+      length_min:
+        type: number
     required:
+      - cov_min
+      - pid_min
+      - length_min
       - e_val
       - coverage
 
