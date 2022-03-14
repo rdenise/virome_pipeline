@@ -269,7 +269,8 @@ rule merge_blastn:
             ),
             sample = CONTIGS_DICT.keys(),
         ),
-        dict_databases=DB_DICT['fasta'],
+        dict_databases=DB_DICT["fasta"],
+        minimum_length=config["default_blast_option"]["length_min"],
     log:
         os.path.join(
             OUTPUT_FOLDER,

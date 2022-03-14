@@ -606,7 +606,7 @@ with open(snakemake.output.tsv, "w") as w_file:
             else:
                 df_hsps = prepare_df_hsps(list_hsps = sub_blast,
                                         blast_dtypes = blast_dtypes, 
-                                        HSPMIN = int(snakemake.params.minimum_length))
+                                        HSPMIN = snakemake.params.minimum_length)
 
                 if df_hsps.shape[0] == 1:
                     pident_blast, coverage_blast, evalue_blast, descrition = summarize_hit_only(split_line = df_hsps[0], 
