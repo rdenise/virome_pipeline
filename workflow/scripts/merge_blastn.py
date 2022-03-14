@@ -556,8 +556,8 @@ def summarize_hit_only(split_line, option_cov='mean', option_pid='mean'):
 
 blastn_files = snakemake.input.all_out
 
-evalue = snakemake.wildcards.evalue
-coverage = snakemake.wildcards.coverage
+evalue = float(snakemake.wildcards.evalue)
+coverage = float(snakemake.wildcards.coverage)
 
 # Opening blast_out and preparation
 blast_names = ['qseqid', 'sseqid', 'pident', 'length', 'qlen', 'slen', 'evalue', 'qstart', 'qend',
