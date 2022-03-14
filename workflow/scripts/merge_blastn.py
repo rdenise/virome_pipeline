@@ -472,7 +472,7 @@ def summarize_hits(df_hsps, option_cov='mean', option_pid='mean'):
     delta_lg = np.abs(df_hsps['qstart'] - df_hsps['sstart'])
     
     # C-term delta between query and subject and add to length difference between aligned sequences
-    delta_lg += np.abs((length_query - df_hsps['qend'][-1]) - (length_subject - df_hsps['send']))
+    delta_lg += np.abs((df_hsps['qlen'][0] - df_hsps['qend'][-1]) - (df_hsps['slen'][0] - df_hsps['send']))
     
     # Internal gaps 
     query_starts = df_hsps['qstart'][1:]
