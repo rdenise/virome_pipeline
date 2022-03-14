@@ -569,13 +569,13 @@ blast_dtypes = [('qseqid','S100'),
                 ('sseqid','S100'),
                 ('pident',np.float64),
                 ('length',np.int32),
-                ('mismatch',np.int32),
-                ('gapopen',np.int32),
+                ('qlen',np.int32),
+                ('slen',np.int32),
+                ('evalue',np.float64),
                 ('qstart',np.int32),
                 ('qend',np.int32),
                 ('sstart',np.int32),
                 ('send',np.int32),
-                ('evalue',np.float64),
                 ('stitle','S200'),
             ]
 
@@ -610,12 +610,12 @@ with open(snakemake.output.tsv, "w") as w_file:
 
                 if df_hsps.shape[0] == 1:
                     pident_blast, coverage_blast, evalue_blast, descrition = summarize_hit_only(split_line = df_hsps[0], 
-                                                                                    option_cov = snakemake.config['default_blast_option']['cov_min'],
-                                                                                    option_pid = snakemake.config['default_blast_option']['pid_min'])
+                                                                                                option_cov = snakemake.config['default_blast_option']['cov_min'],
+                                                                                                 option_pid = snakemake.config['default_blast_option']['pid_min'])
                 else:
                     delta_lg, coverage_blast, pident_blast, evalue_blast, description = summarize_hits(df_hsps = df_hsps, 
-                                                                                        option_cov = snakemake.config['default_blast_option']['cov_min'], 
-                                                                                        option_pid = snakemake.config['default_blast_option']['pid_min'])
+                                                                                                        option_cov = snakemake.config['default_blast_option']['cov_min'], 
+                                                                                                      option_pid = snakemake.config['default_blast_option']['pid_min'])
 
 
             if evalue_blast <= evalue and coverage >= coverage_blast :
