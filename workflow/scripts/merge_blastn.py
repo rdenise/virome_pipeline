@@ -1,9 +1,8 @@
-import pandas as pd
 import sys
 import numpy as np
 from numba import jit
 import numpy.lib.recfunctions as rfn 
-from Bio import SeqIO
+import os
 
 ##########################################################################
 
@@ -488,14 +487,14 @@ def summarize_hits(df_hsps, length_query, length_subject, option_cov='mean', opt
     
     # Cumulative length of HSPs / shortest seq. length = % coverage
     frac_HSPshlen = calculate_coverage(length_total=length_total, 
-                                       length_query=length_query, 
-                                       length_subject=length_subject, 
+                                       length_query=df_hsps['qlen'][0], 
+                                       length_subject=df_hsps['slen'][0], 
                                        option_cov=option_cov)
     
     # Number of positives / shortest seq. length = percentage of identity
     pospercentsh = calculate_percid(pos_total=pos_total, 
-                                    length_query=length_query, 
-                                    length_subject=length_subject, 
+                                    length_query=df_hsps['qlen'][0], 
+                                    length_subject=df_hsps['slen'][0], 
                                     length_total=length_total, 
                                     option_pid=option_pid)
     
@@ -505,7 +504,7 @@ def summarize_hits(df_hsps, length_query, length_subject, option_cov='mean', opt
 
 ##########################################################################
 
-def summarize_hit_only(split_line, length_query, length_subject, option_cov='mean', option_pid='mean'):
+def summarize_hit_only(split_line, option_cov='mean', option_pid='mean'):
     """Summarize information of a single hit.
 
     Args:
@@ -536,14 +535,14 @@ def summarize_hit_only(split_line, length_query, length_subject, option_cov='mea
     lg_total = max(lg_aln_query, lg_aln_subject)
 
     perc_id = calculate_percid(pos_total=pos,
-                               length_query=length_query,
-                               length_subject=length_subject,
+                               length_query=split_line[4],
+                               length_subject=split_line[5],
                                length_total=lg_total, 
                                option_pid=option_pid)
 
     cov = calculate_coverage(length_total=lg_total,
-                             length_query=length_query,
-                             length_subject=length_subject, 
+                             length_query=split_line[4],
+                             length_subject=split_line[5], 
                              option_cov=option_cov)
 
     # Get the rest: evalue: 6
