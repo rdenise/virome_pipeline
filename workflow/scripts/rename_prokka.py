@@ -9,7 +9,7 @@ sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 ######################################################
 
 def getTranslation(tbl, all_names, tsv_output):
-    """get nae translation for contig files from prokka
+    """get name translation for contig files from prokka
 
     Args:
         tbl (string): Path to the tbl file
@@ -47,7 +47,7 @@ def getTranslation(tbl, all_names, tsv_output):
                     gene = True
                 elif gene and patternGeneTag.search(line):
                     oldname = patternGeneTag.search(line).group(1)
-                    newname = f'{locusTag}_{str(occurence).zfill(5)}'
+                    newname = f'{dictTrans[locusTag]}_{str(occurence).zfill(5)}'
 
                     occurence += 1
 
