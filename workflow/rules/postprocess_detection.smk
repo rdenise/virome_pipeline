@@ -260,7 +260,7 @@ rule merge_blastn:
             "merge.eval_{evalue}.cov_{coverage}.annotation.blasn.tsv",
         ),
     params:
-          contigs=expand(
+        contigs=expand(
             os.path.join(
                 OUTPUT_FOLDER,
                 "databases",

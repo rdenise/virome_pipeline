@@ -33,7 +33,7 @@ with open(snakemake.output.significant_hit, 'w') as w_file:
 
             if split_line[dict_columns['i_Evalue']] < snakemake.wildcards.hmm_evalue_dom and split_line[dict_columns['E_value_full']] < snakemake.wildcards.hmm_evalue_full:
                 rstrip_line = line.rstrip()
-                database = "pVOGs" if split_line[dict_columns['gene']].startswith('VOG') else PHROGs
+                database = "pVOGs" if split_line[dict_columns['gene']].startswith('VOG') else "PHROGs"
                 w_file.write(f"{rstrip_line}\t{database}\n")
 
 ###########################################################
