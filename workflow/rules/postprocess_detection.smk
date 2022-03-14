@@ -281,7 +281,7 @@ rule merge_blastn:
     resources:
         cpus=1,
     conda:
-        "../envs/pandas_plots.yaml"
+        "../envs/biopython.yaml"
     threads: 1
     script: 
         "../scripts/merge_blastn.py"
