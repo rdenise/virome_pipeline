@@ -348,8 +348,10 @@ def prepare_df_hsps(list_hsps, blast_dtypes, HSPMIN=100):
     # ind = np.argsort(df_hsps[:,11].astype(np.float64))[::-1]
     # ind = np.transpose([ind] * 18)
     # df_hsps = np.take_along_axis(df_hsps, ind, axis=0)
-    ind = np.argsort(df_hsps, order='bitscore')[::-1]
-    df_hsps = df_hsps[ind]    
+    
+    # Sould add bitscore in output
+    # ind = np.argsort(df_hsps, order='bitscore')[::-1]
+    # df_hsps = df_hsps[ind]    
     
     # Calculate a more precise percentage of identity for each independent HSP: 'pident': 2, 'length': 3
     array2add['id'] = calculateIdentities(percIdentity=df_hsps['pident'], length=df_hsps['length'])
