@@ -535,14 +535,14 @@ def summarize_hit_only(split_line, option_cov='mean', option_pid='mean'):
     lg_total = max(lg_aln_query, lg_aln_subject)
 
     perc_id = calculate_percid(pos_total=pos,
-                               length_query=split_line[4],
-                               length_subject=split_line[5],
+                               length_query=int(split_line[4]),
+                               length_subject=int(split_line[5]),
                                length_total=lg_total, 
                                option_pid=option_pid)
 
     cov = calculate_coverage(length_total=lg_total,
-                             length_query=split_line[4],
-                             length_subject=split_line[5], 
+                             length_query=int(split_line[4]),
+                             length_subject=int(split_line[5]), 
                              option_cov=option_cov)
 
     # Get the rest: evalue: 6
