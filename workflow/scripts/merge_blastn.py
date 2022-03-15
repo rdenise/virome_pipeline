@@ -594,32 +594,33 @@ with open(snakemake.output.tsv, "w") as w_file:
         for sub_blast in iterrator_on_blast_hsp(blast_out=blast_file) :
             # Get the number of hsps
             num_HSPs = len(sub_blast)
-            print(f"num_HSPs: {num_HSPs}, subblast: {sub_blast}")
-            qseqid = sub_blast[0][0]
-            sseqid = sub_blast[0][1]
+            
+            if num_HSPs >= 0:
+                qseqid = sub_blast[0][0]
+                sseqid = sub_blast[0][1]
 
-            if num_HSPs == 1:
-                pident_blast, coverage_blast, evalue_blast, description = summarize_hit_only(split_line = sub_blast[0], 
-                                                                                option_cov = snakemake.config['default_blast_option']['cov_min'],
-                                                                                option_pid = snakemake.config['default_blast_option']['pid_min'])
-            else:
-                df_hsps = prepare_df_hsps(list_hsps = sub_blast,
-                                        blast_dtypes = blast_dtypes, 
-                                        HSPMIN = snakemake.params.minimum_length)
-
-                if df_hsps.shape[0] == 1:
-                    pident_blast, coverage_blast, evalue_blast, descrition = summarize_hit_only(split_line = df_hsps[0], 
-                                                                                                option_cov = snakemake.config['default_blast_option']['cov_min'],
-                                                                                                 option_pid = snakemake.config['default_blast_option']['pid_min'])
+                if num_HSPs == 1:
+                    pident_blast, coverage_blast, evalue_blast, description = summarize_hit_only(split_line = sub_blast[0], 
+                                                                                    option_cov = snakemake.config['default_blast_option']['cov_min'],
+                                                                                    option_pid = snakemake.config['default_blast_option']['pid_min'])
                 else:
-                    delta_lg, coverage_blast, pident_blast, evalue_blast, description = summarize_hits(df_hsps = df_hsps, 
-                                                                                                        option_cov = snakemake.config['default_blast_option']['cov_min'], 
-                                                                                                      option_pid = snakemake.config['default_blast_option']['pid_min'])
+                    df_hsps = prepare_df_hsps(list_hsps = sub_blast,
+                                            blast_dtypes = blast_dtypes, 
+                                            HSPMIN = snakemake.params.minimum_length)
+
+                    if df_hsps.shape[0] == 1:
+                        pident_blast, coverage_blast, evalue_blast, descrition = summarize_hit_only(split_line = df_hsps[0], 
+                                                                                                    option_cov = snakemake.config['default_blast_option']['cov_min'],
+                                                                                                    option_pid = snakemake.config['default_blast_option']['pid_min'])
+                    else:
+                        delta_lg, coverage_blast, pident_blast, evalue_blast, description = summarize_hits(df_hsps = df_hsps, 
+                                                                                                            option_cov = snakemake.config['default_blast_option']['cov_min'], 
+                                                                                                        option_pid = snakemake.config['default_blast_option']['pid_min'])
 
 
-            if evalue_blast <= evalue and coverage >= coverage_blast :
-                line2write = f'{qseqid}\t{sseqid}\t{pident_blast}\t{evalue_blast}\t{coverage_blast}\t{database}\t{description}\n'
-                w_file.write(line2write)
+                if evalue_blast <= evalue and coverage >= coverage_blast :
+                    line2write = f'{qseqid}\t{sseqid}\t{pident_blast}\t{evalue_blast}\t{coverage_blast}\t{database}\t{description}\n'
+                    w_file.write(line2write)
 
 
 ###########################################################
