@@ -594,7 +594,7 @@ with open(snakemake.output.tsv, "w") as w_file:
         for sub_blast in iterrator_on_blast_hsp(blast_out=blast_file) :
             # Get the number of hsps
             num_HSPs = len(sub_blast)
-
+            print(f"num_HSPs: {num_HSPs}, subblast: {sub_blast}")
             qseqid = sub_blast[0][0]
             sseqid = sub_blast[0][1]
 
