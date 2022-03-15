@@ -499,7 +499,7 @@ def summarize_hits(df_hsps, option_cov='mean', option_pid='mean'):
     
     evalue = max(df_hsps['evalue'])
 
-    return delta_lg, frac_HSPshlen, pospercentsh, evalue, df_hsps['stitle'][0]
+    return delta_lg, frac_HSPshlen, pospercentsh, evalue, df_hsps['stitle'][0].decode('utf-8')
 
 ##########################################################################
 
@@ -580,7 +580,7 @@ blast_dtypes = [('qseqid','S100'),
 
 
 with open(snakemake.output.tsv, "w") as w_file:
-    header = "\t".join(['protein1', 'protein2', 'pident', 'evalue', 'coverage', 'database', 'stitle'])
+    header = "\t".join(['contig', 'hit_genome', 'pident', 'evalue', 'coverage', 'database'])
     w_file.write(f"{header}\n")
 
     num_files = len(blastn_files)
@@ -589,7 +589,7 @@ with open(snakemake.output.tsv, "w") as w_file:
         blast_file = blastn_files[blast_index]
 
         database_file = blast_file.split('.')[-4]
-        database = os.path.join(snakemake.params.dict_databases[database_file]['path'])
+        database = os.path.basename(snakemake.params.dict_databases[database_file]['path'])
 
         for sub_blast in iterrator_on_blast_hsp(blast_out=blast_file) :
             # Get the number of hsps
@@ -618,8 +618,8 @@ with open(snakemake.output.tsv, "w") as w_file:
                                                                                                         option_pid = snakemake.config['default_blast_option']['pid_min'])
 
 
-                if evalue_blast <= evalue and coverage >= coverage_blast :
-                    line2write = f'{qseqid}\t{sseqid}\t{pident_blast}\t{evalue_blast}\t{coverage_blast}\t{database}\t{description}\n'
+                if evalue_blast <= evalue and coverage_blast >= coverage :
+                    line2write = f'{qseqid}\t{sseqid}\t{pident_blast}\t{evalue_blast}\t{coverage_blast}\t{database}\n'
                     w_file.write(line2write)
 
 
