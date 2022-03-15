@@ -172,7 +172,8 @@ def remove_overlap_query(hsp1, hsp2):
                                                     lgHSP=hsp2[17],
                                                     pid=hsp2[12],
                                                     pos=hsp2[13])
-        
+    print(f"overlapq:: HSP1 => lgHSP: {hsp1[17]}, qstart: {hsp1[7]}, qend:, {hsp1[8]}, sstart: {hsp1[9]}, send: {hsp1[10]}")
+    print(f"overlapq:: HSP2 => lgHSP: {hsp2[17]}, qstart: {hsp2[7]}, qend:, {hsp2[8]}, sstart: {hsp2[9]}, send: {hsp2[10]}")        
     return {17:new_length, 10:new_send,
             8:new_qend, 7:new_qstart,
             9:new_sstart, 13:new_pos, 12:new_id}
@@ -206,7 +207,8 @@ def remove_overlap_subject(hsp1, hsp2):
         new_qend = hsp2[8]
         
     # lgHSP: 17, bitscore: 11, id: 12, pos:13
-    print(f"lgHSP: {hsp2[17]}, qstart: {hsp2[7]}, qend:, {hsp2[8]}, sstart: {hsp2[9]}, send: {hsp2[10]}")
+    print(f"overlaps:: HSP1 => lgHSP: {hsp1[17]}, qstart: {hsp1[7]}, qend:, {hsp1[8]}, sstart: {hsp1[9]}, send: {hsp1[10]}")
+    print(f"overlaps:: HSP2 => lgHSP: {hsp2[17]}, qstart: {hsp2[7]}, qend:, {hsp2[8]}, sstart: {hsp2[9]}, send: {hsp2[10]}")
     new_id, new_pos, new_length = calculate_fraction(delta=delta, 
                                                     lgHSP=hsp2[17],
                                                     pid=hsp2[12],
