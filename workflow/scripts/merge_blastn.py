@@ -595,7 +595,7 @@ with open(snakemake.output.tsv, "w") as w_file:
             # Get the number of hsps
             num_HSPs = len(sub_blast)
             
-            if num_HSPs >= 0:
+            if num_HSPs > 0:
                 qseqid = sub_blast[0][0]
                 sseqid = sub_blast[0][1]
 
