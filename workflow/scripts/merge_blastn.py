@@ -206,7 +206,7 @@ def remove_overlap_subject(hsp1, hsp2):
         new_qend = hsp2[8]
         
     # lgHSP: 17, bitscore: 11, id: 12, pos:13
-    print(hsp2[17])
+    print(f"lgHSP: {hsp2[17]}, qstart: {hsp2[7]}, qend:, {hsp2[8]}, sstart: {hsp2[9]}, send: {hsp2[10]}")
     new_id, new_pos, new_length = calculate_fraction(delta=delta, 
                                                     lgHSP=hsp2[17],
                                                     pid=hsp2[12],
