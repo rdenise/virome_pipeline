@@ -1,6 +1,12 @@
 # path to database sheet (TSV format, columns: database_name, path_db)
 databases: config/databases.tsv
 
+# path to database sheet (TSV format, columns: "contig_id", "viral_taxonomy", "host_taxonomy", "database")
+annotation_phages: path/to/annotation_phages.tsv
+
+# path to database sheet (TSV format, columns: "id", "viral_taxonomy", "host_taxonomy", "database")
+annotation_proteins: path/to/annotation_proteins.tsv
+
 # path to contigs folder
 contigs: /Users/rdenise/Documents/script/virome_pipeline/myfiles/contigs
 

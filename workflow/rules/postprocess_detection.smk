@@ -77,19 +77,33 @@ rule virsorter_postprocess_step1:
             "{sample}",
             "virsorter_positive.keep2.ids",
         ),
-        manual_check=os.path.join(
+        manual_check_tsv=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
             "{sample}",
             "virsorter.need_manual_check.tsv",
         ),
-        discarded=os.path.join(
+        discarded_tsv=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
             "{sample}",
             "virsorter.discarded.tsv",
+        ),
+        manual_check_ids=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter.need_manual_check.ids",
+        ),
+        discarded_ids=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter.discarded.ids",
         ),
     log:
         os.path.join(
@@ -174,12 +188,33 @@ rule virsorter_postprocess_step2:
 
 rule combine_virsorter_virfinder:
     input:
-        ids_virsorter_keep2=os.path.join(
+        ids_virsorter_keep2_checked=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
             "{sample}",
             "virsorter_positive.keep2.checked.ids",
+        ),
+        ids_virsorter_keep2_suspicious=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter_positive.keep2.suspicious.ids",
+        ),
+        ids_virsorter_manual_check=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter.need_manual_check.ids",
+        ),
+        ids_virsorter_discarded=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "virsorter.discarded.ids",
         ),
         ids_virsorter_keep1=os.path.join(
             OUTPUT_FOLDER,
@@ -187,7 +222,7 @@ rule combine_virsorter_virfinder:
             "virsorter",
             "{sample}",
             "virsorter_positive.keep1.ids",
-        ),
+        ),        
         ids_virfinder=lambda wildcards: os.path.join(
             OUTPUT_FOLDER,
             "processing_files",

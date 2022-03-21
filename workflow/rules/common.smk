@@ -100,6 +100,7 @@ db_file = config["databases"]
 # Validation of the database file
 db_dtypes = {
     "database_name": "string",
+    "database_filename": "string",
     "path_db": "string",
     "db_format": "string",
 }
@@ -112,10 +113,10 @@ DB_DICT = {'hmm':{}, 'fasta':{}, 'human':{}}
 
 # Create a dictionary of the database file order by format
 for index, row in db_table.iterrows():
-    database_name = row.database_name.split(".")[0]
+    database_name = row.database_name
     DB_DICT[row.db_format.lower()][database_name] = {
                        "path":row.path_db,
-                       "file":row.database_name,
+                       "file":row.database_filename,
                        }
 
 # path to contigs sheet (TSV format, columns: contig_name, path_contig)

@@ -1,0 +1,21 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: row of the annotation_phages.tsv
+type: object
+properties:
+  contig_id:
+    type: string
+    description: name of the contign in the database
+  viral_taxonomy:
+    type: string
+    description: Lineage/Genus of the phage, "Unassigned" is none
+  host_taxonomy:
+    type: string
+    description: Lineage of the host, "Host Not Assigned or not a prokaryotic virus" is none 
+  database:
+    type: string
+    description: name of the database as it appears in database.tsv  
+required:
+  - contig_id
+  - viral_taxonomy
+  - host_taxonomy
+  - database 

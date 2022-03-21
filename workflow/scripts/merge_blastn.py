@@ -588,8 +588,7 @@ with open(snakemake.output.tsv, "w") as w_file:
     for blast_index in range(num_files):
         blast_file = blastn_files[blast_index]
 
-        database_file = blast_file.split('.')[-4]
-        database = os.path.basename(snakemake.params.dict_databases[database_file]['path'])
+        database= blast_file.split('.')[-4]
 
         for sub_blast in iterrator_on_blast_hsp(blast_out=blast_file) :
             # Get the number of hsps

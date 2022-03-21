@@ -16,7 +16,7 @@ all_contig_ids = []
 output_df = pd.DataFrame(columns=['contig_id', 'virsorter_cat', 'deepvirfinder'])
 
 # Get all the names from the virsorter keep2 list
-ids_virsorter_keep2 = snakemake.input.ids_virsorter_keep2
+ids_virsorter_keep2 = snakemake.input.ids_virsorter_keep2_checked
 
 with open(ids_virsorter_keep2) as r_file:
     r_file.readline()
@@ -28,7 +28,7 @@ with open(ids_virsorter_keep2) as r_file:
         all_contig_ids.append(rstrip_line)
 
         output_df.at[rstrip_line, "contig_id"] = rstrip_line
-        output_df.at[rstrip_line, "virsorter_cat"] = "keep2"
+        output_df.at[rstrip_line, "virsorter_cat"] = "keep2_checked"
 
 # Get all the names from the virsorter keep1 list and remove redondant name
 ids_virsorter_keep1 = snakemake.input.ids_virsorter_keep1
@@ -60,6 +60,30 @@ with open(ids_virfinder) as r_file:
 
         if rstrip_line not in all_contig_ids:
             all_contig_ids.append(rstrip_line)
+
+# Fill the informations missing now the list of contigs we keep is set 
+dict_map_virsorter = {}
+
+files_with_info = {snakemake.input.ids_virsorter_keep2_suspicious:"keep2_suspicious",
+                   snakemake.input.ids_virsorter_manual_check:"to_manual_check",
+                   snakemake.input.ids_virsorter_discarded:"discarded",
+                   }
+
+for file_ids in files_with_info:
+    with open(file_ids) as r_file:
+        r_file.readline()
+
+        for line in r_file:
+            rstrip_line = line.rstrip()
+            rstrip_line = rstrip_line.split('||')[0]
+            
+            if rstrip_line not in all_contig_ids:
+                dict_map_virsorter[rstrip_line] = files_with_info[file_ids]
+
+# Fill the dataframe
+list_contig2add_virsorter_cat = list(dict_map_virsorter.keys())
+output_df.loc[list_contig2add_virsorter_cat, 'virsorter_cat'] = output_df.loc[list_contig2add_virsorter_cat, 'contig_id'].map(dict_map_virsorter)
+output_df.fillna('No', inplace=True)
 
 # Parse the fasta of the contig and create the new one
 fasta_contigs = snakemake.input.contigs

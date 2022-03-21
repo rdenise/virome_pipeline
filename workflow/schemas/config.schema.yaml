@@ -11,6 +11,10 @@ properties:
     type: string
   databases:
     type: string
+  annotation_phages:
+    type: string
+  annotation_proteins:
+    type: string
   contigs:
     type: string
   contigs_ext:
