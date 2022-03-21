@@ -80,11 +80,11 @@ for file_ids in files_with_info:
             if rstrip_line not in all_contig_ids:
                 dict_map_virsorter[rstrip_line] = files_with_info[file_ids]
 
-print(dict_map_virsorter)
-
 # Fill the dataframe
 list_contig2add_virsorter_cat = list(dict_map_virsorter.keys())
-output_df.loc[list_contig2add_virsorter_cat, 'virsorter_cat'] = output_df.loc[list_contig2add_virsorter_cat, 'contig_id'].map(dict_map_virsorter)
+output_df.loc[output_df.contig_id.isin(list_contig2add_virsorter_cat),
+             'virsorter_cat'] = output_df.loc[output_df.contig_id.isin(list_contig2add_virsorter_cat), 'contig_id'].map(dict_map_virsorter)
+
 output_df.fillna('No', inplace=True)
 
 # Parse the fasta of the contig and create the new one
