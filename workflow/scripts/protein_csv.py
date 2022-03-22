@@ -1,6 +1,5 @@
 from Bio import SeqIO
 import sys
-import os
 
 # Put error and out into the log file
 sys.stderr = sys.stdout = open(snakemake.log[0], "w")
@@ -19,7 +18,7 @@ with open(snakemake.output.csv, 'wt') as w_file:
 
         for protein in parser:
             protein_id = protein.id
-            contig_id = snakemake.wildcards.sample
+            contig_id = protein_id.split("_")[0]
             keyword = 'None'
 
             w_file.write(f"{contig_id},{protein_id},{keyword}\n")
