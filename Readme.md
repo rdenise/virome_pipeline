@@ -95,23 +95,6 @@ snakemake --report report.zip --report-stylesheet config/report.css
 ```
 The resulting report.zip file can be passed on to collaborators, provided as a supplementary file in publications.
 
-### Side notes 
-
-The efficacy of snakemake is dependent upon pre-existing output files, but, without supply of these files by the user, the rule will be triggered.
-
-If you want to re-run a part of the pipeline without running previous rule you can specify the rule you want to run with the option `allowed-rules`
-
-```bash
-  --allowed-rules ALLOWED_RULES [ALLOWED_RULES ...]
-                        Only consider given rules. If omitted, all rules in Snakefile are used. Note that this is intended primarily for internal use and may lead to unexpected results otherwise. (default: None)
-```
-
-For exemple if I want to re-run from ??? to all
-
-```bash
-snakemake --cores 1 --use-conda --allowed-rules ??? ???? all
-```
-
 ## Walk-Through and File Production
 
 This pipeline consists of ??? steps called rules that take input files and create output files. Here is a description of the pipeline.
@@ -128,31 +111,7 @@ This pipeline consists of ??? steps called rules that take input files and creat
    │
    ├── logs                                  <- Collection of log outputs, e.g. from cluster managers
    │
-   ├── databases                             <- Generated analysis database related files
-   │   ├── all_taxid                         
-   │   │   ├─ protein_table.tsv              <- Table with the informations about the proteins of the downloaded taxid
-   │   │   ├─ summary_assembly_taxid.tsv     <- Table with the informations about the downloaded genome from NCBI
-   │   │   ├─ taxid_all_together.fasta       <- Fasta file of the downloaded taxid
-   │   │   └─ taxid_checked.txt              <- List of the downloaded taxid
-   │   │
-   │   ├── merge_fasta                       
-   │   │   └─ taxid_checked.txt              <- Fasta with the concatenation of the genome of interest and seeds
-   │   │
-   │   └── seeds                             
-   │       ├─ seeds.fasta                    <- Fasta file of the seeds
-   │       └─ new_seeds.tsv                  <- Table with the informations about the seeds
-   │
-   ├── analysis_thresholds                   <- (Optional) Generate by the rule report_thresholds
-   │   ├── tables                         
-   │   │   └─ table--seed.tsv                <- (Optional) Table with the information of each pair of hits in for the seed family (one per seed)
-   │   │
-   │   └── report_figure_thresholds.html     <- (Optional) HTML report with the plots made by report_thresholds                  
-   │
-   └── results                               <- Final results for sharing with collaborators, typically derived from analysis sets
-       ├── fasta                             <- (Optional) folder with the fasta file of the orthologs of the seeds
-       ├── patab_melt.tsv                    <- Table with the information of sORTholog one information by line
-       ├── patab_table.tsv                   <- Table with the information of presence absence with genome in index and seeds in columns and proteins Id in the cell
-       └── plots                             <- Plots and table on which the plot are created
+   ├── ????
 
 ```
 
