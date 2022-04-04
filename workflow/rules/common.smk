@@ -52,15 +52,6 @@ def get_final_output(outdir, contigs_list, human):
             f"significant_hit.full_{hmm_evalue_full:.0e}.dom_{hmm_evalue_dom}.domtblout.txt"
         ),  
 
-    if human:
-        final_output += os.path.join(
-                outdir,
-                "processing_files",
-                "blast",
-                "human",
-                f"merge.eval_{blast_evalue:.0e}.cov_{blast_coverage}.human.annotation.blasn.tsv"
-            ),
-
     return final_output
 
 
