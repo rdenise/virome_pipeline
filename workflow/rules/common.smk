@@ -123,7 +123,6 @@ CONTIGS_FILES, = glob_wildcards(os.path.join(
                                 CONTIGS_FOLDER,
                                 "{contigs_files}" +\
                                 CONTIGS_EXT))
-
 CONTIGS_DICT = {}
 
 EXT_COMPRESS = ""
