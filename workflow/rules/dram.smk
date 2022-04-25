@@ -74,6 +74,14 @@ rule dramv_annotate:
             "{sample}",
             "annotations.tsv"
         ),
+        faa=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "{sample}.faa"
+        ),
     params:
         output_dir=os.path.join(
             OUTPUT_FOLDER,

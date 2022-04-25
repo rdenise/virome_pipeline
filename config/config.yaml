@@ -23,10 +23,12 @@ default_blast_option:
     # E-value threshold: if you want to use scientific notation put a dot after the first number (e.g. 1.e-10 not 1e-10)
     e_val: 1.e-10
     # coverage of the contig (between 0 and 1)
-    coverage: 0.7
-    # Minimum coverage option: ['mean':mean of the 2 lengths (default), 'subject':subject length, 'query':query length, 'shortest':shortest length, 'longest'=longest length]
-    cov_min: shortest
-    # Minimum percentage of identity: ['mean':mean of the 2 lengths (default), 'subject':subject length, 'query':query length, 'shortest':shortest length, 'longest'=longest length, 'HSP'=HSP length]
+    coverage: 0.8
+    # percentage of identity of the contig (between 0 and 1)
+    pident: 0.95
+    # Minimum coverage option: ['mean':mean of the 2 lengths, 'subject':subject length, 'query':query length, 'shortest':shortest length, 'longest'=longest length]
+    cov_min: query
+    # Minimum percentage of identity: ['mean':mean of the 2 lengths, 'subject':subject length, 'query':query length, 'shortest':shortest length, 'longest'=longest length, 'HSP'=HSP length]
     pid_min: HSP
     # Min length to accept partial sequences in families
     length_min: 100

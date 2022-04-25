@@ -75,12 +75,7 @@ rule blastn_human:
             "processing_files",
             "blast",
             "human",
-            "{sample}.evalue_{evalue}.nt.human.blastn.outfmt6.txt"
-        ),
-    params:
-        database=lambda wildcards: os.path.join(
-            DB_DICT["human"]["nt"]["path"],
-            DB_DICT["human"]["nt"]["file"],
+            "{sample}.nt.human.blastn.outfmt6.txt"
         ),
     log:
         os.path.join(
@@ -88,7 +83,7 @@ rule blastn_human:
             "logs",
             "blast",
             "human",
-            "{sample}.evalue_{evalue}.nt.human.blastn.outfmt6.log"
+            "{sample}.nt.human.blastn.outfmt6.log"
         ),    
     resources:
         cpus=2,
@@ -99,11 +94,10 @@ rule blastn_human:
     threads: 2
     shell:
         """
-        if [ ! -e '{params.database}'.nsq ] && [ ! -e '{params.database}'.00.nsq ]; then
-            makeblastdb -dbtype nucl -in '{params.database}' &> '{log}'
-        fi
-
-        blastn -query '{input.contig}' -db '{params.database}' -evalue {wildcards.evalue} \
+        blastn -query '{input.contig}' -db nt -evalue 0.0001 \
+               -task blastn -remote -entrez_query "Homo sapiens [organism] AND GRCh38"  \
+               -word_size 28 -best_hit_overhang 0.1 -best_hit_score_edge 0.1 -dust yes  \
                -outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle' \
-               -out '{output.blast_out}' -num_threads {threads} -taxids 9606 -num_alignments 25000 2>> '{log}'
+               -min_raw_gapped_score 100 -penalty −5 -perc_identity 90 -soft_masking true \
+               -out '{output.blast_out}' -max_target_seqs 10 2>> '{log}'
         """

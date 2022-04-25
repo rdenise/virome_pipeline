@@ -557,6 +557,7 @@ blastn_files = snakemake.input.all_out
 
 evalue = float(snakemake.wildcards.evalue)
 coverage = float(snakemake.wildcards.coverage)
+pident = float(snakemake.wildcards.pident)
 
 # Opening blast_out and preparation
 blast_names = ['qseqid', 'sseqid', 'pident', 'length', 'qlen', 'slen', 'evalue', 'qstart', 'qend',
@@ -617,7 +618,7 @@ with open(snakemake.output.tsv, "w") as w_file:
                                                                                                         option_pid = snakemake.config['default_blast_option']['pid_min'])
 
 
-                if evalue_blast <= evalue and coverage_blast >= coverage :
+                if evalue_blast <= evalue and coverage_blast >= coverage and pident_blast >= pident :
                     line2write = f'{qseqid}\t{sseqid}\t{pident_blast}\t{evalue_blast}\t{coverage_blast}\t{database}\n'
                     w_file.write(line2write)
 

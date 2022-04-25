@@ -31,6 +31,10 @@ properties:
         type: number
         minimum: 0
         maximum: 1    
+      pident:
+        type: number
+        minimum: 0
+        maximum: 1 
       cov_min:
         type: string
         enum: ["mean","subject", "query", "shortest", "longest"]

@@ -292,7 +292,7 @@ rule merge_blastn:
             "processing_files",
             "blast",
             "virus",
-            "merge.eval_{evalue}.cov_{coverage}.annotation.blasn.tsv",
+            "merge.eval_{evalue}.cov_{coverage}.pid_{pident}.annotation.blasn.tsv",
         ),
     params:
         contigs=expand(
@@ -312,7 +312,7 @@ rule merge_blastn:
             "logs",
             "blast",
             "virus",
-            "merge_blastn.eval_{evalue}.cov_{coverage}.log"
+            "merge_blastn.eval_{evalue}.cov_{coverage}.pid_{pident}.log"
         ),
     resources:
         cpus=1,
@@ -338,7 +338,7 @@ rule merge_blastn_human:
             "processing_files",
             "blast",
             "human",
-            f"{wildcards.sample}.evalue_{blast_evalue:.0e}.nt.human.blastn.outfmt6.txt"
+            f"{wildcards.sample}.nt.human.blastn.outfmt6.txt"
         ),
         fasta = lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
@@ -358,8 +358,9 @@ rule merge_blastn_human:
             "processing_files",
             "blast",
             "human",
-            f"{wildcards.sample}.eval_{blast_evalue:.0e}.cov_0.6.human.annotation.blasn.tsv",
+            f"{wildcards.sample}.cov_0.6.human.annotation.blasn.tsv",
         ),
+        minimum_length=config["default_blast_option"]["length_min"],
     log:
         os.path.join(
             OUTPUT_FOLDER,

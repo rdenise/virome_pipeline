@@ -80,8 +80,7 @@ include: "rules/deepvirfinder.smk"
 include: "rules/postprocess_detection.smk"
 include: "rules/checkv.smk"
 include: "rules/dram.smk"
-# include: "rules/VRCA.smk"
-# include: "rules/demovir.smk"
+include: "rules/visualisation.smk"
 
 
 ##########################################################################

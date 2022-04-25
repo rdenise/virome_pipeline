@@ -27,11 +27,9 @@ def get_final_output(outdir, contigs_list, human):
     final_output = []
 
     final_output += os.path.join(
-            outdir,
-            "processing_files",
-            "blast",
-            "virus",
-            f"merge.eval_{blast_evalue:.0e}.cov_{blast_coverage}.annotation.blasn.tsv"
+            OUTPUT_FOLDER,
+            "results",
+            "taxonomic_annotation_contigs.tsv"
         ),
 
     final_output += expand(
@@ -60,7 +58,7 @@ def get_final_output(outdir, contigs_list, human):
 
 def create_folder(mypath):
     """
-    Created the folder that I need to store my result if it doesn't exist
+    Created the folder that I need to store my result if it doesn"t exist
     :param mypath: path where I want the folder (write at the end of the path)
     :type: string
     :return: Nothing
@@ -100,7 +98,7 @@ db_table = pd.read_table(db_file, dtype=db_dtypes)
 
 validate(db_table, schema="../schemas/databases.schema.yaml")
 
-DB_DICT = {'hmm':{}, 'fasta':{}, 'human':{}}
+DB_DICT = {"hmm":{}, "fasta":{}, "human":{}}
 
 # Create a dictionary of the database file order by format
 for index, row in db_table.iterrows():
@@ -114,7 +112,7 @@ for index, row in db_table.iterrows():
 CONTIGS_FOLDER = config["contigs"]
 
 if not config["contigs_ext"].startswith("."): 
-    CONTIGS_EXT = f'.{config["contigs_ext"]}'
+    CONTIGS_EXT = f".{config["contigs_ext"]}"
 else: 
     CONTIGS_EXT = config["contigs_ext"]
 
@@ -189,25 +187,42 @@ OUTPUT_FOLDER = os.path.join(config["output_folder"], project_name)
 config["__output_folder__"] = os.path.abspath(OUTPUT_FOLDER)
 
 # Options for blastn
-blast_evalue = config['default_blast_option']['e_val']
-blast_coverage = config['default_blast_option']['coverage']
+blast_evalue = config["default_blast_option"]["e_val"]
+blast_coverage = config["default_blast_option"]["coverage"]
+blast_pident = config["default_blast_option"]["pident"]
 
 # Options for prokka
-prokka_protein_db = config['default_prokka_option']['protein_db']
-prokka_hmm_db = config['default_prokka_option']['hmm_db']
-prokka_kingdom = config['default_prokka_option']['kingdom'].capitalize()
+prokka_protein_db = config["default_prokka_option"]["protein_db"]
+prokka_hmm_db = config["default_prokka_option"]["hmm_db"]
+prokka_kingdom = config["default_prokka_option"]["kingdom"].capitalize()
 
 # Option for DeepVirFinder
-cutoff_deepvirfinder = config['default_deepvirfinder_option']['cutoff_length']
+cutoff_deepvirfinder = config["default_deepvirfinder_option"]["cutoff_length"]
 
 # Option for virsorter
-cutoff_virsorter = config['default_virsorter_option']['cutoff_length']
+cutoff_virsorter = config["default_virsorter_option"]["cutoff_length"]
 
 # Option for DRAMv
-cutoff_dramv = config['default_dramv_option']['cutoff_length']
+cutoff_dramv = config["default_dramv_option"]["cutoff_length"]
 
 # Options for hmmer
-hmm_evalue_full = config['default_hmmer_option']['e_val_full']
-hmm_evalue_dom = config['default_hmmer_option']['e_val_dom']
+hmm_evalue_full = config["default_hmmer_option"]["e_val_full"]
+hmm_evalue_dom = config["default_hmmer_option"]["e_val_dom"]
 
+# Annotation table for taxonomy validation
+if config["annotation_phages"]:
 
+    # path to database sheet (TSV format, columns: "contig_id", "viral_taxonomy", "host_taxonomy", "database")
+    phage_annotation_file = config["annotation_phages"]
+
+    # Validation of the database file
+    phage_annotation_dtypes = {
+        "contig_id": "string",
+        "viral_taxonomy": "string",
+        "host_taxonomy": "string",
+        "database": "string",
+    }
+
+    phage_annotation_table = pd.read_table(phage_annotation_file, dtype=phage_annotation_dtypes)
+
+    validate(phage_annotation_table, schema="../schemas/annotation_phages.schema.yaml")
