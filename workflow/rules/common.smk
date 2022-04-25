@@ -73,6 +73,53 @@ def create_folder(mypath):
 
 
 ##########################################################################
+
+
+def max_len_seq(file_fasta, ext_compress)
+    max_len = 0
+    if ext_compress = "tar.gz":
+        import tarfile
+
+        with tarfile.open(file_fasta, "r:gz") as tar:
+            for tarinfo in tar:
+                f = tar.extractfile(tarinfo.name)  
+                # To get the str instead of bytes str
+                # Decode with proper coding, e.g. utf-8
+                content = f.read().decode('utf-8', errors='ignore')
+                # Split the long str into lines
+                # Specify your line-sep: e.g. \n
+                lines = content.split('\n')
+
+                for line in lines:
+                    if line.startswith('>'):
+                        max_len = max(max_len, tmp_len)
+                        tmp_len = 0
+                    else:
+                        tmp_len += len(line)
+    elif ext_compress = "gz":
+        import gzip
+
+        with gzip.open(file_fasta,'rt') as r_file:
+            for line in r_file:
+                if line.startswith('>'):
+                    max_len = max(max_len, tmp_len)
+                    tmp_len = 0
+                else:
+                    tmp_len += len(line)
+    
+    elif ext_compress == '':
+        with open(file_fasta,'rt') as r_file:
+            for line in r_file:
+                if line.startswith('>'):
+                    max_len = max(max_len, tmp_len)
+                    tmp_len = 0
+                else:
+                    tmp_len += len(line)    
+
+    return max_len
+
+
+##########################################################################
 ##########################################################################
 ##
 ##                                Variables
@@ -97,53 +144,6 @@ db_dtypes = {
 db_table = pd.read_table(db_file, dtype=db_dtypes)
 
 validate(db_table, schema="../schemas/databases.schema.yaml")
-
-DB_DICT = {"hmm":{}, "fasta":{}, "human":{}}
-
-# Create a dictionary of the database file order by format
-for index, row in db_table.iterrows():
-    database_name = row.database_name
-    DB_DICT[row.db_format.lower()][database_name] = {
-                       "path":row.path_db,
-                       "file":row.database_filename,
-                       }
-
-# path to contigs sheet (TSV format, columns: contig_name, path_contig)
-CONTIGS_FOLDER = config["contigs"]
-
-if not config["contigs_ext"].startswith("."): 
-    CONTIGS_EXT = f".{config["contigs_ext"]}"
-else: 
-    CONTIGS_EXT = config["contigs_ext"]
-
-# Get all the files int the contigs folder
-CONTIGS_FILES, = glob_wildcards(os.path.join(
-                                CONTIGS_FOLDER,
-                                "{contigs_files}" +\
-                                CONTIGS_EXT))
-CONTIGS_DICT = {}
-
-EXT_COMPRESS = ""
-
-# Create a dictionary of the contigs files
-for contig_file in CONTIGS_FILES:
-    contig_name = contig_file.split(".")[0]
-    contig_name_file = contig_file + CONTIGS_EXT
-
-    # Test if the contigs are compressed to uncompress in case
-    if "tar.gz" in CONTIGS_EXT:
-        EXT_COMPRESS = "tar.gz"
-        contig_name_file = contig_name_file.replace(
-                    ".tar.gz", "")
-    elif "gz" in CONTIGS_EXT:
-        EXT_COMPRESS = ".gz"
-        contig_name_file = contig_name_file.replace(
-                    ".gz", "")
-
-    CONTIGS_DICT[contig_name] = {
-                "file":contig_name_file,
-                "ext_compress":EXT_COMPRESS
-        }
 
 ##########################################################################
 ##########################################################################
@@ -226,3 +226,59 @@ if config["annotation_phages"]:
     phage_annotation_table = pd.read_table(phage_annotation_file, dtype=phage_annotation_dtypes)
 
     validate(phage_annotation_table, schema="../schemas/annotation_phages.schema.yaml")
+
+
+DB_DICT = {"hmm":{}, "fasta":{}, "human":{}}
+
+# Create a dictionary of the database file order by format
+for index, row in db_table.iterrows():
+    database_name = row.database_name
+    DB_DICT[row.db_format.lower()][database_name] = {
+                       "path":row.path_db,
+                       "file":row.database_filename,
+                       }
+
+# path to contigs sheet (TSV format, columns: contig_name, path_contig)
+CONTIGS_FOLDER = config["contigs"]
+
+if not config["contigs_ext"].startswith("."): 
+    CONTIGS_EXT = f".{config["contigs_ext"]}"
+else: 
+    CONTIGS_EXT = config["contigs_ext"]
+
+# Get all the files int the contigs folder
+CONTIGS_FILES, = glob_wildcards(os.path.join(
+                                CONTIGS_FOLDER,
+                                "{contigs_files}" +\
+                                CONTIGS_EXT))
+CONTIGS_DICT = {}
+
+EXT_COMPRESS = ""
+
+# Create a dictionary of the contigs files
+for contig_file in CONTIGS_FILES:
+    contig_name = contig_file.split(".")[0]
+    contig_name_file = contig_file + CONTIGS_EXT
+
+    # Test if the contigs are compressed to uncompress in case
+    if "tar.gz" in CONTIGS_EXT:
+        EXT_COMPRESS = "tar.gz"
+        contig_name_file = contig_name_file.replace(
+                    ".tar.gz", "")
+    elif "gz" in CONTIGS_EXT:
+        EXT_COMPRESS = ".gz"
+        contig_name_file = contig_name_file.replace(
+                    ".gz", "")
+
+    MAX_LEN = max_len_seq(os.path.join(CONTIGS_FOLDER,contig_name_file), 
+                          ext_compress=EXT_COMPRESS)
+
+    max_cutoff = max(cutoff_virsorter, cutoff_deepvirfinder)
+    # Remove from the analysis files that have contig too short:
+    if MAX_LEN >= max(cutoff_virsorter, cutoff_deepvirfinder):
+        CONTIGS_DICT[contig_name] = {
+                    "file":contig_name_file,
+                    "ext_compress":EXT_COMPRESS
+            }
+    else:
+        print(f"The file: {contig_name _file} doesn't have contigs above {max_cutoff}")

@@ -62,12 +62,12 @@ default_prokka_option:
 # Default option for deepvirfinder
 default_deepvirfinder_option:
     # predict only for sequence >= L bp
-    cutoff_length: 1000
+    cutoff_length: 5000
 
 # Default option for virsorter
 default_virsorter_option:
     # predict only for sequence >= L bp (virsorter recommend 5000)
-    cutoff_length: 1000
+    cutoff_length: 5000
 
 # Default option for DRAMv
 default_dramv_option:
