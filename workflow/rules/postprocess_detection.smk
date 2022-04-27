@@ -407,7 +407,7 @@ rule merge_blastn:
             "processing_files",
             "blast",
             "virus",
-            "merge.eval_{evalue}.cov_{coverage}.pid_{pident}.annotation.blasn.tsv",
+            "merge.eval_{evalue}.cov_{coverage}.pident_{pident}.annotation.blasn.tsv",
         ),
     params:
         contigs=expand(
