@@ -60,7 +60,7 @@ rule checkv_run:
             OUTPUT_FOLDER,
             "databases",
             "checkv_db",
-            "checkv-db-v1.0",
+            "checkv-db-v1.1",
         ),
     output:
         viruses=os.path.join(
