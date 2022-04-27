@@ -20,7 +20,7 @@ from snakemake.utils import validate
 ##########################################################################
 
 
-def get_final_output(outdir, contigs_list, human):
+def get_final_output(outdir, contigs_list):
     """
     Generate final output name
     """
@@ -38,7 +38,7 @@ def get_final_output(outdir, contigs_list, human):
             "processing_files",
             "vcontact2",
             "{sample}",
-            "genome_by_genome_overview.csv",
+            "genome_by_genome_overview.csv"
         ),
         sample = contigs_list,
     )
@@ -57,7 +57,7 @@ def get_final_output(outdir, contigs_list, human):
             "dramv",
             "distill",
             "{sample}",
-            "amg_summary.tsv",
+            "amg_summary.tsv"
         ),
         sample = contigs_list,
     )
@@ -71,7 +71,7 @@ def get_final_output(outdir, contigs_list, human):
             "distill",
             "{sample}",
             "merge",
-            "amg_summary.tsv",
+            "amg_summary.tsv"
         ),
         sample = contigs_list,
     )
@@ -268,7 +268,8 @@ for index, row in db_table.iterrows():
 CONTIGS_FOLDER = config["contigs"]
 
 if not config["contigs_ext"].startswith("."): 
-    CONTIGS_EXT = f".{config["contigs_ext"]}"
+    contig_ext = config["contigs_ext"]
+    CONTIGS_EXT = f".{contig_ext}"
 else: 
     CONTIGS_EXT = config["contigs_ext"]
 
