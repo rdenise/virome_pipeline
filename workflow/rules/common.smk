@@ -202,8 +202,6 @@ with open(os.path.join(workflow.basedir, "../config/VERSION"), "rt") as version:
 ##########################################################################
 ##########################################################################
 
-print("Config to variable")
-
 # Name your project
 project_name = config["project_name"]
 
@@ -235,29 +233,25 @@ cutoff_dramv = config["default_dramv_option"]["cutoff_length"]
 hmm_evalue_full = config["default_hmmer_option"]["e_val_full"]
 hmm_evalue_dom = config["default_hmmer_option"]["e_val_dom"]
 
-print("Validation annotation phage file")
+# # Annotation table for taxonomy validation
+# if config["annotation_phages"]:
 
-# Annotation table for taxonomy validation
-if config["annotation_phages"]:
+#     # path to database sheet (TSV format, columns: "contig_id", "viral_taxonomy", "host_taxonomy", "database")
+#     phage_annotation_file = config["annotation_phages"]
 
-    # path to database sheet (TSV format, columns: "contig_id", "viral_taxonomy", "host_taxonomy", "database")
-    phage_annotation_file = config["annotation_phages"]
+#     # Validation of the database file
+#     phage_annotation_dtypes = {
+#         "contig_id": "string",
+#         "viral_taxonomy": "string",
+#         "host_taxonomy": "string",
+#         "database": "string",
+#     }
 
-    # Validation of the database file
-    phage_annotation_dtypes = {
-        "contig_id": "string",
-        "viral_taxonomy": "string",
-        "host_taxonomy": "string",
-        "database": "string",
-    }
+#     phage_annotation_table = pd.read_table(
+#         phage_annotation_file, dtype=phage_annotation_dtypes, sep="\t"
+#     )
 
-    phage_annotation_table = pd.read_table(
-        phage_annotation_file, dtype=phage_annotation_dtypes, sep="\t"
-    )
-
-    validate(phage_annotation_table, schema="../schemas/annotation_phages.schema.yaml")
-
-print("Databases tsv to dict")
+#     validate(phage_annotation_table, schema="../schemas/annotation_phages.schema.yaml")
 
 DB_DICT = {"hmm": {}, "fasta": {}}
 
@@ -268,8 +262,6 @@ for index, row in db_table.iterrows():
         "path": row.path_db,
         "file": row.database_filename,
     }
-
-print("Extension contigs")
 
 # path to contigs sheet (TSV format, columns: contig_name, path_contig)
 CONTIGS_FOLDER = config["contigs"]
@@ -300,10 +292,9 @@ for contig_file in CONTIGS_FILES:
         EXT_COMPRESS = "gz"
         contig_name_file = contig_name_file.replace(".gz", "")
 
-    print("Check length")
-
     MAX_LEN = max_len_seq(
-        os.path.join(CONTIGS_FOLDER, contig_name_file), ext_compress=EXT_COMPRESS
+        os.path.join(CONTIGS_FOLDER, contig_file + CONTIGS_EXT), 
+        ext_compress=EXT_COMPRESS
     )
 
     max_cutoff = max(cutoff_virsorter, cutoff_deepvirfinder)
