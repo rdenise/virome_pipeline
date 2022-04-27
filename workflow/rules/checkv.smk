@@ -12,7 +12,7 @@ rule checkv_setup:
             OUTPUT_FOLDER,
             "databases",
             "checkv_db",
-            "checkv-db-v1.0",
+            "checkv-db-v1.1",
         )),
     log:
         os.path.join(
