@@ -101,7 +101,7 @@ def create_folder(mypath):
 ##########################################################################
 
 
-def max_len_seq(file_fasta, ext_compress)
+def max_len_seq(file_fasta, ext_compress):
     max_len = 0
     if ext_compress = "tar.gz":
         import tarfile
