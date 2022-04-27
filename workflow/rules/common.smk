@@ -301,4 +301,4 @@ for contig_file in CONTIGS_FILES:
             "ext_compress": EXT_COMPRESS,
         }
     else:
-        print(f"The file: {contig_name _file} does not have contigs above {max_cutoff}")
+        print(f"The file: {contig_name_file} does not have contigs above {max_cutoff}")
