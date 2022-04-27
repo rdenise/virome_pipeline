@@ -155,6 +155,7 @@ rule dramv_annotate_missing:
             "dramv",
             "annotate",
             "{sample}",
+            "missing_annotation",
         ),
         cutoff=cutoff_dramv,
     log:
@@ -162,7 +163,7 @@ rule dramv_annotate_missing:
             OUTPUT_FOLDER,
             "logs",
             "dramv",
-            "{sample}.dramv_annotate.log"
+            "{sample}.dramv_annotate_missing.log"
         ),
     resources:
         cpus=5,
@@ -198,7 +199,7 @@ rule dramv_distill:
     output:
         amg_summary=os.path.join(
             OUTPUT_FOLDER,
-            "processing_files",
+            "results",
             "dramv",
             "distill",
             "{sample}",
@@ -206,7 +207,7 @@ rule dramv_distill:
         ),
         viral_genome_summary=os.path.join(
             OUTPUT_FOLDER,
-            "processing_files",
+            "results",
             "dramv",
             "distill",
             "{sample}",
