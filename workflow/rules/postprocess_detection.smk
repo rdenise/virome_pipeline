@@ -262,6 +262,121 @@ rule combine_virsorter_virfinder:
     script: 
         "../scripts/combine_virsorter_virfinder.py"
 
+##########################################################################
+##########################################################################
+
+
+rule prepare_missing_annotation:
+    input:
+        fasta=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.selected.fasta",
+        ),
+        tsv=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.selected.tsv",
+        ),
+    output:
+        fasta=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.missing_annotation.fasta",
+        ),      
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "postprocess_detection",
+            "{sample}.prepare_missing_annotation.log"
+        ),
+    resources:
+        cpus=1,
+    conda:
+        "../envs/biopython.yaml"
+    threads: 1
+    script: 
+        "../scripts/prepare_missing_annotation.py"
+
+
+##########################################################################
+##########################################################################
+
+
+rule merge_annotation:
+    input:
+        tsv_missing=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "missing_annotation",
+            "annotations.tsv"
+        ),
+        faa_missing=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "missing_annotation",
+            "{sample}.faa"
+        ),
+        tsv_virsorter=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "annotations.tsv"
+        ),
+        faa_virsorter=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "{sample}.faa"
+        ),
+    output:
+        fasta=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "merge",
+            "{sample}.faa",
+        ),
+        tsv=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "merge",
+            "annotations.tsv"
+        ),
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "postprocess_detection",
+            "{sample}.merge_annotation.log"
+        ),
+    resources:
+        cpus=1,
+    conda:
+        "../envs/biopython.yaml"
+    threads: 1
+    script: 
+        "../scripts/merge_annotation.py"
+
 
 ##########################################################################
 ##########################################################################

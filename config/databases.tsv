@@ -1,3 +1,11 @@
 database_name	database_filename	path_db	db_format
-crassphage	all_contigs.fa	/Users/rdenise/Documents/script/virome_pipeline/myfiles/databases	fasta
-pVOGs	all_vogs.hmm	/Users/rdenise/Documents/script/virome_pipeline/myfiles/databases/pVOGs	hmm
+GVD	GVDv1_viralpopulations.fna	/data/san/data0/databases/GVD	fasta
+GPD	GPD_sequences.fa	/data/san/data0/databases/GPD	fasta
+IMG_VR	IMGVR_all_nucleotides.fna	/data/san/data0/databases/IMG_VR/IMG_VR_2020-10-12_5.1	fasta
+HMP	all.fna	/data/san/data0/databases/hmp_ref_genomes	fasta
+MGV	mgv_contigs.fna	/data/san/data0/databases/MGV/MGV_v1.0_2021_07_08	fasta
+crassphage_andrey	all_contigs.fa	/data/san/data0/users/remi/databases/andrey_final_db_stephen_crass	fasta
+refseq_viral	refseq_viral_211.fna	/data/san/data0/databases/refseq_viral/20220307_release_211/nucl/	fasta
+PHROGs	phrogs.hmm	/data/san/data0/databases/PHROGs/HMM_phrog	hmm
+pVOGs	all_vogs.hmm	/data/san/data0/databases/pVOGs	hmm
+
