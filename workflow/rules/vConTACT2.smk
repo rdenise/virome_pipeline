@@ -37,7 +37,7 @@ rule vcontact2_preprocess:
             "merge",
             "{sample}.proteins.csv"
         ),
-        fasta=os.path.join(
+        fasta_low=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "dramv",
