@@ -144,7 +144,7 @@ rule dramv_annotate_missing:
             "dramv",
             "annotate",
             "{sample}",
-            "missing_annotation"
+            "missing_annotation",
             "{sample}.faa"
         ),
     params:
