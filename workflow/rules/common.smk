@@ -136,9 +136,6 @@ def max_len_seq(file_fasta, ext_compress):
                 else:
                     tmp_len += len(line)
 
-    print(max_len)
-    print(tmp_len)
-
     return max_len
 
 
@@ -150,8 +147,12 @@ def max_len_seq(file_fasta, ext_compress):
 ##########################################################################
 ##########################################################################
 
+print("Validation config")
+
 # Validation of the config.yaml file
 validate(config, schema="../schemas/config.schema.yaml")
+
+print("Validation databses tsv")
 
 # path to database sheet (TSV format, columns: database_name, path_db)
 db_file = config["databases"]
@@ -201,6 +202,8 @@ with open(os.path.join(workflow.basedir, "../config/VERSION"), "rt") as version:
 ##########################################################################
 ##########################################################################
 
+print("Config to variable")
+
 # Name your project
 project_name = config["project_name"]
 
@@ -232,6 +235,8 @@ cutoff_dramv = config["default_dramv_option"]["cutoff_length"]
 hmm_evalue_full = config["default_hmmer_option"]["e_val_full"]
 hmm_evalue_dom = config["default_hmmer_option"]["e_val_dom"]
 
+print("Validation annotation phage file")
+
 # Annotation table for taxonomy validation
 if config["annotation_phages"]:
 
@@ -252,8 +257,9 @@ if config["annotation_phages"]:
 
     validate(phage_annotation_table, schema="../schemas/annotation_phages.schema.yaml")
 
+print("Databases tsv to dict")
 
-DB_DICT = {"hmm": {}, "fasta": {}, "human": {}}
+DB_DICT = {"hmm": {}, "fasta": {}}
 
 # Create a dictionary of the database file order by format
 for index, row in db_table.iterrows():
@@ -262,6 +268,8 @@ for index, row in db_table.iterrows():
         "path": row.path_db,
         "file": row.database_filename,
     }
+
+print("Extension contigs")
 
 # path to contigs sheet (TSV format, columns: contig_name, path_contig)
 CONTIGS_FOLDER = config["contigs"]
@@ -289,8 +297,10 @@ for contig_file in CONTIGS_FILES:
         EXT_COMPRESS = "tar.gz"
         contig_name_file = contig_name_file.replace(".tar.gz", "")
     elif "gz" in CONTIGS_EXT:
-        EXT_COMPRESS = ".gz"
+        EXT_COMPRESS = "gz"
         contig_name_file = contig_name_file.replace(".gz", "")
+
+    print("Check length")
 
     MAX_LEN = max_len_seq(
         os.path.join(CONTIGS_FOLDER, contig_name_file), ext_compress=EXT_COMPRESS
