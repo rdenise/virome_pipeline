@@ -2,7 +2,7 @@
 databases: config/databases.tsv
 
 # path to database sheet (TSV format, columns: "contig_id", "viral_taxonomy", "host_taxonomy", "database")
-annotation_phages: ../../../../databases/metadata_gvd_gpd_imgVr_mgv_short.tsv
+annotation_phages: /data/san/data0/databases/metadata_gvd_gpd_imgVr_mgv_short.tsv
 
 # path to database sheet (TSV format, columns: "id", "viral_taxonomy", "host_taxonomy", "database")
 annotation_proteins: ''
@@ -59,12 +59,12 @@ default_prokka_option:
 # Default option for deepvirfinder
 default_deepvirfinder_option:
     # predict only for sequence >= L bp
-    cutoff_length: 1000
+    cutoff_length: 5000
 
 # Default option for virsorter
 default_virsorter_option:
-    # predict only for sequence >= L bp
-    cutoff_length: 1000
+    # predict only for sequence >= L bp (virsorter recommend 5000)
+    cutoff_length: 5000
 
 # Default option for DRAMv
 default_dramv_option:
