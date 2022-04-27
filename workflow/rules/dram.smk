@@ -51,15 +51,6 @@ rule dramv_annotate:
             "for-dramv",
             "final-viral-combined-for-dramv.fa",
         ),
-        viral_affi=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "virsorter",
-            "{sample}",
-            "vs2-step2",
-            "for-dramv",
-            "viral-affi-contigs-for-dramv.tab",
-        ),
         database=os.path.join(
             OUTPUT_FOLDER,
             "databases",
@@ -83,6 +74,81 @@ rule dramv_annotate:
             "{sample}.faa"
         ),
     params:
+        viral_affi=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "vs2-step2",
+            "for-dramv",
+            "viral-affi-contigs-for-dramv.tab",
+        ),
+        output_dir=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+        ),
+        cutoff=cutoff_dramv,
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "dramv",
+            "{sample}.dramv_annotate.log"
+        ),
+    resources:
+        cpus=5,
+    conda:
+        "../envs/dram.yaml"
+    threads: 5
+    script:
+        "../scripts/viral-pipeline-scripts/dram-v-wrapper.py"
+
+
+##########################################################################
+##########################################################################
+# NOTES: 
+# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
+# 2. In the config file or in another tabulated file have the path to all the database fasta file
+# Because right now all the databases have a not similar way of being
+
+
+rule dramv_annotate_missing:
+    input:
+        fasta=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.missing_annotation.fasta",
+        ),  
+        database=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "dram_db",
+        ),
+    output:
+        tsv=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "missing_annotation",
+            "annotations.tsv"
+        ),
+        faa=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "missing_annotation"
+            "{sample}.faa"
+        ),
+    params:
+        viral_affi="",
         output_dir=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
