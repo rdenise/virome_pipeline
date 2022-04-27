@@ -26,11 +26,9 @@ def get_final_output(outdir, contigs_list):
     """
     final_output = []
 
-    final_output += os.path.join(
-            OUTPUT_FOLDER,
-            "results",
-            "taxonomic_annotation_contigs.tsv"
-        ),
+    final_output += (
+        os.path.join(OUTPUT_FOLDER, "results", "taxonomic_annotation_contigs.tsv"),
+    )
 
     final_output += expand(
         os.path.join(
@@ -38,30 +36,26 @@ def get_final_output(outdir, contigs_list):
             "processing_files",
             "vcontact2",
             "{sample}",
-            "genome_by_genome_overview.csv"
+            "genome_by_genome_overview.csv",
         ),
-        sample = contigs_list,
+        sample=contigs_list,
     )
 
-    final_output += os.path.join(
+    final_output += (
+        os.path.join(
             outdir,
             "processing_files",
             "hmmer",
-            f"significant_hit.full_{hmm_evalue_full:.0e}.dom_{hmm_evalue_dom}.domtblout.txt"
-        ),  
+            f"significant_hit.full_{hmm_evalue_full:.0e}.dom_{hmm_evalue_dom}.domtblout.txt",
+        ),
+    )
 
     final_output += expand(
         os.path.join(
-            outdir,
-            "results",
-            "dramv",
-            "distill",
-            "{sample}",
-            "amg_summary.tsv"
+            outdir, "results", "dramv", "distill", "{sample}", "amg_summary.tsv"
         ),
-        sample = contigs_list,
+        sample=contigs_list,
     )
-
 
     final_output += expand(
         os.path.join(
@@ -71,9 +65,9 @@ def get_final_output(outdir, contigs_list):
             "distill",
             "{sample}",
             "merge",
-            "amg_summary.tsv"
+            "amg_summary.tsv",
         ),
-        sample = contigs_list,
+        sample=contigs_list,
     )
 
     return final_output
@@ -108,16 +102,16 @@ def max_len_seq(file_fasta, ext_compress):
 
         with tarfile.open(file_fasta, "r:gz") as tar:
             for tarinfo in tar:
-                f = tar.extractfile(tarinfo.name)  
+                f = tar.extractfile(tarinfo.name)
                 # To get the str instead of bytes str
                 # Decode with proper coding, e.g. utf-8
-                content = f.read().decode('utf-8', errors='ignore')
+                content = f.read().decode("utf-8", errors="ignore")
                 # Split the long str into lines
                 # Specify your line-sep: e.g. \n
-                lines = content.split('\n')
+                lines = content.split("\n")
 
                 for line in lines:
-                    if line.startswith('>'):
+                    if line.startswith(">"):
                         max_len = max(max_len, tmp_len)
                         tmp_len = 0
                     else:
@@ -125,22 +119,22 @@ def max_len_seq(file_fasta, ext_compress):
     elif ext_compress == "gz":
         import gzip
 
-        with gzip.open(file_fasta,'rt') as r_file:
+        with gzip.open(file_fasta, "rt") as r_file:
             for line in r_file:
-                if line.startswith('>'):
+                if line.startswith(">"):
                     max_len = max(max_len, tmp_len)
                     tmp_len = 0
                 else:
                     tmp_len += len(line)
-    
-    elif ext_compress == '':
-        with open(file_fasta,'rt') as r_file:
+
+    elif ext_compress == "":
+        with open(file_fasta, "rt") as r_file:
             for line in r_file:
-                if line.startswith('>'):
+                if line.startswith(">"):
                     max_len = max(max_len, tmp_len)
                     tmp_len = 0
                 else:
-                    tmp_len += len(line)    
+                    tmp_len += len(line)
 
     return max_len
 
@@ -249,35 +243,37 @@ if config["annotation_phages"]:
         "database": "string",
     }
 
-    phage_annotation_table = pd.read_table(phage_annotation_file, dtype=phage_annotation_dtypes)
+    phage_annotation_table = pd.read_table(
+        phage_annotation_file, dtype=phage_annotation_dtypes
+    )
 
     validate(phage_annotation_table, schema="../schemas/annotation_phages.schema.yaml")
 
 
-DB_DICT = {"hmm":{}, "fasta":{}, "human":{}}
+DB_DICT = {"hmm": {}, "fasta": {}, "human": {}}
 
 # Create a dictionary of the database file order by format
 for index, row in db_table.iterrows():
     database_name = row.database_name
     DB_DICT[row.db_format.lower()][database_name] = {
-                       "path":row.path_db,
-                       "file":row.database_filename,
-                       }
+        "path": row.path_db,
+        "file": row.database_filename,
+    }
 
 # path to contigs sheet (TSV format, columns: contig_name, path_contig)
 CONTIGS_FOLDER = config["contigs"]
 
-if not config["contigs_ext"].startswith("."): 
+if not config["contigs_ext"].startswith("."):
     contig_ext = config["contigs_ext"]
+    print(contig_ext)
     CONTIGS_EXT = f".{contig_ext}"
-else: 
+else:
     CONTIGS_EXT = config["contigs_ext"]
 
 # Get all the files int the contigs folder
-CONTIGS_FILES, = glob_wildcards(os.path.join(
-                                CONTIGS_FOLDER,
-                                "{contigs_files}" +\
-                                CONTIGS_EXT))
+(CONTIGS_FILES,) = glob_wildcards(
+    os.path.join(CONTIGS_FOLDER, "{contigs_files}" + CONTIGS_EXT)
+)
 CONTIGS_DICT = {}
 
 EXT_COMPRESS = ""
@@ -290,22 +286,21 @@ for contig_file in CONTIGS_FILES:
     # Test if the contigs are compressed to uncompress in case
     if "tar.gz" in CONTIGS_EXT:
         EXT_COMPRESS = "tar.gz"
-        contig_name_file = contig_name_file.replace(
-                    ".tar.gz", "")
+        contig_name_file = contig_name_file.replace(".tar.gz", "")
     elif "gz" in CONTIGS_EXT:
         EXT_COMPRESS = ".gz"
-        contig_name_file = contig_name_file.replace(
-                    ".gz", "")
+        contig_name_file = contig_name_file.replace(".gz", "")
 
-    MAX_LEN = max_len_seq(os.path.join(CONTIGS_FOLDER,contig_name_file), 
-                          ext_compress=EXT_COMPRESS)
+    MAX_LEN = max_len_seq(
+        os.path.join(CONTIGS_FOLDER, contig_name_file), ext_compress=EXT_COMPRESS
+    )
 
     max_cutoff = max(cutoff_virsorter, cutoff_deepvirfinder)
     # Remove from the analysis files that have contig too short:
     if MAX_LEN >= max(cutoff_virsorter, cutoff_deepvirfinder):
         CONTIGS_DICT[contig_name] = {
-                    "file":contig_name_file,
-                    "ext_compress":EXT_COMPRESS
-            }
+            "file": contig_name_file,
+            "ext_compress": EXT_COMPRESS,
+        }
     else:
         print(f"The file: {contig_name _file} doesn't have contigs above {max_cutoff}")
