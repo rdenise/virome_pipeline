@@ -97,6 +97,7 @@ def create_folder(mypath):
 
 def max_len_seq(file_fasta, ext_compress):
     max_len = 0
+    tmp_len = 0
     if ext_compress == "tar.gz":
         import tarfile
 
@@ -287,8 +288,6 @@ for contig_file in CONTIGS_FILES:
     elif "gz" in CONTIGS_EXT:
         EXT_COMPRESS = "gz"
         contig_name_file = contig_name_file.replace(".gz", "")
-
-    print(os.path.join(CONTIGS_FOLDER, contig_file + CONTIGS_EXT))
 
     MAX_LEN = max_len_seq(
         os.path.join(CONTIGS_FOLDER, contig_file + CONTIGS_EXT), 
