@@ -244,7 +244,7 @@ if config["annotation_phages"]:
     }
 
     phage_annotation_table = pd.read_table(
-        phage_annotation_file, dtype=phage_annotation_dtypes
+        phage_annotation_file, dtype=phage_annotation_dtypes, sep="\t"
     )
 
     validate(phage_annotation_table, schema="../schemas/annotation_phages.schema.yaml")
