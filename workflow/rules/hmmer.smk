@@ -52,10 +52,11 @@ rule hmmsearch:
         proteins_fasta=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
-            "prokka",
+            "dramv",
+            "annotate",
             "{sample}",
-            "contig_renamed",
-            "{sample}.prokka.pvogs.crass.faa",
+            "merge",
+            "{sample}.faa",
         ),
         database=lambda wildcards: os.path.join(
             DB_DICT["hmm"][wildcards.database]["path"],

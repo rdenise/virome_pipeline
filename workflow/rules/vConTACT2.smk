@@ -12,28 +12,47 @@ rule vcontact2_preprocess:
         proteins_fasta=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
-            "prokka",
+            "dramv",
+            "annotate",
             "{sample}",
-            "contig_renamed",
-            "{sample}.prokka.pvogs.crass.faa",
+            "merge",
+            "{sample}.faa",
         ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
-            "prokka",
+            "dramv",
+            "annotate",
             "{sample}",
-            "contig_renamed",
-            "{sample}.prokka.pvogs.crass.rename.faa"
+            "merge",
+            "{sample}.rename.faa",
         ),
         csv=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
-            "prokka",
+            "dramv",
+            "annotate",
             "{sample}",
-            "contig_renamed",
+            "merge",
             "{sample}.proteins.csv"
-        ),        
+        ),
+        fasta=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "dramv",
+            "annotate",
+            "{sample}",
+            "merge",
+            "{sample}.rename.low.faa",
+        ),
+    params:
+        fasta_contig=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.selected.fasta",
+        ),     
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -63,18 +82,20 @@ rule vcontact2:
         fasta=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
-            "prokka",
+            "dramv",
+            "annotate",
             "{sample}",
-            "contig_renamed",
-            "{sample}.prokka.pvogs.crass.rename.faa",
+            "merge",
+            "{sample}.rename.faa",
         ),
         protein_csv=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
-            "prokka",
+            "dramv",
+            "annotate",
             "{sample}",
-            "contig_renamed",
-            "{sample}.proteins.csv",
+            "merge",
+            "{sample}.proteins.csv"
         ),
     output:
         csv=os.path.join(
@@ -85,7 +106,7 @@ rule vcontact2:
             "genome_by_genome_overview.csv",
         ),
     params:
-        vcontact2_db="ProkaryoticViralRefSeq85-Merged",
+        vcontact2_db="ProkaryoticViralRefSeq207-Merged",
         rel_mode="Diamond",
         pcs_mode="MCL",
         vcs_mode="ClusterONE",
