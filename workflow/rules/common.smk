@@ -136,6 +136,9 @@ def max_len_seq(file_fasta, ext_compress):
                 else:
                     tmp_len += len(line)
 
+    print(max_len)
+    print(tmp_len)
+
     return max_len
 
 
