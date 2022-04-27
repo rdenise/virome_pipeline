@@ -103,7 +103,7 @@ def create_folder(mypath):
 
 def max_len_seq(file_fasta, ext_compress):
     max_len = 0
-    if ext_compress = "tar.gz":
+    if ext_compress == "tar.gz":
         import tarfile
 
         with tarfile.open(file_fasta, "r:gz") as tar:
@@ -122,7 +122,7 @@ def max_len_seq(file_fasta, ext_compress):
                         tmp_len = 0
                     else:
                         tmp_len += len(line)
-    elif ext_compress = "gz":
+    elif ext_compress == "gz":
         import gzip
 
         with gzip.open(file_fasta,'rt') as r_file:
