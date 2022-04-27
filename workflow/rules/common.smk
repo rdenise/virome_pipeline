@@ -50,6 +50,32 @@ def get_final_output(outdir, contigs_list, human):
             f"significant_hit.full_{hmm_evalue_full:.0e}.dom_{hmm_evalue_dom}.domtblout.txt"
         ),  
 
+    final_output += expand(
+        os.path.join(
+            outdir,
+            "results",
+            "dramv",
+            "distill",
+            "{sample}",
+            "amg_summary.tsv",
+        ),
+        sample = contigs_list,
+    )
+
+
+    final_output += expand(
+        os.path.join(
+            outdir,
+            "results",
+            "dramv",
+            "distill",
+            "{sample}",
+            "merge",
+            "amg_summary.tsv",
+        ),
+        sample = contigs_list,
+    )
+
     return final_output
 
 

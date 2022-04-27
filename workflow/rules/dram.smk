@@ -149,7 +149,7 @@ rule dramv_distill:
     params:
         output_dir=os.path.join(
             OUTPUT_FOLDER,
-            "processing_files",
+            "results",
             "dramv",
             "distill",
             "{sample}",

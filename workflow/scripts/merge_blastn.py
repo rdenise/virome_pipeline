@@ -9,9 +9,6 @@ import os
 sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 
 ##########################################################################
-# Try to load it from file but not good now because can't access to the file
-# if deployed worlflow by snakedeploy
-##########################################################################
 
 def iterrator_on_blast_hsp(blast_out):
     """Iterate over blast output. It considers that the output
