@@ -264,7 +264,7 @@ for index, row in db_table.iterrows():
 CONTIGS_FOLDER = config["contigs"]
 
 if not config["contigs_ext"].startswith("."):
-    CONTIGS_EXT = f".{config["contigs_ext"]}"
+    CONTIGS_EXT = f".{config['contigs_ext']}"
 else:
     CONTIGS_EXT = config["contigs_ext"]
 
