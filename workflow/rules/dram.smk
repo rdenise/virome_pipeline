@@ -193,6 +193,7 @@ rule dramv_distill:
             "annotations.tsv"
         ), 
         database=os.path.join(
+            OUTPUT_FOLDER,
             "databases",
             "dram_db",
         ),
