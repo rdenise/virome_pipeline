@@ -77,8 +77,8 @@ rule blastn_human:
         ),
     params:
         database=blast_database,
-        remote=blast_remote # -task blastn -remote
-        threads=blast_threads_option # -num_threads {threads}
+        remote=blast_remote,
+        threads=blast_threads_option, 
     log:
         os.path.join(
             OUTPUT_FOLDER,
