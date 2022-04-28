@@ -98,6 +98,6 @@ rule blastn_human:
                -task blastn -remote -entrez_query "Homo sapiens [organism] AND GRCh38"  \
                -word_size 28 -best_hit_overhang 0.1 -best_hit_score_edge 0.1 -dust yes  \
                -outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle' \
-               -min_raw_gapped_score 100 -penalty −5 -perc_identity 90 -soft_masking true \
+               -min_raw_gapped_score 100 -penalty -5 -perc_identity 90 -soft_masking true \
                -out '{output.blast_out}' -max_target_seqs 10 2>> '{log}'
         """
