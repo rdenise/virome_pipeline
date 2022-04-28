@@ -32,6 +32,8 @@ default_blast_option:
     pid_min: HSP
     # Min length to accept partial sequences in families
     length_min: 100
+    # Location of the nt database file in you local computer, if you don't have it a remote search will be perform just let empty if you don't have file
+    nt: "/data/san/data0/databases/blast/nt/nt"
 
 # Blast option if not given in seeds.tsv
 default_hmmer_option:

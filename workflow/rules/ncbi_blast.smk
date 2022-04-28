@@ -44,8 +44,6 @@ rule blastn:
         cpus=2,
     conda:
         "../envs/blast.yaml"
-    envmodules:
-        "ncbi_blast/2.10.1",
     threads: 2
     shell:
         """
@@ -77,6 +75,10 @@ rule blastn_human:
             "human",
             "{sample}.nt.human.blastn.outfmt6.txt"
         ),
+    params:
+        database=blast_database,
+        remote=blast_remote # -task blastn -remote
+        threads=blast_threads_option # -num_threads {threads}
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -89,15 +91,19 @@ rule blastn_human:
         cpus=2,
     conda:
         "../envs/blast.yaml"
-    envmodules:
-        "ncbi_blast/2.10.1",
-    threads: 2
+    threads: blast_threads
     shell:
         """
-        blastn -query '{input.contig}' -db nt -evalue 0.0001 \
-               -task blastn -remote -entrez_query "Homo sapiens [organism] AND GRCh38"  \
+        if [[ {params.database} != 'nt' ]] ; then
+            if [ ! -e '{params.database}'.nsq ] && [ ! -e '{params.database}'.00.nsq ]; then
+                makeblastdb -dbtype nucl -in '{params.database}' &> '{log}'
+            fi
+        fi
+
+        blastn -query '{input.contig}' -db '{params.database}' -evalue 0.0001 \
+                {params.remote} {params.threads} -taxids 9606\
                -word_size 28 -best_hit_overhang 0.1 -best_hit_score_edge 0.1 -dust yes  \
                -outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle' \
-               -min_raw_gapped_score 100 -penalty -5 -perc_identity 90 -soft_masking true \
+               -min_raw_gapped_score 100 -perc_identity 90 -soft_masking true \
                -out '{output.blast_out}' -max_target_seqs 10 2>> '{log}'
         """
