@@ -216,7 +216,7 @@ blast_database = config["default_blast_option"]["nt"]
 
 if blast_database:
     blast_remote = ""
-    blast_threads = 2
+    blast_threads = 4
     blast_threads_option = f"-num_threads {blast_threads}"
 else :
     blast_remote = "-task blastn -remote"

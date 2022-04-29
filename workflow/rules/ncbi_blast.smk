@@ -88,7 +88,7 @@ rule blastn_human:
             "{sample}.nt.human.blastn.outfmt6.log"
         ),    
     resources:
-        cpus=2,
+        cpus=4,
     conda:
         "../envs/blast.yaml"
     threads: blast_threads
