@@ -88,10 +88,10 @@ rule blastn_human:
             "{sample}.nt.human.blastn.outfmt6.log"
         ),    
     resources:
-        cpus=4,
+        cpus=2,
     conda:
         "../envs/blast.yaml"
-    threads: blast_threads
+    threads: 2
     shell:
         """
         if [[ {params.database} != 'nt' ]] ; then
