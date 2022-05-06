@@ -52,20 +52,7 @@ def get_final_output(outdir, contigs_list):
 
     final_output += expand(
         os.path.join(
-            outdir, "results", "dramv", "distill", "{sample}", "amg_summary.tsv"
-        ),
-        sample=contigs_list,
-    )
-
-    final_output += expand(
-        os.path.join(
-            outdir,
-            "results",
-            "dramv",
-            "distill",
-            "{sample}",
-            "merge",
-            "amg_summary.tsv",
+            outdir, "results", "dramv", "distill", "{sample}", "product.html"
         ),
         sample=contigs_list,
     )

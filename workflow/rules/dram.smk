@@ -204,15 +204,7 @@ rule dramv_distill:
             "dramv",
             "distill",
             "{sample}",
-            "amg_summary.tsv",
-        ),
-        viral_genome_summary=os.path.join(
-            OUTPUT_FOLDER,
-            "results",
-            "dramv",
-            "distill",
-            "{sample}",
-            "viral_genome_summary.tsv",
+            "product.html",
         ),
     params:
         output_dir=os.path.join(
