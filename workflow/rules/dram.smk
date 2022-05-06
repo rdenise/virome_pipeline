@@ -237,6 +237,7 @@ rule dramv_distill:
     threads: 5
     shell:
         """
+        [ -d '{params.output_dir}' ] && [ ! -L '{params.output_dir}' ] && rm -rf '{params.output_dir}'
         DRAM-v.py distill -i {input.tsv} -o '{params.output_dir}' &> '{log}'
         """
 
