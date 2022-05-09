@@ -355,6 +355,12 @@ rule merge_annotations:
             "{sample}",
             "{sample}.faa"
         ),
+        translation_table=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.translation_table_contig.tsv",
+        ),   
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,

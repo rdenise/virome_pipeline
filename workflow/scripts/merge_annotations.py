@@ -16,6 +16,9 @@ tsv_virsorter = snakemake.input.tsv_virsorter
 
 faa_virsorter = snakemake.input.faa_virsorter
 
+transl_table = snakemake.input.translation_table
+transl_dict = pd.read_table(transl_table, index_col=0).new_contig_name.to_dict()
+
 ##########################################################################
 
 missing_df = pd.read_table(tsv_missing, index_col=0)
@@ -30,6 +33,11 @@ with open(snakemake.output.fasta, "wt") as w_file:
     for faa_file in [faa_virsorter, faa_missing]:
         parser = SeqIO.parse(faa_file, "fasta")
         for protein in parser:
+            protein_id_split = protein.id.split('__')
+
+            if len(protein_id_split) > 1:
+                protein.id = transl_dict[protein_id_split[0]] + protein_id_split.split('_')[-1]
+
             protein.name = ''
             SeqIO.write(protein, w_file, "fasta")
 
