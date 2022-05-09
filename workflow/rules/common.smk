@@ -214,17 +214,6 @@ blast_pident = config["default_blast_option"]["pident"]
 
 blast_database = config["default_blast_option"]["nt"]
 
-if blast_database:
-    blast_remote = ""
-    blast_threads = 45
-    blast_threads_option = f"-num_threads {blast_threads}"
-else :
-    blast_remote = "-task blastn -remote"
-    blast_threads = 1
-    blast_threads_option = ""
-    blast_database = "nt"
-
-
 # Options for prokka
 prokka_protein_db = config["default_prokka_option"]["protein_db"]
 prokka_hmm_db = config["default_prokka_option"]["hmm_db"]

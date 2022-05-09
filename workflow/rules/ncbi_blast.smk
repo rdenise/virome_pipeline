@@ -77,8 +77,6 @@ rule blastn_human:
         ),
     params:
         database=blast_database,
-        remote=blast_remote,
-        threads=blast_threads_option, 
     log:
         os.path.join(
             OUTPUT_FOLDER,
@@ -88,22 +86,9 @@ rule blastn_human:
             "{sample}.nt.human.blastn.outfmt6.log"
         ),    
     resources:
-        cpus=2,
+        cpus=5,
     conda:
         "../envs/blast.yaml"
-    threads: 2
-    shell:
-        """
-        if [[ {params.database} != 'nt' ]] ; then
-            if [ ! -e '{params.database}'.nsq ] && [ ! -e '{params.database}'.00.nsq ]; then
-                makeblastdb -dbtype nucl -in '{params.database}' &> '{log}'
-            fi
-        fi
-
-        blastn -query '{input.contig}' -db '{params.database}' -evalue 0.0001 \
-                {params.remote} {params.threads} -taxids 9606\
-               -word_size 28 -best_hit_overhang 0.1 -best_hit_score_edge 0.1 -dust yes  \
-               -outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle' \
-               -min_raw_gapped_score 100 -perc_identity 90 -soft_masking true \
-               -out '{output.blast_out}' -max_target_seqs 10 2>> '{log}'
-        """
+    threads: 5
+    script:
+        "../scripts/viral-pipeline-scripts/blastn-wrapper.py"
