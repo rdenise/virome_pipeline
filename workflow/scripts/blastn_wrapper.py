@@ -40,11 +40,11 @@ def parse_args():
     parser.add_argument("--in_fasta_file",
                         help="input_fasta", 
                         type=str, 
-                        default=snakemake.input.fasta)
+                        default=snakemake.input.contig)
     parser.add_argument('--outfile', 
                         help='output_folder', 
                         type=str, 
-                        default=snakemake.output.tsv)
+                        default=snakemake.output.blast_out)
     parser.add_argument('--tmp_dir', 
                         help='tmp folder', 
                         type=str, 
