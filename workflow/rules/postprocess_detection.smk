@@ -286,6 +286,12 @@ rule prepare_missing_annotation:
             "viral_contigs",
             "{sample}.selected.tsv",
         ),
+        translation_table=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.translation_table_contig.tsv",
+        ),           
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
