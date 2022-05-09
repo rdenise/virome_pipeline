@@ -10,7 +10,7 @@ sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 
 tsv_df = pd.read_table(snakemake.input.tsv)
 
-dict_translation = pd.read_table(snakemake.input.translation_table, index_col=1).old_contig_name.todict()
+dict_translation = pd.read_table(snakemake.input.translation_table, index_col=1).old_contig_name.to_dict()
 
 all_wanted = tsv_df[(tsv_df.virsorter_cat.isna()) | (tsv_df.virsorter_cat == 'No')]
 all_wanted = all_wanted.contig_id.tolist()
