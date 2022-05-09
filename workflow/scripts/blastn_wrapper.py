@@ -115,11 +115,11 @@ def run_job(group_tuple):
         blast_remote = "-task blastn -remote"
         blast_database = "nt"
 
-    job_str=f"blastn -query {group_tuple[2]} -out {group_tuple[1]}/blast-output.txt" \
-            f"-db '{blast_database}' -evalue 0.0001 -taxids 9606 {blast_remote}" \
-            "-outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle'" \
-            "-word_size 28 -best_hit_overhang 0.1 -best_hit_score_edge 0.1 -dust yes" \
-            "-min_raw_gapped_score 100 -perc_identity 90 -soft_masking true -max_target_seqs 10"
+    job_str=f"blastn -query {group_tuple[2]} -out {group_tuple[1]}/blast-output.txt " \
+            f"-db '{blast_database}' -evalue 0.0001 -taxids 9606 {blast_remote} " \
+            "-outfmt '6 qseqid sseqid pident length qlen slen evalue qstart qend sstart send stitle' " \
+            "-word_size 28 -best_hit_overhang 0.1 -best_hit_score_edge 0.1 -dust yes " \
+            "-min_raw_gapped_score 100 -perc_identity 90 -soft_masking true -max_target_seqs 10 "
 
     stdout, stderr = execute(job_str)
     print(f"----BLASTn - stdout----\n{stdout.decode('utf8')}\n----BLASTn - stderr----\n{stderr.decode('utf8')}\n")
