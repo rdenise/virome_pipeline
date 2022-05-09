@@ -91,16 +91,22 @@ output_df.fillna('No', inplace=True)
 fasta_contigs = snakemake.input.contigs
 
 with open(snakemake.output.fasta, "w") as w_file:
+    with open(snakemake.output.translation_table, "w") as tsv_file:
+        tsv_file.write("old_contig_name\tnew_contig_name\n")
 
-    parser = SeqIO.parse(fasta_contigs, "fasta")
+        parser = SeqIO.parse(fasta_contigs, "fasta")
 
-    for contig in parser:
-        if contig.id in all_contig_ids:
-            contig.id = f"{snakemake.wildcards.sample}-{contig.id}".replace("_", "-")
-            contig.name = ""
-            contig.description = ""
+        for contig in parser:
+            if contig.id in all_contig_ids:
+                contig_id = f"{snakemake.wildcards.sample}-{contig.id}".replace("_", "-")
 
-            SeqIO.write(contig, w_file, "fasta")
+                tsv_file.write(f"{contig.id}\t{contig_id}\n")
+
+                contig.id = contig_id
+                contig.name = ""
+                contig.description = ""
+
+                SeqIO.write(contig, w_file, "fasta")
             
 output_df.to_csv(snakemake.output.tsv, sep="\t", index=False)
 

@@ -246,7 +246,13 @@ rule combine_virsorter_virfinder:
             "databases",
             "viral_contigs",
             "{sample}.selected.tsv",
-        ),        
+        ),
+        translation_table=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "viral_contigs",
+            "{sample}.translation_table_contig.tsv",
+        ),              
     log:
         os.path.join(
             OUTPUT_FOLDER,
