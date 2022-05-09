@@ -22,7 +22,7 @@ missing_df = pd.read_table(tsv_missing, index_col=0)
 virsorter_df = pd.read_table(tsv_virsorter, index_col=0)
 
 concat_df = pd.concat([virsorter_df, missing_df])
-concat_df.to_csv(snakemake.output.tsv)
+concat_df.to_csv(snakemake.output.tsv, sep='\t')
 
 ##########################################################################
 
