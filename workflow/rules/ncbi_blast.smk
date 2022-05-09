@@ -91,4 +91,4 @@ rule blastn_human:
         "../envs/blast.yaml"
     threads: 5
     script:
-        "../scripts/viral-pipeline-scripts/blastn-wrapper.py"
+        "../scripts/blastn-wrapper.py"
