@@ -57,18 +57,18 @@ def get_final_output(outdir, contigs_list):
         sample=contigs_list,
     )
 
-    final_output += expand(
-        os.path.join(
-            outdir,
-            "results",
-            "dramv",
-            "distill",
-            "{sample}",
-            "merge",
-            "product.html",
-        ),
-        sample=contigs_list,
-    )
+    # final_output += expand(
+    #     os.path.join(
+    #         outdir,
+    #         "results",
+    #         "dramv",
+    #         "distill",
+    #         "{sample}",
+    #         "merge",
+    #         "product.html",
+    #     ),
+    #     sample=contigs_list,
+    # )
 
     return final_output
 

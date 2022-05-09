@@ -123,7 +123,7 @@ def run_job(group_tuple):
 
     stdout, stderr = execute(job_str)
     print(f"----BLASTn - stdout----\n{stdout.decode('utf8')}\n----BLASTn - stderr----\n{stderr.decode('utf8')}\n")
-    if os.path.isfile(f'{group_tuple[1]}/blast-output.txt'):
+    if os.path.isfile(f'{group_tuple[1]}/blast-output.txt') and os.path.getsize(f'{group_tuple[1]}/blast-output.txt'):
         df = pd.read_csv(f'{group_tuple[1]}/blast-output.txt', sep='\t', header=None)
     else:
         df = pd.DataFrame()
