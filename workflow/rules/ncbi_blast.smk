@@ -77,6 +77,13 @@ rule blastn_human:
         ),
     params:
         database=blast_database,
+        tmp_output=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "blast",
+            "human",
+            "{sample}_tmp"
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,

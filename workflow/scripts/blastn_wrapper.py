@@ -48,7 +48,7 @@ def parse_args():
     parser.add_argument('--tmp_dir', 
                         help='tmp folder', 
                         type=str, 
-                        default=snakemake.params.blast_out.parent)
+                        default=snakemake.params.tmp_output)
     parser.add_argument('--database', 
                         help='The name of the database or empty if remote blast', 
                         type=str, 
