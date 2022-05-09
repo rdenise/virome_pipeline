@@ -319,7 +319,7 @@ rule prepare_missing_annotation:
 ##########################################################################
 
 
-rule merge_annotation:
+rule merge_annotations:
     input:
         tsv_missing=os.path.join(
             OUTPUT_FOLDER,
@@ -379,7 +379,7 @@ rule merge_annotation:
             OUTPUT_FOLDER,
             "logs",
             "postprocess_detection",
-            "{sample}.merge_annotation.log"
+            "{sample}.merge_annotations.log"
         ),
     resources:
         cpus=1,
@@ -387,7 +387,7 @@ rule merge_annotation:
         "../envs/biopython.yaml"
     threads: 1
     script: 
-        "../scripts/merge_annotation.py"
+        "../scripts/merge_annotations.py"
 
 
 ##########################################################################
