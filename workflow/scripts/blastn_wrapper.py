@@ -121,7 +121,11 @@ def run_job(group_tuple):
             "-word_size 28 -best_hit_overhang 0.1 -best_hit_score_edge 0.1 -dust yes " \
             "-min_raw_gapped_score 100 -perc_identity 90 -soft_masking true -max_target_seqs 10 "
 
-    stdout, stderr = execute(job_str)
+    if os.path.isfile(f'{group_tuple[1]}/blast-output.txt'):
+        stdout = 'File already exists' 
+        stderr = ''
+    else: 
+        stdout, stderr = execute(job_str)
     print(f"----BLASTn - stdout----\n{stdout.decode('utf8')}\n----BLASTn - stderr----\n{stderr.decode('utf8')}\n")
     if os.path.isfile(f'{group_tuple[1]}/blast-output.txt') and os.path.getsize(f'{group_tuple[1]}/blast-output.txt'):
         df = pd.read_csv(f'{group_tuple[1]}/blast-output.txt', sep='\t', header=None)

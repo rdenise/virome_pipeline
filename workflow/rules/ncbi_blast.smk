@@ -96,6 +96,6 @@ rule blastn_human:
         cpus=5,
     conda:
         "../envs/blast.yaml"
-    threads: 5
+    threads: 20
     script:
         "../scripts/blastn_wrapper.py"
