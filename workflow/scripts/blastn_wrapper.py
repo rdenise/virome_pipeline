@@ -93,7 +93,7 @@ def main(args):
         if not (Path(args.database + ".00.nsq").exists() or Path(args.database + ".nsq").exists()):
             cmd_str = f"makeblastdb -dbtype nucl -in '{args.database}'"
             stdout, stderr = execute(cmd_str)
-            print(f"----makeblastdb - stdout----\n{stdout.decode('utf8')}\n----makeblastdb - stderr----\n{stderr.decode('utf8')}\n")            
+            print(f"----makeblastdb - stdout----\n{stdout}\n----makeblastdb - stderr----\n{stderr}\n")            
 
     pool = mp.Pool(args.job_number)
     results = pool.map(run_job, files_to_run)
@@ -126,7 +126,7 @@ def run_job(group_tuple):
         stderr = ''
     else: 
         stdout, stderr = execute(job_str)
-    print(f"----BLASTn - stdout----\n{stdout.decode('utf8')}\n----BLASTn - stderr----\n{stderr.decode('utf8')}\n")
+    print(f"----BLASTn - stdout----\n{stdout}\n----BLASTn - stderr----\n{stderr}\n")
     if os.path.isfile(f'{group_tuple[1]}/blast-output.txt') and os.path.getsize(f'{group_tuple[1]}/blast-output.txt'):
         df = pd.read_csv(f'{group_tuple[1]}/blast-output.txt', sep='\t', header=None)
     else:
