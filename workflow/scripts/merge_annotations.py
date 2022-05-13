@@ -37,10 +37,13 @@ with open(snakemake.output.fasta, "wt") as w_file:
 
             if len(protein_id_split) > 1:
                 if protein_id_split[0] in transl_dict:
-                    protein.id = transl_dict[protein_id_split[0]] + protein_id_split[-1].split('_')[-1]
+                    print(f"old name: {protein.id}")
+                    protein.id = transl_dict[protein_id_split[0]] + '_' + protein_id_split[-1].split('_')[-1]
+                    print(f"new name {protein.id}")
+                    print("---------------------")
                 else :
                     continue
 
-            protein.name = ''
+            protein.name = protein.description = ''
             SeqIO.write(protein, w_file, "fasta")
 
