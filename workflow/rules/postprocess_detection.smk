@@ -1,6 +1,6 @@
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -28,18 +28,18 @@ rule deepvirfinder_postprocess:
             OUTPUT_FOLDER,
             "logs",
             "deepvirfinder",
-            "{sample}.{cutoff}.deepvirfinder_postprocess.log"
+            "{sample}.{cutoff}.deepvirfinder_postprocess.log",
         ),
     resources:
         cpus=1,
     threads: 1
-    script: 
+    script:
         "../scripts/deepvirfinder_postprocess.py"
 
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -117,13 +117,13 @@ rule virsorter_postprocess_step1:
     conda:
         "../envs/pandas_plots.yaml"
     threads: 1
-    script: 
+    script:
         "../scripts/virsorter_postprocess_step1.py"
 
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -144,7 +144,7 @@ rule virsorter_postprocess_step2:
             "dramv",
             "annotate",
             "{sample}",
-            "annotations.tsv"
+            "annotations.tsv",
         ),
         suspicous_gene="config/suspicious-gene.list",
     output:
@@ -174,13 +174,13 @@ rule virsorter_postprocess_step2:
     conda:
         "../envs/pandas_plots.yaml"
     threads: 1
-    script: 
+    script:
         "../scripts/virsorter_postprocess_step2.py"
 
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -222,14 +222,14 @@ rule combine_virsorter_virfinder:
             "virsorter",
             "{sample}",
             "virsorter_positive.keep1.ids",
-        ),        
+        ),
         ids_virfinder=lambda wildcards: os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "deepvirfinder",
             wildcards.sample,
             f"{wildcards.sample}.deepvirfinder_positive.gt{cutoff_deepvirfinder}bp.ids",
-        ),  
+        ),
         contigs=lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
             CONTIGS_DICT[wildcards.sample]["file"],
@@ -252,21 +252,22 @@ rule combine_virsorter_virfinder:
             "databases",
             "viral_contigs",
             "{sample}.translation_table_contig.tsv",
-        ),              
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "postprocess_detection",
-            "{sample}.combine_virsorter_virfinder.log"
+            "{sample}.combine_virsorter_virfinder.log",
         ),
     resources:
         cpus=1,
     conda:
         "../envs/biopython.yaml"
     threads: 1
-    script: 
+    script:
         "../scripts/combine_virsorter_virfinder.py"
+
 
 ##########################################################################
 ##########################################################################
@@ -291,27 +292,27 @@ rule prepare_missing_annotation:
             "databases",
             "viral_contigs",
             "{sample}.translation_table_contig.tsv",
-        ),           
+        ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
             "databases",
             "viral_contigs",
             "{sample}.missing_annotation.fasta",
-        ),      
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "postprocess_detection",
-            "{sample}.prepare_missing_annotation.log"
+            "{sample}.prepare_missing_annotation.log",
         ),
     resources:
         cpus=1,
     conda:
         "../envs/biopython.yaml"
     threads: 1
-    script: 
+    script:
         "../scripts/prepare_missing_annotation.py"
 
 
@@ -328,7 +329,7 @@ rule merge_annotations:
             "annotate",
             "{sample}",
             "missing_annotation",
-            "annotations.tsv"
+            "annotations.tsv",
         ),
         faa_missing=os.path.join(
             OUTPUT_FOLDER,
@@ -337,7 +338,7 @@ rule merge_annotations:
             "annotate",
             "{sample}",
             "missing_annotation",
-            "{sample}.faa"
+            "{sample}.faa",
         ),
         tsv_virsorter=os.path.join(
             OUTPUT_FOLDER,
@@ -345,7 +346,7 @@ rule merge_annotations:
             "dramv",
             "annotate",
             "{sample}",
-            "annotations.tsv"
+            "annotations.tsv",
         ),
         faa_virsorter=os.path.join(
             OUTPUT_FOLDER,
@@ -353,14 +354,14 @@ rule merge_annotations:
             "dramv",
             "annotate",
             "{sample}",
-            "{sample}.faa"
+            "{sample}.faa",
         ),
         translation_table=os.path.join(
             OUTPUT_FOLDER,
             "databases",
             "viral_contigs",
             "{sample}.translation_table_contig.tsv",
-        ),   
+        ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
@@ -378,27 +379,27 @@ rule merge_annotations:
             "annotate",
             "{sample}",
             "merge",
-            "annotations.tsv"
+            "annotations.tsv",
         ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "postprocess_detection",
-            "{sample}.merge_annotations.log"
+            "{sample}.merge_annotations.log",
         ),
     resources:
         cpus=1,
     conda:
         "../envs/biopython.yaml"
     threads: 1
-    script: 
+    script:
         "../scripts/merge_annotations.py"
 
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -413,12 +414,12 @@ rule merge_blastn:
                 "blast",
                 "virus",
                 "{sample}",
-                "{sample}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt"
+                "{sample}.evalue_{evalue:.0e}.{database}.blastn.outfmt6.txt",
             ),
-            sample = CONTIGS_DICT.keys(),
-            database = DB_DICT['fasta'].keys(),
-            evalue = [blast_evalue],
-        )
+            sample=CONTIGS_DICT.keys(),
+            database=DB_DICT["fasta"].keys(),
+            evalue=[blast_evalue],
+        ),
     output:
         tsv=os.path.join(
             OUTPUT_FOLDER,
@@ -435,7 +436,7 @@ rule merge_blastn:
                 "viral_contigs",
                 "{sample}.selected.fasta",
             ),
-            sample = CONTIGS_DICT.keys(),
+            sample=CONTIGS_DICT.keys(),
         ),
         dict_databases=DB_DICT["fasta"],
         minimum_length=config["default_blast_option"]["length_min"],
@@ -445,20 +446,20 @@ rule merge_blastn:
             "logs",
             "blast",
             "virus",
-            "merge_blastn.eval_{evalue}.cov_{coverage}.pid_{pident}.log"
+            "merge_blastn.eval_{evalue}.cov_{coverage}.pid_{pident}.log",
         ),
     resources:
         cpus=1,
     conda:
         "../envs/biopython.yaml"
     threads: 1
-    script: 
+    script:
         "../scripts/merge_blastn.py"
 
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -466,19 +467,19 @@ rule merge_blastn:
 
 rule merge_blastn_human:
     input:
-        tsv = lambda wildcards: os.path.join(
+        tsv=lambda wildcards: os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
             "human",
-            f"{wildcards.sample}.nt.human.blastn.outfmt6.txt"
+            f"{wildcards.sample}.nt.human.blastn.outfmt6.txt",
         ),
-        fasta = lambda wildcards: os.path.join(
+        fasta=lambda wildcards: os.path.join(
             CONTIGS_FOLDER,
             CONTIGS_DICT[wildcards.sample]["file"],
         ),
     output:
-        fasta = os.path.join(
+        fasta=os.path.join(
             OUTPUT_FOLDER,
             "databases",
             "contigs",
@@ -486,7 +487,7 @@ rule merge_blastn_human:
             "{sample}.filtered.sorted.fasta",
         ),
     params:
-        tsv = lambda wildcards: os.path.join(
+        tsv=lambda wildcards: os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "blast",
@@ -500,53 +501,49 @@ rule merge_blastn_human:
             "logs",
             "blast",
             "human",
-            "{sample}_blastn.filtered.human.log"
+            "{sample}_blastn.filtered.human.log",
         ),
     resources:
         cpus=1,
     conda:
         "../envs/biopython.yaml"
     threads: 1
-    script: 
+    script:
         "../scripts/remove_human.py"
 
+
 ##########################################################################
 ##########################################################################
 
-rule postprocess_hmmsearch :
-    input :
+
+rule postprocess_hmmsearch:
+    input:
         tblout=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "hmmer",
-            "merge.tblout.txt"
-            ),
+            OUTPUT_FOLDER, "processing_files", "hmmer", "merge.tblout.txt"
+        ),
         domtblout=os.path.join(
+            OUTPUT_FOLDER, "processing_files", "hmmer", "merge.domtblout.txt"
+        ),
+    output:
+        significant_hit=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "hmmer",
-            "merge.domtblout.txt"
-            ),
-    output :
-        significant_hit = os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "hmmer",
-            "significant_hit.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.domtblout.txt"
-            ),  
+            "significant_hit.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.domtblout.txt",
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "blast",
-            "postprocess_hmmsearch.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.log"
+            "postprocess_hmmsearch.full_{hmm_evalue_full}.dom_{hmm_evalue_dom}.log",
         ),
     resources:
         cpus=1,
     conda:
         "../envs/pandas_plots.yaml"
     threads: 1
-    script: 
+    script:
         "../scripts/postprocess_hmmsearch.py"
 
 

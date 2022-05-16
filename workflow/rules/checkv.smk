@@ -1,6 +1,6 @@
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -8,19 +8,16 @@
 
 rule checkv_setup:
     output:
-        directory(os.path.join(
-            OUTPUT_FOLDER,
-            "databases",
-            "checkv_db",
-            "checkv-db-v1.1",
-        )),
-    log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "checkv",
-            "checkv_setup.log"
+        directory(
+            os.path.join(
+                OUTPUT_FOLDER,
+                "databases",
+                "checkv_db",
+                "checkv-db-v1.1",
+            )
         ),
+    log:
+        os.path.join(OUTPUT_FOLDER, "logs", "checkv", "checkv_setup.log"),
     params:
         checkv_db=os.path.join(
             OUTPUT_FOLDER,
@@ -40,7 +37,7 @@ rule checkv_setup:
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -76,7 +73,7 @@ rule checkv_run:
             "checkv",
             "{sample}",
             "proviruses.fna",
-        ),    
+        ),
         contamination=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
@@ -90,14 +87,9 @@ rule checkv_run:
             "processing_files",
             "checkv",
             "{sample}",
-        ),           
-    log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "checkv",
-            "{sample}.checkv_run.log"
         ),
+    log:
+        os.path.join(OUTPUT_FOLDER, "logs", "checkv", "{sample}.checkv_run.log"),
     resources:
         cpus=5,
     conda:
@@ -112,4 +104,3 @@ rule checkv_run:
 
 ##########################################################################
 ##########################################################################
-

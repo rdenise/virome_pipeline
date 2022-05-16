@@ -1,6 +1,6 @@
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -8,18 +8,15 @@
 
 rule dram_setup:
     output:
-        directory(os.path.join(
-            OUTPUT_FOLDER,            
-            "databases",
-            "dram_db",
-        )),
-    log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "dram",
-            "dram_setup.log"
+        directory(
+            os.path.join(
+                OUTPUT_FOLDER,
+                "databases",
+                "dram_db",
+            )
         ),
+    log:
+        os.path.join(OUTPUT_FOLDER, "logs", "dram", "dram_setup.log"),
     resources:
         cpus=1,
     conda:
@@ -34,7 +31,7 @@ rule dram_setup:
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -63,7 +60,7 @@ rule dramv_annotate:
             "dramv",
             "annotate",
             "{sample}",
-            "annotations.tsv"
+            "annotations.tsv",
         ),
         faa=os.path.join(
             OUTPUT_FOLDER,
@@ -71,7 +68,7 @@ rule dramv_annotate:
             "dramv",
             "annotate",
             "{sample}",
-            "{sample}.faa"
+            "{sample}.faa",
         ),
     params:
         viral_affi=os.path.join(
@@ -92,12 +89,7 @@ rule dramv_annotate:
         ),
         cutoff=cutoff_dramv,
     log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "dramv",
-            "{sample}.dramv_annotate.log"
-        ),
+        os.path.join(OUTPUT_FOLDER, "logs", "dramv", "{sample}.dramv_annotate.log"),
     resources:
         cpus=5,
     conda:
@@ -109,7 +101,7 @@ rule dramv_annotate:
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -122,7 +114,7 @@ rule dramv_annotate_missing:
             "databases",
             "viral_contigs",
             "{sample}.missing_annotation.fasta",
-        ),  
+        ),
         database=os.path.join(
             OUTPUT_FOLDER,
             "databases",
@@ -136,7 +128,7 @@ rule dramv_annotate_missing:
             "annotate",
             "{sample}",
             "missing_annotation",
-            "annotations.tsv"
+            "annotations.tsv",
         ),
         faa=os.path.join(
             OUTPUT_FOLDER,
@@ -145,7 +137,7 @@ rule dramv_annotate_missing:
             "annotate",
             "{sample}",
             "missing_annotation",
-            "{sample}.faa"
+            "{sample}.faa",
         ),
     params:
         viral_affi="",
@@ -160,10 +152,7 @@ rule dramv_annotate_missing:
         cutoff=cutoff_dramv,
     log:
         os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "dramv",
-            "{sample}.dramv_annotate_missing.log"
+            OUTPUT_FOLDER, "logs", "dramv", "{sample}.dramv_annotate_missing.log"
         ),
     resources:
         cpus=5,
@@ -176,7 +165,7 @@ rule dramv_annotate_missing:
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -190,8 +179,8 @@ rule dramv_distill:
             "dramv",
             "annotate",
             "{sample}",
-            "annotations.tsv"
-        ), 
+            "annotations.tsv",
+        ),
         database=os.path.join(
             OUTPUT_FOLDER,
             "databases",
@@ -216,12 +205,7 @@ rule dramv_distill:
         ),
         cutoff=cutoff_dramv,
     log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "dramv",
-            "{sample}.dramv_distill.log"
-        ),
+        os.path.join(OUTPUT_FOLDER, "logs", "dramv", "{sample}.dramv_distill.log"),
     resources:
         cpus=5,
     conda:
@@ -236,4 +220,3 @@ rule dramv_distill:
 
 ##########################################################################
 ##########################################################################
-

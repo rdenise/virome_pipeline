@@ -3,7 +3,7 @@
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # Advantage of the ocncatenation, no nee to do it after by yourself
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
@@ -13,10 +13,7 @@
 rule blastn:
     input:
         contig=os.path.join(
-            OUTPUT_FOLDER,
-            "databases",
-            "viral_contigs",
-            "{sample}.selected.fasta"
+            OUTPUT_FOLDER, "databases", "viral_contigs", "{sample}.selected.fasta"
         ),
     output:
         blast_out=os.path.join(
@@ -25,7 +22,7 @@ rule blastn:
             "blast",
             "virus",
             "{sample}",
-            "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.txt"
+            "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.txt",
         ),
     params:
         database=lambda wildcards: os.path.join(
@@ -38,8 +35,8 @@ rule blastn:
             "logs",
             "blast",
             "virus",
-            "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.log"
-        ),    
+            "{sample}.evalue_{evalue}.{database}.blastn.outfmt6.log",
+        ),
     resources:
         cpus=2,
     conda:
@@ -73,16 +70,12 @@ rule blastn_human:
             "processing_files",
             "blast",
             "human",
-            "{sample}.nt.human.blastn.outfmt6.txt"
+            "{sample}.nt.human.blastn.outfmt6.txt",
         ),
     params:
         database=blast_database,
         tmp_output=os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "blast",
-            "human",
-            "{sample}_tmp"
+            OUTPUT_FOLDER, "processing_files", "blast", "human", "{sample}_tmp"
         ),
     log:
         os.path.join(
@@ -90,8 +83,8 @@ rule blastn_human:
             "logs",
             "blast",
             "human",
-            "{sample}.nt.human.blastn.outfmt6.log"
-        ),    
+            "{sample}.nt.human.blastn.outfmt6.log",
+        ),
     resources:
         cpus=5,
     conda:

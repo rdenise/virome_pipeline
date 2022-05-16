@@ -51,9 +51,7 @@ def get_final_output(outdir, contigs_list):
     )
 
     final_output += expand(
-        os.path.join(
-            outdir, "results", "dramv", "distill", "{sample}", "product.html"
-        ),
+        os.path.join(outdir, "results", "dramv", "distill", "{sample}", "product.html"),
         sample=contigs_list,
     )
 
@@ -292,8 +290,8 @@ for contig_file in CONTIGS_FILES:
         contig_name_file = contig_name_file.replace(".gz", "")
 
     MAX_LEN = max_len_seq(
-        os.path.join(CONTIGS_FOLDER, contig_file + CONTIGS_EXT), 
-        ext_compress=EXT_COMPRESS
+        os.path.join(CONTIGS_FOLDER, contig_file + CONTIGS_EXT),
+        ext_compress=EXT_COMPRESS,
     )
 
     max_cutoff = max(cutoff_virsorter, cutoff_deepvirfinder)

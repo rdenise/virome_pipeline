@@ -1,11 +1,12 @@
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
-# Important:: Need to maybe separate the contig inside the BIG contig file because each could be 
+# Important:: Need to maybe separate the contig inside the BIG contig file because each could be
 # a bacteria or a virus by itself
+
 
 rule vcontact2_preprocess:
     input:
@@ -35,7 +36,7 @@ rule vcontact2_preprocess:
             "annotate",
             "{sample}",
             "merge",
-            "{sample}.proteins.csv"
+            "{sample}.proteins.csv",
         ),
         fasta_low=os.path.join(
             OUTPUT_FOLDER,
@@ -52,13 +53,13 @@ rule vcontact2_preprocess:
             "databases",
             "viral_contigs",
             "{sample}.selected.fasta",
-        ),     
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "vcontact2",
-            "contig_{sample}.vcontact2_preprocess.log"
+            "contig_{sample}.vcontact2_preprocess.log",
         ),
     resources:
         cpus=1,
@@ -71,7 +72,7 @@ rule vcontact2_preprocess:
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -95,7 +96,7 @@ rule vcontact2:
             "annotate",
             "{sample}",
             "merge",
-            "{sample}.proteins.csv"
+            "{sample}.proteins.csv",
         ),
     output:
         csv=os.path.join(
@@ -118,12 +119,7 @@ rule vcontact2:
             "{sample}",
         ),
     log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "vcontact2",
-            "{sample}.vcontact2.log"
-        ),
+        os.path.join(OUTPUT_FOLDER, "logs", "vcontact2", "{sample}.vcontact2.log"),
     resources:
         cpus=5,
     conda:

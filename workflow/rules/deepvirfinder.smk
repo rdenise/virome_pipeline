@@ -1,6 +1,6 @@
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -8,7 +8,7 @@
 
 rule deepvirfinder:
     input:
-        contig = os.path.join(
+        contig=os.path.join(
             OUTPUT_FOLDER,
             "databases",
             "contigs",
@@ -24,18 +24,20 @@ rule deepvirfinder:
             "{sample}_gt{cutoff}bp_dvfpred.txt",
         ),
     params:
-        output_dir=directory(os.path.join(
-            OUTPUT_FOLDER,
-            "processing_files",
-            "deepvirfinder",
-            "{sample}",
-        )),
+        output_dir=directory(
+            os.path.join(
+                OUTPUT_FOLDER,
+                "processing_files",
+                "deepvirfinder",
+                "{sample}",
+            )
+        ),
     log:
         os.path.join(
             OUTPUT_FOLDER,
             "logs",
             "deepvirfinder",
-            "{sample}.{cutoff}.deepvirfinder.log"
+            "{sample}.{cutoff}.deepvirfinder.log",
         ),
     resources:
         cpus=5,
@@ -63,4 +65,3 @@ rule deepvirfinder:
 
 ##########################################################################
 ##########################################################################
-

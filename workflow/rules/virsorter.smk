@@ -1,6 +1,6 @@
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -8,18 +8,15 @@
 
 rule virsorter_setup:
     output:
-        directory(os.path.join(
-            OUTPUT_FOLDER,
-            "databases",
-            "virsorter_db",
-        )),
-    log:
-        os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "virsorter",
-            "virsorter_setup.log"
+        directory(
+            os.path.join(
+                OUTPUT_FOLDER,
+                "databases",
+                "virsorter_db",
+            )
         ),
+    log:
+        os.path.join(OUTPUT_FOLDER, "logs", "virsorter", "virsorter_setup.log"),
     resources:
         cpus=4,
     conda:
@@ -33,7 +30,7 @@ rule virsorter_setup:
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -41,7 +38,7 @@ rule virsorter_setup:
 
 rule virsorter_run_step1:
     input:
-        contig = os.path.join(
+        contig=os.path.join(
             OUTPUT_FOLDER,
             "databases",
             "contigs",
@@ -77,7 +74,7 @@ rule virsorter_run_step1:
             "{sample}",
             "vs2-step1",
             "final-viral-boundary.tsv",
-        ),    
+        ),
     params:
         output_dir=os.path.join(
             OUTPUT_FOLDER,
@@ -89,10 +86,7 @@ rule virsorter_run_step1:
         cutoff=cutoff_virsorter,
     log:
         os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "virsorter",
-            "{sample}.virsorter_run_step1.log"
+            OUTPUT_FOLDER, "logs", "virsorter", "{sample}.virsorter_run_step1.log"
         ),
     resources:
         cpus=5,
@@ -109,7 +103,7 @@ rule virsorter_run_step1:
 
 ##########################################################################
 ##########################################################################
-# NOTES: 
+# NOTES:
 # 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
 # 2. In the config file or in another tabulated file have the path to all the database fasta file
 # Because right now all the databases have a not similar way of being
@@ -130,7 +124,7 @@ rule virsorter_run_step2:
             "checkv",
             "{sample}",
             "proviruses.fna",
-        ),   
+        ),
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,
@@ -149,7 +143,7 @@ rule virsorter_run_step2:
             "vs2-step2",
             "for-dramv",
             "viral-affi-contigs-for-dramv.tab",
-        ),  
+        ),
     params:
         output_dir=os.path.join(
             OUTPUT_FOLDER,
@@ -168,10 +162,7 @@ rule virsorter_run_step2:
         ),
     log:
         os.path.join(
-            OUTPUT_FOLDER,
-            "logs",
-            "virsorter",
-            "{sample}.virsorter_run_step2.log"
+            OUTPUT_FOLDER, "logs", "virsorter", "{sample}.virsorter_run_step2.log"
         ),
     resources:
         cpus=5,
