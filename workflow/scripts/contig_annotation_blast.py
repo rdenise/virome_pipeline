@@ -1,7 +1,7 @@
-from importlib_metadata import metadata
 import pandas as pd
 import sys
 import os
+from pathlib import Path
 
 # Put error and out into the log file
 sys.stderr = sys.stdout = open(snakemake.log[0], "w")
@@ -41,7 +41,7 @@ for index, g in big_blast.groupby('database'):
 all_contigs = pd.concat(new_blast, axis=1).reset_index().sort_values('contig')
 
 # Load viral detection informations
-path_tsv = snakemake.params.viral_tsv
+path_tsv = Path(snakemake.params.viral_tsv)
 
 tsv_detection = []
 
