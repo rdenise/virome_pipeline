@@ -22,6 +22,8 @@ if os.path.isfile(metadata_file):
     metadata_table = pd.read_table(metadata_file)
 
     # Add metadata
+    big_blast["hit_genome"] = big_blast.hit_genome.replace(r"^(NC_[0-9]+)\.[0-9]$", r"\1", regex=True)
+    
     big_blast = big_blast.merge(
         metadata_table.rename(columns={"contig_id": "hit_genome"}),
         on=["hit_genome", "database"],
