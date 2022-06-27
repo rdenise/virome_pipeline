@@ -96,8 +96,8 @@ rule virsorter_run_step1:
     shell:
         """
         virsorter run --keep-original-seq -i '{input.contig}' -w '{params.output_dir}' \
-        --include-groups "dsDNAphage,NCLDV,RNA,ssDNA,lavidaviridae" --min-length {params.cutoff} \
-        --min-score 0.5 -j {threads} all &> '{log}'
+        --include-groups "dsDNAphage,ssDNA" --min-length {params.cutoff} \
+        --min-score 0.9 -j {threads} all &> '{log}'
         """
 
 
@@ -115,6 +115,7 @@ rule virsorter_run_step2:
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
+            "virsorter",
             "{sample}",
             "viruses.fna",
         ),
@@ -122,6 +123,7 @@ rule virsorter_run_step2:
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
+            "virsorter",
             "{sample}",
             "proviruses.fna",
         ),
@@ -157,6 +159,7 @@ rule virsorter_run_step2:
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
+            "virsorter",
             "{sample}",
             "combined.fna",
         ),
@@ -175,7 +178,7 @@ rule virsorter_run_step2:
 
         virsorter run --seqname-suffix-off --viral-gene-enrich-off \
         --provirus-off --prep-for-dramv -i '{params.input_vs2}' \
-        -w '{params.output_dir}' --include-groups "dsDNAphage,NCLDV,RNA,ssDNA,lavidaviridae" \
+        -w '{params.output_dir}' --include-groups "dsDNAphage,ssDNA" \
         --min-length {params.cutoff} --min-score 0.5 \
         -j {threads} all &> '{log}'
         """

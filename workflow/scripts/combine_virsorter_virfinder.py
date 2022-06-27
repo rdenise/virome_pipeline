@@ -48,6 +48,7 @@ with open(ids_virsorter_keep1) as r_file:
 
 # Get all the names from the deepvirfinder list and remove redondant name
 ids_virfinder = snakemake.input.ids_virfinder
+contig_virfinder_only = []
 
 with open(ids_virfinder) as r_file:
     r_file.readline()
@@ -60,6 +61,7 @@ with open(ids_virfinder) as r_file:
 
         if rstrip_line not in all_contig_ids:
             all_contig_ids.append(rstrip_line)
+            contig_virfinder_only.append(rstrip_line)
 
 # Fill the informations missing now the list of contigs we keep is set
 dict_map_virsorter = {}
@@ -94,7 +96,7 @@ output_df.loc[
 output_df.fillna("No", inplace=True)
 
 # Parse the fasta of the contig and create the new one
-fasta_contigs = snakemake.input.contigs
+fasta_contigs = snakemake.input.contigs_virsorter
 
 with open(snakemake.output.fasta, "w") as w_file:
     with open(snakemake.output.translation_table, "w") as tsv_file:
@@ -103,7 +105,32 @@ with open(snakemake.output.fasta, "w") as w_file:
         parser = SeqIO.parse(fasta_contigs, "fasta")
 
         for contig in parser:
-            if contig.id in all_contig_ids:
+            tmp_contig_id = contig_id.split("||")[0]
+
+            if tmp_contig_id in all_contig_ids:
+                contig_id = f"{snakemake.wildcards.sample}-{tmp_contig_id}".replace(
+                    "_", "-"
+                )
+
+                tsv_file.write(f"{tmp_contig_id}\t{contig_id}\n")
+
+                contig.id = contig_id
+                contig.name = ""
+                contig.description = ""
+
+                SeqIO.write(contig, w_file, "fasta")
+
+# Parse the fasta of the contig and create the new one
+fasta_contigs = snakemake.input.contigs_deepvirfinder
+
+with open(snakemake.output.fasta, "a") as w_file:
+    with open(snakemake.output.translation_table, "a") as tsv_file:
+        tsv_file.write("old_contig_name\tnew_contig_name\n")
+
+        parser = SeqIO.parse(fasta_contigs, "fasta")
+
+        for contig in parser:
+            if contig.id not in contig_virfinder_only :
                 contig_id = f"{snakemake.wildcards.sample}-{contig.id}".replace(
                     "_", "-"
                 )

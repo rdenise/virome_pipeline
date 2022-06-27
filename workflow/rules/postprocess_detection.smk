@@ -186,6 +186,54 @@ rule virsorter_postprocess_step2:
 # Because right now all the databases have a not similar way of being
 
 
+rule extract_deepvirfinder:
+    input:
+        ids_virfinder=lambda wildcards: os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "deepvirfinder",
+            wildcards.sample,
+            f"{wildcards.sample}.deepvirfinder_positive.gt{cutoff_deepvirfinder}bp.ids",
+        ),
+        contig=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "contigs",
+            "human_filtered",
+            "{sample}.filtered.sorted.fasta",
+        ),
+    output:
+        fasta=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "deepvirfinder",
+            "{sample}",
+            "{sample}.extract.fasta",
+        ),
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "deepvirfinder",
+            "{sample}.extract_deepvirfinder.log",
+        ),
+    resources:
+        cpus=1,
+    conda:
+        "../envs/pandas_plots.yaml"
+    threads: 1
+    script:
+        "../scripts/extract_deepvirfinder.py"
+
+
+##########################################################################
+##########################################################################
+# NOTES:
+# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
+# 2. In the config file or in another tabulated file have the path to all the database fasta file
+# Because right now all the databases have a not similar way of being
+
+
 rule combine_virsorter_virfinder:
     input:
         ids_virsorter_keep2_checked=os.path.join(
@@ -230,10 +278,21 @@ rule combine_virsorter_virfinder:
             wildcards.sample,
             f"{wildcards.sample}.deepvirfinder_positive.gt{cutoff_deepvirfinder}bp.ids",
         ),
-        contigs=lambda wildcards: os.path.join(
-            CONTIGS_FOLDER,
-            CONTIGS_DICT[wildcards.sample]["file"],
+        contigs_virsorter=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "final-viral-combined.fa",
         ),
+        contigs_deepvirfinder=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "deepvirfinder",
+            "{sample}",
+            "combined.fa",
+        ),        
     output:
         fasta=os.path.join(
             OUTPUT_FOLDER,

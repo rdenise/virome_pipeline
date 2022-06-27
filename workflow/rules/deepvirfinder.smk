@@ -65,3 +65,56 @@ rule deepvirfinder:
 
 ##########################################################################
 ##########################################################################
+# NOTES:
+# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
+# 2. In the config file or in another tabulated file have the path to all the database fasta file
+# Because right now all the databases have a not similar way of being
+
+
+rule cat_checkv_deepvirfinder:
+    input:
+        viruses=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "deepvirfinder",
+            "{sample}",
+            "viruses.fna",
+        ),
+        proviruses=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "deepvirfinder",
+            "{sample}",
+            "proviruses.fna",
+        ),
+    output:
+        concat=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "deepvirfinder",
+            "{sample}",
+            "combined.fna",
+        ),
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "deepvirfinder",
+            "{sample}.cat_checkv_deepvirfinder.log"
+        ),
+    resources:
+        cpus=1,
+    conda:
+        "../envs/deepvirfinder.yaml"
+    threads: 1
+    shell:
+        """
+        cat '{input.viruses}' '{input.proviruses}' > '{output.concat}'
+        """
+
+
+##########################################################################
+##########################################################################

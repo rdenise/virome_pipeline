@@ -64,6 +64,7 @@ rule checkv_run:
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
+            "virsorter",
             "{sample}",
             "viruses.fna",
         ),
@@ -71,6 +72,7 @@ rule checkv_run:
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
+            "virsorter",
             "{sample}",
             "proviruses.fna",
         ),
@@ -78,6 +80,7 @@ rule checkv_run:
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
+            "virsorter",
             "{sample}",
             "contamination.tsv",
         ),
@@ -86,10 +89,89 @@ rule checkv_run:
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
+            "virsorter",
             "{sample}",
         ),
     log:
-        os.path.join(OUTPUT_FOLDER, "logs", "checkv", "{sample}.checkv_run.log"),
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "checkv",
+            "virsorter",
+            "{sample}.checkv_run.log"
+        ),
+    resources:
+        cpus=5,
+    conda:
+        "../envs/checkv.yaml"
+    threads: 5
+    shell:
+        """
+        checkv end_to_end '{input.fasta}' '{params.output_dir}' \
+        -t {threads} -d '{input.database}' &> '{log}'
+        """
+
+
+##########################################################################
+##########################################################################
+# NOTES:
+# 1. Need to think about doing the pipeline one contig by one contif or merge (as Andrey does)
+# 2. In the config file or in another tabulated file have the path to all the database fasta file
+# Because right now all the databases have a not similar way of being
+
+
+rule checkv_run_deepvirfinder:
+    input:
+        fasta=os.path.join(
+            OUTPUT_FOLDER,
+
+        ),
+        database=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "checkv_db",
+            "checkv-db-v1.1",
+        ),
+    output:
+        viruses=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "deepvirfinder",
+            "{sample}",
+            "viruses.fna",
+        ),
+        proviruses=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "deepvirfinder",
+            "{sample}",
+            "proviruses.fna",
+        ),
+        contamination=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "deepvirfinder",
+            "{sample}",
+            "contamination.tsv",
+        ),
+    params:
+        output_dir=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "checkv",
+            "deepvirfinder",
+            "{sample}",
+        ),
+    log:
+        os.path.join(
+            OUTPUT_FOLDER,
+            "logs",
+            "checkv",
+            "deepvirfinder",
+            "{sample}.checkv_run.log"),
     resources:
         cpus=5,
     conda:
