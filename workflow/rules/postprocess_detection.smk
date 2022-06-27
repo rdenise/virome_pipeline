@@ -284,6 +284,7 @@ rule combine_virsorter_virfinder:
             "processing_files",
             "virsorter",
             "{sample}",
+            "vs2-step2",
             "final-viral-combined.fa",
         ),
         contigs_deepvirfinder=os.path.join(
