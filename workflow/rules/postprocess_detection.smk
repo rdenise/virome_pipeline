@@ -221,7 +221,7 @@ rule extract_deepvirfinder:
     resources:
         cpus=1,
     conda:
-        "../envs/pandas_plots.yaml"
+        "../envs/biopython.yaml"
     threads: 1
     script:
         "../scripts/extract_deepvirfinder.py"
