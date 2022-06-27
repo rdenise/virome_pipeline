@@ -128,7 +128,7 @@ rule virsorter_run_step2:
             "proviruses.fna",
         ),
     output:
-        fasta=os.path.join(
+        fasta_dramv=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
             "virsorter",
@@ -136,6 +136,14 @@ rule virsorter_run_step2:
             "vs2-step2",
             "for-dramv",
             "final-viral-combined-for-dramv.fa",
+        ),
+        fasta=os.path.join(
+            OUTPUT_FOLDER,
+            "processing_files",
+            "virsorter",
+            "{sample}",
+            "vs2-step2",
+            "final-viral-combined.fa",
         ),
         viral_affi=os.path.join(
             OUTPUT_FOLDER,

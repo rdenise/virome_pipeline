@@ -292,7 +292,7 @@ rule combine_virsorter_virfinder:
             "checkv",
             "deepvirfinder",
             "{sample}",
-            "combined.fa",
+            "combined.fna",
         ),        
     output:
         fasta=os.path.join(
