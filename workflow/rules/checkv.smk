@@ -124,7 +124,10 @@ rule checkv_run_deepvirfinder:
     input:
         fasta=os.path.join(
             OUTPUT_FOLDER,
-
+            "processing_files",
+            "deepvirfinder",
+            "{sample}",
+            "{sample}.extract.fasta",
         ),
         database=os.path.join(
             OUTPUT_FOLDER,

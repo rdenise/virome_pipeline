@@ -59,6 +59,7 @@ rule virsorter_postprocess_step1:
             OUTPUT_FOLDER,
             "processing_files",
             "checkv",
+            "virsorter",
             "{sample}",
             "contamination.tsv",
         ),
