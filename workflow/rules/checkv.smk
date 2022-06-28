@@ -13,7 +13,7 @@ rule checkv_setup:
                 OUTPUT_FOLDER,
                 "databases",
                 "checkv_db",
-                "checkv-db-v1.1",
+                "checkv-db-v1.2",
             )
         ),
     log:
@@ -57,7 +57,7 @@ rule checkv_run:
             OUTPUT_FOLDER,
             "databases",
             "checkv_db",
-            "checkv-db-v1.1",
+            "checkv-db-v1.2",
         ),
     output:
         viruses=os.path.join(
@@ -133,7 +133,7 @@ rule checkv_run_deepvirfinder:
             OUTPUT_FOLDER,
             "databases",
             "checkv_db",
-            "checkv-db-v1.1",
+            "checkv-db-v1.2",
         ),
     output:
         viruses=os.path.join(
