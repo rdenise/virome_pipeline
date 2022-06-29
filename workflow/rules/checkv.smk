@@ -13,10 +13,17 @@ rule checkv_setup:
                 OUTPUT_FOLDER,
                 "databases",
                 "checkv_db",
+                "checkv-db-v1.2",
             )
         ),
     log:
         os.path.join(OUTPUT_FOLDER, "logs", "checkv", "checkv_setup.log"),
+    params:
+        checkv_db=os.path.join(
+            OUTPUT_FOLDER,
+            "databases",
+            "checkv_db",
+        ),
     resources:
         cpus=1,
     conda:
@@ -24,7 +31,7 @@ rule checkv_setup:
     threads: 1
     shell:
         """
-        checkv download_database '{output.checkv_db}' &> '{log}'
+        checkv download_database '{params.checkv_db}' &> '{log}'
         """
 
 
