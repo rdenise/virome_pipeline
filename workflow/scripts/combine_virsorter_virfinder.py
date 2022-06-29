@@ -105,7 +105,7 @@ with open(snakemake.output.fasta, "w") as w_file:
         parser = SeqIO.parse(fasta_contigs, "fasta")
 
         for contig in parser:
-            tmp_contig_id = contig_id.split("||")[0]
+            tmp_contig_id = contig.id.split("||")[0]
 
             if tmp_contig_id in all_contig_ids:
                 contig_id = f"{snakemake.wildcards.sample}-{tmp_contig_id}".replace(
