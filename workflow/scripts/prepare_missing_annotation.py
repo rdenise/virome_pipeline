@@ -24,5 +24,10 @@ with open(snakemake.output.fasta, "wt") as w_file:
         # Because name in selected tsv and fasta file are different, the fasta file have {name_contig}-contigs- at the begining
         contig_id = dict_translation[contig.id]
 
+        print(all_wanted)
+        print(contig.id)
+        print(contig_id)
+        print(contig_id in all_wanted)
+
         if contig_id in all_wanted:
             SeqIO.write(contig, w_file, "fasta")

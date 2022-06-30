@@ -125,7 +125,6 @@ fasta_contigs = snakemake.input.contigs_deepvirfinder
 
 with open(snakemake.output.fasta, "a") as w_file:
     with open(snakemake.output.translation_table, "a") as tsv_file:
-        tsv_file.write("old_contig_name\tnew_contig_name\n")
 
         parser = SeqIO.parse(fasta_contigs, "fasta")
 
