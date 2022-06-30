@@ -129,7 +129,7 @@ with open(snakemake.output.fasta, "a") as w_file:
         parser = SeqIO.parse(fasta_contigs, "fasta")
 
         for contig in parser:
-            if contig.id not in contig_virfinder_only :
+            if contig.id in contig_virfinder_only :
                 contig_id = f"{snakemake.wildcards.sample}-{contig.id}".replace(
                     "_", "-"
                 )

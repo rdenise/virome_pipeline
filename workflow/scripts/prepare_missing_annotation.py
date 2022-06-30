@@ -29,5 +29,8 @@ with open(snakemake.output.fasta, "wt") as w_file:
         print(contig_id)
         print(contig_id in all_wanted)
 
-        if contig_id in all_wanted:
+        # If prophage detected by checkv
+        contig_id_prophage = "_".join(contig_id.split("_")[:-1])
+
+        if contig_id in all_wanted or contig_id_prophage in all_wanted:
             SeqIO.write(contig, w_file, "fasta")

@@ -162,7 +162,7 @@ rule virsorter_run_step2:
             "{sample}",
             "vs2-step2",
         ),
-        cutoff=cutoff_virsorter,
+        cutoff=1000,
         input_vs2=os.path.join(
             OUTPUT_FOLDER,
             "processing_files",
