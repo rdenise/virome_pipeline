@@ -107,7 +107,7 @@ rule vcontact2:
             "genome_by_genome_overview.csv",
         ),
     params:
-        vcontact2_db="ProkaryoticViralRefSeq207-Merged",
+        vcontact2_db="ProkaryoticViralRefSeq211-Merged",
         rel_mode="Diamond",
         pcs_mode="MCL",
         vcs_mode="ClusterONE",
